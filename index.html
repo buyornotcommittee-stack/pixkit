@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary": "#2463eb",
+          "background-light": "#f6f6f8",
+          "background-dark": "#111621",
+        },
+        fontFamily: {
+          "display": ["Pretendard", "-apple-system", "BlinkMacSystemFont", "system-ui", "Roboto", "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "sans-serif"]
+        },
+        borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+      },
+    },
+  }
+</script>
+<title>Pixkit | Fast Browser-based Batch Image Processor</title>
+<style>
+  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #2463eb; cursor: pointer; }
+  input[type=range] { -webkit-appearance: none; appearance: none; }
+</style>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
+<div class="layout-container flex h-full grow flex-col">
+
+<!-- Navigation -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 md:px-10 py-3 sticky top-0 z-50">
+  <div class="flex items-center gap-4 text-primary">
+    <div class="size-8 flex items-center justify-center bg-primary text-white rounded-lg">
+      <span class="material-symbols-outlined text-2xl">grid_view</span>
+    </div>
+    <h2 class="text-slate-900 dark:text-slate-100 text-xl font-black leading-tight tracking-tight">Pixkit</h2>
+  </div>
+  <div class="flex flex-1 justify-end gap-8 items-center">
+    <nav class="hidden md:flex items-center gap-8">
+      <div class="relative group">
+        <button class="flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors">
+          Tools
+          <span class="material-symbols-outlined text-sm">expand_more</span>
+        </button>
+        <div class="absolute left-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 py-2">
+          <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">Bulk Resize</a>
+          <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">Format Converter</a>
+          <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">EXIF Remover</a>
+          <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">Add Padding</a>
+        </div>
+      </div>
+      <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Blog</a>
+      <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">About</a>
+    </nav>
+    <!-- 다크모드 토글 -->
+    <button id="darkToggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
+      <span class="material-symbols-outlined text-xl">dark_mode</span>
+    </button>
+  </div>
+</header>
+
+<main class="flex-1 max-w-[1440px] mx-auto w-full p-4 md:p-8">
+
+  <!-- Hero Section -->
+  <section class="mb-12 text-center flex flex-col items-center">
+    <div class="mb-6 flex gap-2 flex-wrap justify-center">
+      <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">업로드 없음</span>
+      <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">무료</span>
+      <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">브라우저에서 처리</span>
+    </div>
+    <h1 class="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-4 tracking-tight leading-tight">
+      이미지 처리를, 더 완벽하게.<br/>
+      <span class="text-primary">브라우저에서 바로.</span>
+    </h1>
+    <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl font-medium">업로드 없이, 개인정보 걱정 없이, 모든 이미지 작업을 한 곳에서.</p>
+  </section>
+
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+    <!-- Sidebar: Settings -->
+    <aside class="lg:col-span-4 space-y-6">
+      <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+        <div class="flex items-center gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+          <span class="material-symbols-outlined text-primary">settings_suggest</span>
+          <h3 class="text-lg font-bold">Image Configuration</h3>
+        </div>
+
+        <!-- Resizing Section -->
+        <div class="space-y-4 mb-8">
+          <div class="flex items-center justify-between">
+            <label class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
+              <span class="material-symbols-outlined text-lg">aspect_ratio</span> Resizing
+            </label>
+            <div class="flex items-center gap-2">
+              <span class="text-xs text-slate-400">Lock Ratio</span>
+              <button id="ratioToggle" onclick="toggleRatio()" class="w-10 h-5 bg-primary rounded-full relative flex items-center px-1 transition-colors">
+                <div id="ratioThumb" class="bg-white w-3 h-3 rounded-full ml-auto transition-all"></div>
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="space-y-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase">Width (px)</span>
+              <input id="widthInput" onchange="onWidthChange()" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary h-10 px-3" placeholder="1080" type="number"/>
+            </div>
+            <div class="space-y-1">
+              <span class="text-[10px] font-bold text-slate-400 uppercase">Height (px)</span>
+              <input id="heightInput" onchange="onHeightChange()" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary h-10 px-3" placeholder="1080" type="number"/>
+            </div>
+          </div>
+          <!-- Presets -->
+          <div class="grid grid-cols-2 gap-2">
+            <button onclick="applyPreset(1080,1080)" class="text-[11px] font-bold py-2 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">Instagram Square</button>
+            <button onclick="applyPreset(1280,720)" class="text-[11px] font-bold py-2 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">YouTube HD</button>
+            <button onclick="applyPreset(1500,500)" class="text-[11px] font-bold py-2 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">Twitter Header</button>
+            <button onclick="applyPreset(820,312)" class="text-[11px] font-bold py-2 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">Facebook Cover</button>
+          </div>
+        </div>
+
+        <!-- Quality Section -->
+        <div class="space-y-4 mb-8">
+          <label class="text-sm font-bold flex items-center justify-between uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            <span class="flex items-center gap-2">
+              <span class="material-symbols-outlined text-lg">high_quality</span> Quality
+            </span>
+            <span id="qualityLabel" class="text-primary">85%</span>
+          </label>
+          <input id="qualityInput" oninput="document.getElementById('qualityLabel').textContent=this.value+'%'" class="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="1" max="100" value="85"/>
+        </div>
+
+        <!-- Format Section -->
+        <div class="space-y-4 mb-8">
+          <label class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            <span class="material-symbols-outlined text-lg">image</span> Output Format
+          </label>
+          <div class="grid grid-cols-3 gap-2" id="formatBtns">
+            <button onclick="selectFormat('image/jpeg', this)" class="py-2 rounded-lg bg-primary text-white font-bold text-xs format-btn">JPG</button>
+            <button onclick="selectFormat('image/png', this)" class="py-2 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold text-xs format-btn">PNG</button>
+            <button onclick="selectFormat('image/webp', this)" class="py-2 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold text-xs format-btn">WebP</button>
+          </div>
+        </div>
+
+        <!-- Filename Section -->
+        <div class="space-y-4 mb-8">
+          <label class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
+            <span class="material-symbols-outlined text-lg">drive_file_rename_outline</span> Filename
+          </label>
+          <div class="space-y-3">
+            <input id="prefixInput" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary h-10 px-3" placeholder="Prefix (e.g. vacation_)" type="text"/>
+            <div class="flex items-center justify-between px-1">
+              <span class="text-xs font-medium text-slate-500">Auto-numbering</span>
+              <button id="autoNumToggle" onclick="toggleAutoNum()" class="w-10 h-5 bg-primary rounded-full relative flex items-center px-1 transition-colors">
+                <div id="autoNumThumb" class="bg-white w-3 h-3 rounded-full ml-auto transition-all"></div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Options Section -->
+        <div class="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+          <div class="flex items-center gap-3">
+            <input checked id="exifCheck" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+            <label class="text-xs font-medium" for="exifCheck">Remove Metadata (EXIF)</label>
+          </div>
+          <div class="flex items-center gap-3">
+            <input id="paddingCheck" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
+            <label class="text-xs font-medium" for="paddingCheck">Add Padding (Force Square)</label>
+          </div>
+        </div>
+
+        <!-- Convert Button -->
+        <button onclick="convertAll()" class="mt-6 w-full bg-primary text-white py-3 rounded-lg font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+          <span class="material-symbols-outlined text-lg">auto_fix_high</span>
+          Convert All
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Area -->
+    <div class="lg:col-span-8 space-y-6">
+
+      <!-- Dropzone -->
+      <div id="dropZone"
+        class="bg-white dark:bg-slate-900 border-2 border-dashed border-primary/30 dark:border-primary/20 rounded-xl p-12 text-center flex flex-col items-center justify-center gap-6 hover:bg-primary/5 transition-colors cursor-pointer group"
+        onclick="document.getElementById('fileInput').click()"
+        ondragover="event.preventDefault(); this.classList.add('bg-primary/10')"
+        ondragleave="this.classList.remove('bg-primary/10')"
+        ondrop="handleDrop(event)">
+        <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+          <span class="material-symbols-outlined text-4xl">cloud_upload</span>
+        </div>
+        <div>
+          <h3 class="text-xl font-bold mb-1">📁 Drop Files Here or Click to Upload</h3>
+          <p class="text-slate-500 text-sm">Max 20 files. Supports JPG, PNG, WebP, GIF.</p>
+        </div>
+        <button class="bg-primary text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow pointer-events-none">Select Files</button>
+        <input type="file" id="fileInput" multiple accept="image/*" class="hidden" onchange="handleFiles(this.files)"/>
+      </div>
+
+      <!-- Preview Area -->
+      <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between">
+          <div class="flex items-center gap-2">
+            <h3 class="font-bold">Queue</h3>
+            <span id="fileCount" class="bg-slate-100 dark:bg-slate-800 text-[10px] font-black px-2 py-0.5 rounded uppercase">0 Files</span>
+          </div>
+          <div class="flex items-center gap-3">
+            <button onclick="clearAll()" class="text-slate-500 hover:text-red-500 flex items-center gap-1 text-xs font-bold uppercase transition-colors">
+              <span class="material-symbols-outlined text-lg">delete</span> Clear All
+            </button>
+            <button id="downloadAllBtn" onclick="downloadAll()" class="bg-primary/10 text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-all hidden">
+              <span class="material-symbols-outlined text-lg">folder_zip</span> Download All as ZIP
+            </button>
+          </div>
+        </div>
+
+        <!-- 진행바 -->
+        <div id="progressBar" class="hidden px-6 pt-4">
+          <div class="flex justify-between text-xs font-bold mb-1">
+            <span>Converting...</span>
+            <span id="progressText">0%</span>
+          </div>
+          <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
+            <div id="progressFill" class="bg-primary h-2 rounded-full transition-all" style="width:0%"></div>
+          </div>
+        </div>
+
+        <!-- Thumbnails Grid -->
+        <div id="previewList" class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <!-- 빈 상태 -->
+          <div id="emptyState" class="col-span-2 text-center py-12 text-slate-400">
+            <span class="material-symbols-outlined text-5xl mb-3 block">image_search</span>
+            <p class="text-sm font-medium">이미지를 업로드하면 여기에 표시됩니다</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</main>
+
+<!-- Footer -->
+<footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-12 px-6">
+  <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+    <div class="space-y-4">
+      <div class="flex items-center gap-3 text-primary">
+        <span class="material-symbols-outlined">grid_view</span>
+        <span class="font-black text-xl text-slate-900 dark:text-white">Pixkit</span>
+      </div>
+      <p class="text-sm text-slate-500 leading-relaxed">
+        Browser-based batch image processing that respects your privacy. No server uploads, no data collection. Your images never leave your computer.
+      </p>
+    </div>
+    <div>
+      <h4 class="font-bold mb-6 uppercase tracking-widest text-xs text-slate-400">Quick Links</h4>
+      <ul class="space-y-3 text-sm font-semibold">
+        <li><a class="hover:text-primary transition-colors" href="#">Bulk Resize</a></li>
+        <li><a class="hover:text-primary transition-colors" href="#">Format Converter</a></li>
+        <li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
+        <li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
+      </ul>
+    </div>
+    <div>
+      <h4 class="font-bold mb-6 uppercase tracking-widest text-xs text-slate-400">Security & Tech</h4>
+      <div class="flex flex-wrap gap-2">
+        <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-[10px] font-bold">CANVAS API</span>
+        <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-[10px] font-bold">NO CLOUD STORAGE</span>
+        <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-[10px] font-bold">100% PRIVATE</span>
+      </div>
+    </div>
+  </div>
+  <div class="max-w-[1440px] mx-auto mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-slate-400">
+    <p>© 2025 Pixkit. All rights reserved.</p>
+    <div class="flex gap-6">
+      <a class="hover:text-primary" href="#">Twitter</a>
+      <a class="hover:text-primary" href="#">GitHub</a>
+      <a class="hover:text-primary" href="#">Contact</a>
+    </div>
+  </div>
+</footer>
+
+</div>
+
+<script>
+// =====================
+// 상태 관리
+// =====================
+let files = [];           // 원본 File 객체
+let results = [];         // 변환된 Blob
+let keepRatio = true;
+let autoNum = true;
+let selectedFormat = 'image/jpeg';
+
+// =====================
+// 다크모드
+// =====================
+document.getElementById('darkToggle').addEventListener('click', () => {
+  document.documentElement.classList.toggle('dark');
+});
+
+// =====================
+// 비율 토글
+// =====================
+function toggleRatio() {
+  keepRatio = !keepRatio;
+  const btn = document.getElementById('ratioToggle');
+  const thumb = document.getElementById('ratioThumb');
+  if (keepRatio) {
+    btn.classList.add('bg-primary');
+    btn.classList.remove('bg-slate-300');
+    thumb.classList.add('ml-auto');
+    thumb.classList.remove('ml-0');
+  } else {
+    btn.classList.remove('bg-primary');
+    btn.classList.add('bg-slate-300');
+    thumb.classList.remove('ml-auto');
+    thumb.classList.add('ml-0');
+  }
+}
+
+// =====================
+// 자동번호 토글
+// =====================
+function toggleAutoNum() {
+  autoNum = !autoNum;
+  const btn = document.getElementById('autoNumToggle');
+  const thumb = document.getElementById('autoNumThumb');
+  if (autoNum) {
+    btn.classList.add('bg-primary');
+    btn.classList.remove('bg-slate-300');
+    thumb.classList.add('ml-auto');
+    thumb.classList.remove('ml-0');
+  } else {
+    btn.classList.remove('bg-primary');
+    btn.classList.add('bg-slate-300');
+    thumb.classList.remove('ml-auto');
+    thumb.classList.add('ml-0');
+  }
+}
+
+// =====================
+// 포맷 선택
+// =====================
+function selectFormat(fmt, el) {
+  selectedFormat = fmt;
+  document.querySelectorAll('.format-btn').forEach(btn => {
+    btn.classList.remove('bg-primary', 'text-white');
+    btn.classList.add('bg-slate-100', 'dark:bg-slate-800');
+  });
+  el.classList.add('bg-primary', 'text-white');
+  el.classList.remove('bg-slate-100', 'dark:bg-slate-800');
+}
+
+// =====================
+// 프리셋
+// =====================
+function applyPreset(w, h) {
+  document.getElementById('widthInput').value = w;
+  document.getElementById('heightInput').value = h;
+}
+
+// =====================
+// 비율 연동
+// =====================
+let lastRatio = 1;
+function onWidthChange() {
+  if (!keepRatio) return;
+  const w = parseInt(document.getElementById('widthInput').value);
+  if (w && lastRatio) {
+    document.getElementById('heightInput').value = Math.round(w / lastRatio);
+  }
+}
+function onHeightChange() {
+  if (!keepRatio) return;
+  const h = parseInt(document.getElementById('heightInput').value);
+  if (h && lastRatio) {
+    document.getElementById('widthInput').value = Math.round(h * lastRatio);
+  }
+}
+
+// =====================
+// 파일 처리
+// =====================
+function handleDrop(e) {
+  e.preventDefault();
+  document.getElementById('dropZone').classList.remove('bg-primary/10');
+  handleFiles(e.dataTransfer.files);
+}
+
+function handleFiles(fileList) {
+  const newFiles = Array.from(fileList).filter(f => f.type.startsWith('image/'));
+  if (files.length + newFiles.length > 20) {
+    alert('최대 20개까지 업로드 가능합니다.');
+    return;
+  }
+  files = [...files, ...newFiles];
+  results = new Array(files.length).fill(null);
+  renderQueue();
+}
+
+// =====================
+// 큐 렌더링
+// =====================
+function renderQueue() {
+  const list = document.getElementById('previewList');
+  const empty = document.getElementById('emptyState');
+  const count = document.getElementById('fileCount');
+
+  count.textContent = files.length + ' Files';
+
+  if (files.length === 0) {
+    list.innerHTML = '';
+    list.appendChild(empty);
+    document.getElementById('downloadAllBtn').classList.add('hidden');
+    return;
+  }
+
+  empty.remove();
+  list.innerHTML = '';
+
+  files.forEach((file, i) => {
+    const url = URL.createObjectURL(file);
+    const sizeMB = (file.size / 1024 / 1024).toFixed(1);
+    const sizeKB = (file.size / 1024).toFixed(0);
+    const displaySize = file.size > 1024*1024 ? sizeMB + ' MB' : sizeKB + ' KB';
+
+    const card = document.createElement('div');
+    card.id = 'card-' + i;
+    card.className = 'group relative bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 border border-slate-100 dark:border-slate-800 flex gap-4';
+    card.innerHTML = `
+      <div class="w-24 h-24 rounded-lg overflow-hidden bg-slate-200 shrink-0">
+        <img src="${url}" class="w-full h-full object-cover" alt="${file.name}"/>
+      </div>
+      <div class="flex-1 flex flex-col justify-between py-1 overflow-hidden">
+        <div>
+          <p class="text-xs font-bold truncate">${file.name}</p>
+          <div class="flex gap-2 items-baseline mt-1" id="size-${i}">
+            <span class="text-[10px] text-slate-400">${displaySize}</span>
+          </div>
+        </div>
+        <div class="flex justify-between items-center mt-2">
+          <span class="text-[10px] text-slate-500" id="dim-${i}">원본</span>
+          <button id="dlBtn-${i}" onclick="downloadSingle(${i})" class="text-primary hover:underline text-xs font-bold flex items-center gap-1 hidden">
+            <span class="material-symbols-outlined text-sm">download</span> Download
+          </button>
+        </div>
+      </div>
+      <button onclick="removeFile(${i})" class="absolute -top-2 -right-2 bg-slate-900 text-white rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
+        <span class="material-symbols-outlined text-sm">close</span>
+      </button>
+    `;
+    list.appendChild(card);
+
+    // 이미지 로드 후 비율 저장
+    const img = new Image();
+    img.onload = () => {
+      if (i === 0) lastRatio = img.width / img.height;
+      document.getElementById('dim-' + i).textContent = img.width + ' × ' + img.height;
+    };
+    img.src = url;
+  });
+}
+
+// =====================
+// 파일 제거
+// =====================
+function removeFile(i) {
+  files.splice(i, 1);
+  results.splice(i, 1);
+  renderQueue();
+}
+
+function clearAll() {
+  files = [];
+  results = [];
+  renderQueue();
+}
+
+// =====================
+// 변환 실행
+// =====================
+async function convertAll() {
+  if (files.length === 0) {
+    alert('이미지를 먼저 업로드해주세요.');
+    return;
+  }
+
+  const targetW = parseInt(document.getElementById('widthInput').value) || null;
+  const targetH = parseInt(document.getElementById('heightInput').value) || null;
+  const quality = parseInt(document.getElementById('qualityInput').value) / 100;
+  const format = selectedFormat;
+  const addPadding = document.getElementById('paddingCheck').checked;
+
+  // 진행바 표시
+  const progressBar = document.getElementById('progressBar');
+  const progressFill = document.getElementById('progressFill');
+  const progressText = document.getElementById('progressText');
+  progressBar.classList.remove('hidden');
+
+  results = [];
+
+  for (let i = 0; i < files.length; i++) {
+    const blob = await processImage(files[i], targetW, targetH, quality, format, addPadding);
+    results.push(blob);
+
+    // 카드 업데이트
+    updateCard(i, blob, format);
+
+    // 진행바 업데이트
+    const pct = Math.round(((i + 1) / files.length) * 100);
+    progressFill.style.width = pct + '%';
+    progressText.textContent = pct + '%';
+  }
+
+  progressBar.classList.add('hidden');
+  document.getElementById('downloadAllBtn').classList.remove('hidden');
+}
+
+// =====================
+// 이미지 처리 (Canvas)
+// =====================
+function processImage(file, targetW, targetH, quality, format, addPadding) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      let w = targetW || img.width;
+      let h = targetH || img.height;
+
+      // 비율 유지
+      if (keepRatio && targetW && !targetH) {
+        h = Math.round(w * img.height / img.width);
+      } else if (keepRatio && targetH && !targetW) {
+        w = Math.round(h * img.width / img.height);
+      } else if (keepRatio && targetW && targetH) {
+        const ratio = Math.min(targetW / img.width, targetH / img.height);
+        w = Math.round(img.width * ratio);
+        h = Math.round(img.height * ratio);
+      }
+
+      let canvasW = w;
+      let canvasH = h;
+
+      // 패딩 (정사각형)
+      if (addPadding) {
+        const max = Math.max(w, h);
+        canvasW = max;
+        canvasH = max;
+      }
+
+      const canvas = document.createElement('canvas');
+      canvas.width = canvasW;
+      canvas.height = canvasH;
+      const ctx = canvas.getContext('2d');
+
+      // 배경 흰색 (패딩용)
+      ctx.fillStyle = '#ffffff';
+      ctx.fillRect(0, 0, canvasW, canvasH);
+
+      const offsetX = Math.floor((canvasW - w) / 2);
+      const offsetY = Math.floor((canvasH - h) / 2);
+      ctx.drawImage(img, offsetX, offsetY, w, h);
+
+      URL.revokeObjectURL(url);
+
+      canvas.toBlob((blob) => {
+        resolve(blob);
+      }, format, quality);
+    };
+    img.src = url;
+  });
+}
+
+// =====================
+// 카드 업데이트 (변환 후)
+// =====================
+function updateCard(i, blob, format) {
+  const origSize = files[i].size;
+  const newSize = blob.size;
+  const saved = Math.round((1 - newSize / origSize) * 100);
+
+  const origDisplay = origSize > 1024*1024
+    ? (origSize/1024/1024).toFixed(1) + ' MB'
+    : (origSize/1024).toFixed(0) + ' KB';
+  const newDisplay = newSize > 1024*1024
+    ? (newSize/1024/1024).toFixed(1) + ' MB'
+    : (newSize/1024).toFixed(0) + ' KB';
+
+  const sizeEl = document.getElementById('size-' + i);
+  const badgeColor = saved > 0 ? 'bg-green-500' : 'bg-orange-400';
+  const badgeText = saved > 0 ? '-' + saved + '%' : '+' + Math.abs(saved) + '%';
+
+  sizeEl.innerHTML = `
+    <span class="text-[10px] text-slate-400 line-through">${origDisplay}</span>
+    <span class="text-[10px] font-bold text-primary">${newDisplay}</span>
+    <span class="text-[9px] ${badgeColor} text-white px-1.5 py-0.5 rounded-full font-bold uppercase">${badgeText}</span>
+  `;
+
+  document.getElementById('dlBtn-' + i).classList.remove('hidden');
+}
+
+// =====================
+// 개별 다운로드
+// =====================
+function downloadSingle(i) {
+  if (!results[i]) return;
+  const ext = getExt(selectedFormat);
+  const prefix = document.getElementById('prefixInput').value || '';
+  const baseName = files[i].name.replace(/\.[^.]+$/, '');
+  const fileName = autoNum
+    ? prefix + String(i + 1).padStart(3, '0') + '_' + baseName + '.' + ext
+    : prefix + baseName + '.' + ext;
+
+  const url = URL.createObjectURL(results[i]);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = fileName;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// =====================
+// 전체 ZIP 다운로드
+// =====================
+async function downloadAll() {
+  if (results.filter(r => r).length === 0) {
+    alert('먼저 Convert All을 눌러주세요.');
+    return;
+  }
+
+  const zip = new JSZip();
+  const ext = getExt(selectedFormat);
+  const prefix = document.getElementById('prefixInput').value || '';
+
+  results.forEach((blob, i) => {
+    if (!blob) return;
+    const baseName = files[i].name.replace(/\.[^.]+$/, '');
+    const fileName = autoNum
+      ? prefix + String(i + 1).padStart(3, '0') + '_' + baseName + '.' + ext
+      : prefix + baseName + '.' + ext;
+    zip.file(fileName, blob);
+  });
+
+  const content = await zip.generateAsync({ type: 'blob' });
+  const url = URL.createObjectURL(content);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'pixkit_images.zip';
+  a.click();
+  URL.revokeObjectURL(url);
+}
+
+// =====================
+// 유틸
+// =====================
+function getExt(format) {
+  const map = {
+    'image/jpeg': 'jpg',
+    'image/png': 'png',
+    'image/webp': 'webp',
+  };
+  return map[format] || 'jpg';
+}
+</script>
+</body>
+</html>
