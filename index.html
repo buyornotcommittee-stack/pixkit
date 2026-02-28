@@ -365,7 +365,7 @@
               <!-- 빈 상태 -->
               <div id="emptyState" class="col-span-2 text-center py-12 text-slate-400">
                 <span class="material-symbols-outlined text-5xl mb-3 block">image_search</span>
-                <p class="text-sm font-medium">이미지를 업로드하면 여기에 표시됩니다</p>
+                <p data-i18n="empty_state_desc" class="text-sm font-medium">이미지를 업로드하면 여기에 표시됩니다</p>
               </div>
             </div>
           </div>
@@ -1091,7 +1091,7 @@
 
       <!-- Tech Stack -->
       <section>
-        <h2 class="text-3xl font-black mb-12 flex items-center gap-3">
+        <h2 data-i18n="tech_stack_title" class="text-3xl font-black mb-12 flex items-center gap-3">
           <span class="text-2xl">🧩</span> 기술 스택
         </h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -1100,28 +1100,28 @@
             <h4
               class="font-bold text-sm mb-2 group-hover:text-primary transition-colors text-slate-900 dark:text-white">
               Canvas API</h4>
-            <p class="text-[10px] text-slate-400 font-bold uppercase">Image Processing</p>
+            <p data-i18n="tech_canvas_label" class="text-[10px] text-slate-400 font-bold uppercase">Image Processing</p>
           </div>
           <div
             class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 group hover:border-primary transition-colors">
             <h4
               class="font-bold text-sm mb-2 group-hover:text-primary transition-colors text-slate-900 dark:text-white">
               heic2any</h4>
-            <p class="text-[10px] text-slate-400 font-bold uppercase">HEIC Conversion</p>
+            <p data-i18n="tech_heic_label" class="text-[10px] text-slate-400 font-bold uppercase">HEIC Conversion</p>
           </div>
           <div
             class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 group hover:border-primary transition-colors">
             <h4
               class="font-bold text-sm mb-2 group-hover:text-primary transition-colors text-slate-900 dark:text-white">
               JSZip</h4>
-            <p class="text-[10px] text-slate-400 font-bold uppercase">Batch Compression</p>
+            <p data-i18n="tech_jszip_label" class="text-[10px] text-slate-400 font-bold uppercase">Batch Compression</p>
           </div>
           <div
             class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 group hover:border-primary transition-colors">
             <h4
               class="font-bold text-sm mb-2 group-hover:text-primary transition-colors text-slate-900 dark:text-white">
               jsPDF</h4>
-            <p class="text-[10px] text-slate-400 font-bold uppercase">PDF Creation</p>
+            <p data-i18n="tech_jspdf_label" class="text-[10px] text-slate-400 font-bold uppercase">PDF Creation</p>
           </div>
         </div>
       </section>
@@ -1136,22 +1136,26 @@
           <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
             <div class="flex items-center gap-4 text-slate-400">
               <span
-                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase">Soon</span>
+                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase"
+                data-i18n="badge_soon">Soon</span>
               <p data-i18n="roadmap_crop" class="text-sm font-bold">이미지 크롭(자르기) 기능</p>
             </div>
             <div class="flex items-center gap-4 text-slate-400">
               <span
-                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase">Soon</span>
+                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase"
+                data-i18n="badge_soon">Soon</span>
               <p data-i18n="roadmap_watermark" class="text-sm font-bold">워터마크 일괄 삽입</p>
             </div>
             <div class="flex items-center gap-4 text-slate-400">
               <span
-                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase">Soon</span>
+                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase"
+                data-i18n="badge_soon">Soon</span>
               <p data-i18n="roadmap_ai" class="text-sm font-bold">AI 기반 배경 제거 (누끼 따기)</p>
             </div>
             <div class="flex items-center gap-4 text-slate-400">
               <span
-                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase">Soon</span>
+                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase"
+                data-i18n="badge_soon">Soon</span>
               <p data-i18n="roadmap_gif" class="text-sm font-bold">애니메이션 GIF 리사이징 지원</p>
             </div>
           </div>
@@ -1512,7 +1516,13 @@
             about_c_r4_c3: '♾️ 완전 무제한',
             about_c_r5_c1: '워터마크',
             about_c_r5_c2: '무료 버전 시 삽입',
-            about_c_r5_c3: '🚫 절대 없음'
+            about_c_r5_c3: '🚫 절대 없음',
+            tech_canvas_label: '이미지 프로세싱',
+            tech_heic_label: 'HEIC 변환',
+            tech_jszip_label: '일괄 압축',
+            tech_jspdf_label: 'PDF 생성',
+            badge_soon: 'Soon',
+            empty_state_desc: '이미지를 업로드하면 여기에 표시됩니다'
           },
           en: {
             langName: 'English',
@@ -1700,12 +1710,12 @@
             about_v2: 'Signup/Payment Induction 0%',
             about_v3: 'Lossless/Optimization Technology 100%',
             about_v1_t: '100% Serverless',
-            about_v1_c: 'All processing takes place in the browser. Data is immediately deleted upon closing the tab. Even the operator cannot access the files.',
-            about_v2_t: 'Fast Processing Speed',
-            about_v2_c: 'Immediate conversion is possible as no network upload is required. It utilizes the latest Web APIs to process large images within seconds.',
+            about_v1_c: 'All processing occurs in the browser. Data is immediately deleted after closing the tab. Even the operator cannot access the files.',
+            about_v2_t: 'Fast Processing',
+            about_v2_c: 'Instant conversion is possible as no network upload is required. Uses latest Web APIs to process large images in seconds.',
             about_v3_t: 'Completely Free',
-            about_v3_c: 'No watermarks, feature limits, or signups. It is operated by ad revenue and users are not charged any fees.',
-            about_comp_t: 'Difference from Other Names',
+            about_v3_c: 'No watermarks, feature limits, or signups. Funded by ad revenue, no fees for users.',
+            about_comp_t: 'Differences from Others',
             about_c_h1: 'Comparison Item',
             about_c_h2: 'Existing Online Tools',
             about_c_h3: 'Pixkit (Us)',
@@ -1714,16 +1724,26 @@
             about_c_r1_c3: '❌ No Upload',
             about_c_r2_c1: 'Privacy Protection',
             about_c_r2_c2: 'Risk Exists (Server Storage)',
-            about_c_r2_c3: '✅ Perfect (Local Processing)',
+            about_c_r2_c3: '✅ Perfect (Local)',
             about_c_r3_c1: 'Processing Speed',
-            about_c_r3_c2: 'Dependent on Network Speed',
-            about_c_r3_c3: '⚡ Immediate (CPU Utilization)',
+            about_c_r3_c2: 'Network Dependent',
+            about_c_r3_c3: '⚡ Instant (CPU)',
             about_c_r4_c1: 'Usage Limits',
-            about_c_r4_c2: 'Daily Limit/Paid Subscription',
-            about_c_r4_c3: '♾️ Completely Unlimited',
+            about_c_r4_c2: 'Daily Limit/Paid',
+            about_c_r4_c3: '♾️ Unlimited',
             about_c_r5_c1: 'Watermark',
             about_c_r5_c2: 'Inserted in Free Version',
-            about_c_r5_c3: '🚫 Never None'
+            about_c_r5_c3: '🚫 None',
+            tech_canvas_label: 'Image Processing',
+            tech_heic_label: 'HEIC Conversion',
+            tech_jszip_label: 'Batch Compression',
+            tech_jspdf_label: 'PDF Creation',
+            tech_canvas_desc: 'Uses browser APIs for high-speed serverless processing.',
+            tech_heic_desc: 'Instantly convert iPhone HEIC to JPG/PNG.',
+            tech_jszip_desc: 'Batch compress dozens of images into one ZIP.',
+            tech_jspdf_desc: 'Easily convert images to PDF documents.',
+            badge_soon: 'Soon',
+            empty_state_desc: 'Upload images to see them here'
           },
           ja: {
             langName: '日本語',
@@ -1803,9 +1823,41 @@
             about_v1: '画像サーバーへのアップロード 0%',
             about_v2: '会員登録/決済の誘導 0%',
             about_v3: 'ロスレス/最適化技術 100%',
+            about_v1_t: '100% サーバーレス',
             about_v1_c: 'すべての処理はブラウザ内で行われます。タブを閉じるとデータは即座に削除されます。運営者でさえファイルにアクセスすることはできません。',
+            about_v2_t: '高速な処理速度',
             about_v2_c: 'ネットワークへのアップロードが不要なため、即座に変換が可能です。最新の Web API を活用し、大容量の画像も数秒以内に処理します。',
-            about_v3_c: 'ウォーターマーク、機能制限、会員登録はありません。広告収入で運営されており、ユーザーに費用が請求されることはありません。'
+            about_v3_t: '完全無料',
+            about_v3_c: 'ウォーターマーク、機能制限、会員登録はありません。広告収入で運営されており、ユーザーに費用が請求されることはありません。',
+            about_comp_t: '他のツールとの違い',
+            about_c_h1: '比較項目',
+            about_c_h2: '既存のオンラインツール',
+            about_c_h3: 'Pixkit（当サイト）',
+            about_c_r1_c1: 'サーバーアップロード',
+            about_c_r1_c2: '必須（データ転送あり）',
+            about_c_r1_c3: '❌ なし',
+            about_c_r2_c1: 'プライバシー保護',
+            about_c_r2_c2: 'リスクあり（サーバー保存）',
+            about_c_r2_c3: '✅ 完璧（ローカル処理）',
+            about_c_r3_c1: '処理速度',
+            about_c_r3_c2: 'ネットワーク速度に依存',
+            about_c_r3_c3: '⚡ 即時（CPU活用）',
+            about_c_r4_c1: '利用制限',
+            about_c_r4_c2: '一日制限/有料決済',
+            about_c_r4_c3: '♾️ 完全無制限',
+            about_c_r5_c1: 'ウォーターマーク',
+            about_c_r5_c2: '無料版で挿入あり',
+            about_c_r5_c3: '🚫 なし',
+            tech_canvas_label: '画像処理',
+            tech_heic_label: 'HEIC 変換',
+            tech_jszip_label: '一括圧縮',
+            tech_jspdf_label: 'PDF 作成',
+            tech_canvas_desc: 'ブラウザ内蔵APIを活用し、サーバーなしで高速に処理します。',
+            tech_heic_desc: 'iPhoneのHEIC形式をJPG/PNGに即座に変換します。',
+            tech_jszip_desc: '数十枚の画像を一つのZIPファイルに圧縮します。',
+            tech_jspdf_desc: '画像をPDFドキュメントに簡単に変換します。',
+            badge_soon: '近日公開',
+            empty_state_desc: '画像をアップロードするとここに表示されます'
           },
           zh: {
             langName: '简体中文',
@@ -1885,9 +1937,41 @@
             about_v1: '图像服务器上传 0%',
             about_v2: '注册/支付诱导 0%',
             about_v3: '无损/优化技术 100%',
+            about_v1_t: '100% 无服务器',
             about_v1_c: '所有处理都在浏览器中进行。关闭选项卡后，数据将立即删除。即使是运营商也无法访问您的文件。',
+            about_v2_t: '快速处理',
             about_v2_c: '由于无需上传网络，因此可以实现即时转换。利用最新的 Web API，在几秒钟内处理大图像。',
-            about_v3_c: '没有水印、功能限制或注册。由广告收入提供资金，不会向用户收取任何费用。'
+            about_v3_t: '完全免费',
+            about_v3_c: '没有水印、功能限制或注册。由广告收入提供资金，不会向用户收取任何费用。',
+            about_comp_t: '与其他工具的区别',
+            about_c_h1: '比较项目',
+            about_c_h2: '现有在线工具',
+            about_c_h3: 'Pixkit (我们)',
+            about_c_r1_c1: '服务器上传',
+            about_c_r1_c2: '必须 (数据传输)',
+            about_c_r1_c3: '❌ 无需上传',
+            about_c_r2_c1: '隐私保护',
+            about_c_r2_c2: '存在风险 (服务器存储)',
+            about_c_r2_c3: '✅ 完美 (本地处理)',
+            about_c_r3_c1: '处理速度',
+            about_c_r3_c2: '依赖网络速度',
+            about_c_r3_c3: '⚡ 即时 (利用 CPU)',
+            about_c_r4_c1: '使用限制',
+            about_c_r4_c2: '每日限制/付费',
+            about_c_r4_c3: '♾️ 完全无限制',
+            about_c_r5_c1: '水印',
+            about_c_r5_c2: '免费版本自动插入',
+            about_c_r5_c3: '🚫 绝无水印',
+            tech_canvas_label: '图像处理',
+            tech_heic_label: 'HEIC 转换',
+            tech_jszip_label: '批量压缩',
+            tech_jspdf_label: 'PDF 创建',
+            tech_canvas_desc: '利用浏览器内置 API，实现高速无服务器处理。',
+            tech_heic_desc: '立即将 iPhone HEIC 格式转换为 JPG/PNG。',
+            tech_jszip_desc: '将数十张图片压缩为一个 ZIP 文件。',
+            tech_jspdf_desc: '轻松将图片转换为 PDF 文档。',
+            badge_soon: '即将推出',
+            empty_state_desc: '上传图像后将在此处显示'
           },
           es: {
             langName: 'Español',
@@ -1967,9 +2051,41 @@
             about_v1: 'Subida de imágenes al servidor 0%',
             about_v2: 'Inducción al registro/pago 0%',
             about_v3: 'Tecnología de optimización/sin pérdidas 100%',
+            about_v1_t: '100% Sin Servidor',
             about_v1_c: 'Todo el procesamiento se realiza en el navegador. Los datos se eliminan inmediatamente al cerrar la pestaña. Ni siquiera el operador puede acceder a los archivos.',
+            about_v2_t: 'Procesamiento Rápido',
             about_v2_c: 'La conversión inmediata es posible ya que no se requiere carga a la red. Utiliza las últimas API web para procesar imágenes grandes en cuestión de segundos.',
-            about_v3_c: 'Sin marcas de agua, límites de funciones ni registros. Se financia con ingresos por publicidad y no se cobra ninguna tarifa a los usuarios.'
+            about_v3_t: 'Completamente Gratis',
+            about_v3_c: 'Sin marcas de agua, límites de funciones ni registros. Se financia con ingresos por publicidad y no se cobra ninguna tarifa a los usuarios.',
+            about_comp_t: 'Diferencias con Otros',
+            about_c_h1: 'Elemento de Comparación',
+            about_c_h2: 'Herramientas Online Existentes',
+            about_c_h3: 'Pixkit (Nosotros)',
+            about_c_r1_c1: 'Subida al Servidor',
+            about_c_r1_c2: 'Requerido (Transferencia de Datos)',
+            about_c_r1_c3: '❌ Sin Subida',
+            about_c_r2_c1: 'Protección de Privacidad',
+            about_c_r2_c2: 'Riesgo Existente (Almacenamiento en Servidor)',
+            about_c_r2_c3: '✅ Perfecto (Local)',
+            about_c_r3_c1: 'Velocidad de Procesamiento',
+            about_c_r3_c2: 'Dependiente de la Red',
+            about_c_r3_c3: '⚡ Instantáneo (CPU)',
+            about_c_r4_c1: 'Límites de Uso',
+            about_c_r4_c2: 'Límite Diario/Pago',
+            about_c_r4_c3: '♾️ Ilimitado',
+            about_c_r5_c1: 'Marca de Agua',
+            about_c_r5_c2: 'Insertada en Versión Gratis',
+            about_c_r5_c3: '🚫 Ninguna',
+            tech_canvas_label: 'Procesamiento de Imágenes',
+            tech_heic_label: 'Conversión HEIC',
+            tech_jszip_label: 'Compresión por Lotes',
+            tech_jspdf_label: 'Creación de PDF',
+            tech_canvas_desc: 'Utiliza las API del navegador para un procesamiento sin servidor de alta velocidad.',
+            tech_heic_desc: 'Convierte instantáneamente iPhone HEIC a JPG/PNG.',
+            tech_jszip_desc: 'Comprime por lotes docenas de imágenes en un ZIP.',
+            tech_jspdf_desc: 'Convierte fácilmente imágenes en documentos PDF.',
+            badge_soon: 'Próximamente',
+            empty_state_desc: 'Sube imágenes para verlas aquí'
           },
           hi: {
             langName: 'हिन्दी',
@@ -2049,9 +2165,41 @@
             about_v1: 'इमेज सर्वर अपलोड 0%',
             about_v2: 'साइनअप/भुगतान प्रलोभन 0%',
             about_v3: 'रहित/अनुकूलन तकनीक 100%',
+            about_v1_t: '100% सर्वर रहित',
             about_v1_c: 'सभी प्रोसेसिंग ब्राउज़र में होती है। टैब बंद करने पर डेटा तुरंत हटा दिया जाता है। यहां तक कि ऑपरेटर भी फाइलों तक नहीं पहुंच सकता।',
+            about_v2_t: 'तेज प्रसंस्करण',
             about_v2_c: 'तत्काल रूपांतरण संभव है क्योंकि किसी नेटवर्क अपलोड की आवश्यकता नहीं है। यह सेकंड के भीतर बड़ी छवियों को संसाधित करने के लिए नवीनतम वेब एपीआई का उपयोग करता है।',
-            about_v3_c: 'कोई वॉटरमार्क, फीचर सीमा या साइनअप नहीं। यह विज्ञापन राजस्व द्वारा संचालित है और उपयोगकर्ताओं से कोई शुल्क नहीं लिया जाता है।'
+            about_v3_t: 'पूरी तरह से मुफ़्त',
+            about_v3_c: 'कोई वॉटरमार्क, फीचर सीमा या साइनअप नहीं। यह विज्ञापन राजस्व द्वारा संचालित है और उपयोगकर्ताओं से कोई शुल्क नहीं लिया जाता है।',
+            about_comp_t: 'दूसरों से अंतर',
+            about_c_h1: 'तुलना आइटम',
+            about_c_h2: 'मौजूदा ऑनलाइन उपकरण',
+            about_c_h3: 'Pixkit (हम)',
+            about_c_r1_c1: 'सर्वर अपलोड',
+            about_c_r1_c2: 'आवश्यक (डेटा ट्रांसफर)',
+            about_c_r1_c3: '❌ कोई अपलोड नहीं',
+            about_c_r2_c1: 'गोपनीयता सुरक्षा',
+            about_c_r2_c2: 'जोखिम मौजूद है (सर्वर स्टोरेज)',
+            about_c_r2_c3: '✅ बिल्कुल सही (स्थानीय)',
+            about_c_r3_c1: 'प्रसंस्करण गति',
+            about_c_r3_c2: 'नेटवर्क पर निर्भर',
+            about_c_r3_c3: '⚡ तत्काल (CPU)',
+            about_c_r4_c1: 'उपयोग सीमा',
+            about_c_r4_c2: 'दैनिक सीमा/सशुल्क',
+            about_c_r4_c3: '♾️ असीमित',
+            about_c_r5_c1: 'वॉटरमार्क',
+            about_c_r5_c2: 'मुफ्त संस्करण में डाला गया',
+            about_c_r5_c3: '🚫 कोई नहीं',
+            tech_canvas_label: 'इमेज प्रोसेसिंग',
+            tech_heic_label: 'HEIC रूपांतरण',
+            tech_jszip_label: 'बैच संपीड़न',
+            tech_jspdf_label: 'PDF निर्माण',
+            tech_canvas_desc: 'हाई-स्पीड सर्वरलेस प्रोसेसिंग के लिए ब्राउज़र एपीआई का उपयोग करता है।',
+            tech_heic_desc: 'iPhone HEIC को तुरंत JPG/PNG में बदलें।',
+            tech_jszip_desc: 'दर्जनों छवियों को एक ZIP में बैच संकुचित करें।',
+            tech_jspdf_desc: 'आसानी से छवियों को PDF दस्तावेज़ों में बदलें।',
+            badge_soon: 'जल्द ही',
+            empty_state_desc: 'उन्हें यहाँ देखने के लिए चित्र अपलोड करें'
           },
           pt: {
             langName: 'Português',
@@ -2114,7 +2262,7 @@
             privacy_title: 'Política de Privacidade',
             privacy_intro: 'O Pixkit (o "Serviço") é operado em pickit.app e valoriza muito a proteção das informações pessoais dos usuários. Esta política de privacidade orienta como as informações pessoais são coletadas, usadas, armazenadas e destruídas durante o processo do serviço.',
             faq_title: 'Perguntas Frequentes (FAQ)',
-            faq_subtitle: 'Perguntas frequentes coletadas sobre o Pixkit.',
+            faq_subtitle: 'Preguntas frecuentes coletadas sobre o Pixkit.',
             tech_stack_title: 'Stack Tecnológica',
             tech_stack_desc: 'O Pixkit usa apenas as tecnologias web mais recentes para desempenho e privacidade.',
             roadmap_title: 'Roteiro Futuro',
@@ -2131,9 +2279,41 @@
             about_v1: 'Upload de imagens para o servidor 0%',
             about_v2: 'Indução de registro/pagamento 0%',
             about_v3: 'Tecnologia de otimização/sem perdas 100%',
+            about_v1_t: '100% Sem Servidor',
             about_v1_c: 'Todo o processamento ocorre no navegador. Os dados são excluídos imediatamente após o fechamento da guia. Nem mesmo o operador consegue acessar os arquivos.',
+            about_v2_t: 'Processamento Rápido',
             about_v2_c: 'A conversão imediata é possível, pois não é necessário upload na rede. Ele utiliza as APIs da Web mais recentes para processar imagens grandes em segundos.',
-            about_v3_c: 'Sem marcas d\'água, limites de recursos ou registros. É operado por receita de publicidade e os usuários não pagam taxas.'
+            about_v3_t: 'Completamente Grátis',
+            about_v3_c: 'Sem marcas d\'água, limites de recursos ou registros. É operado por receita de publicidade e os usuários não pagam taxas.',
+            about_comp_t: 'Diferenças de Outros',
+            about_c_h1: 'Item de Comparação',
+            about_c_h2: 'Ferramentas Online Existentes',
+            about_c_h3: 'Pixkit (Nós)',
+            about_c_r1_c1: 'Upload para Servidor',
+            about_c_r1_c2: 'Obrigatório (Transferência de Dados)',
+            about_c_r1_c3: '❌ Sem Upload',
+            about_c_r2_c1: 'Proteção de Privacidade',
+            about_c_r2_c2: 'Risco Existente (Armazenamento em Servidor)',
+            about_c_r2_c3: '✅ Perfeito (Local)',
+            about_c_r3_c1: 'Velocidade de Processamento',
+            about_c_r3_c2: 'Dependente da Rede',
+            about_c_r3_c3: '⚡ Instantâneo (CPU)',
+            about_c_r4_c1: 'Limites de Uso',
+            about_c_r4_c2: 'Limite Diário/Pago',
+            about_c_r4_c3: '♾️ Ilimitado',
+            about_c_r5_c1: 'Marca d\'água',
+            about_c_r5_c2: 'Inserida na Versão Grátis',
+            about_c_r5_c3: '🚫 Nenhuma',
+            tech_canvas_label: 'Processamento de Imagem',
+            tech_heic_label: 'Conversão HEIC',
+            tech_jszip_label: 'Compressão em Lote',
+            tech_jspdf_label: 'Criação de PDF',
+            tech_canvas_desc: 'Utiliza as APIs do navegador para processamento sem servidor de alta velocidade.',
+            tech_heic_desc: 'Converta instantaneamente iPhone HEIC para JPG/PNG.',
+            tech_jszip_desc: 'Comprima em lote dezenas de imagens em um ZIP.',
+            tech_jspdf_desc: 'Converta facilmente imagens em documentos PDF.',
+            badge_soon: 'Em breve',
+            empty_state_desc: 'Faça upload de imagens para vê-las aqui'
           },
           sw: {
             langName: 'Kiswahili',
@@ -2213,9 +2393,41 @@
             about_v1: 'Upakiaji wa Picha kwenye Seva 0%',
             about_v2: 'Ushawishi wa Kujisajili/Malipo 0%',
             about_v3: 'Teknologia ya Bila Kupoteza/Uboreshaji 100%',
+            about_v1_t: '100% Bila Seva',
             about_v1_c: 'Usindikaji wote hufanyika kwenye kivinjari. Data hufutwa mara moja baada ya kufunga kichupo. Hata mwendeshaji hawezi kufikia faili hizo.',
+            about_v2_t: 'Kasi ya Haraka',
             about_v2_c: 'Ubadilishaji wa haraka unawezekana kwani hakuna upakiaji wa mtandao unaohitajika. Inatumia API za hivi punde za Wavuti kuchakata picha kubwa ndani ya sekunde chache.',
-            about_v3_c: 'Hakuna alama za maji, mipaka ya vipengele, au kujisajili. Inendeshwa na mapato ya matangazo na watumiaji hawatozwi ada yoyote.'
+            about_v3_t: 'Bure Kabisa',
+            about_v3_c: 'Hakuna alama za maji, mipaka ya vipengele, au kujisajili. Inendeshwa na mapato ya matangazo na watumiaji hawatozwi ada yoyote.',
+            about_comp_t: 'Tofauti na Wengine',
+            about_c_h1: 'Kitu cha kulinganisha',
+            about_c_h2: 'Zana Zilizopo za Mtandaoni',
+            about_c_h3: 'Pixkit (Sisi)',
+            about_c_r1_c1: 'Pakia kwenye Seva',
+            about_c_r1_c2: 'Inahitajika (Uhamisho wa Data)',
+            about_c_r1_c3: '❌ Hakuna Upakiaji',
+            about_c_r2_c1: 'Ulinzi wa Faragha',
+            about_c_r2_c2: 'Hatari Ipo (Hifadhi ya Seva)',
+            about_c_r2_c3: '✅ Kamilifu (Ndani)',
+            about_c_r3_c1: 'Kasi ya Uchakataji',
+            about_c_r3_c2: 'Inategemea Kasi ya Mtandao',
+            about_c_r3_c3: '⚡ Papo hapo (CPU)',
+            about_c_r4_c1: 'Mipaka ya Matumizi',
+            about_c_r4_c2: 'Kikomo cha Kila Siku/Malipo',
+            about_c_r4_c3: '♾️ Bila Kikomo',
+            about_c_r5_c1: 'Alama ya maji',
+            about_c_r5_c2: 'Imewekwa katika Toleo la Bure',
+            about_c_r5_c3: '🚫 Hakuna',
+            tech_canvas_label: 'Uchakataji wa Picha',
+            tech_heic_label: 'Ubadilishaji wa HEIC',
+            tech_jszip_label: 'Batch Compression',
+            tech_jspdf_label: 'Uundaji wa PDF',
+            tech_canvas_desc: 'Hutumia API za kivinjari kwa usindikaji wa kasi wa bila seva.',
+            tech_heic_desc: 'Badilisha iPhone HEIC kuwa JPG/PNG mara moja.',
+            tech_jszip_desc: 'Fungia kwa wingi picha nyingi kwenye ZIP moja.',
+            tech_jspdf_desc: 'Badilisha picha kwa urahisi kuwa hati za PDF.',
+            badge_soon: 'Hivi karibuni',
+            empty_state_desc: 'Pakia picha ili uzione hapa'
           },
         };
 
