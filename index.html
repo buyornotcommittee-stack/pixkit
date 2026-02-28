@@ -1,673 +1,2207 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap" rel="stylesheet"/>
-<script id="tailwind-config">
-  tailwind.config = {
-    darkMode: "class",
-    theme: {
-      extend: {
-        colors: {
-          "primary": "#2463eb",
-          "background-light": "#f6f6f8",
-          "background-dark": "#111621",
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+  <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/heic2any@0.0.4/dist/heic2any.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&display=swap"
+    rel="stylesheet" />
+  <script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          colors: {
+            "primary": "#2463eb",
+            "background-light": "#f6f6f8",
+            "background-dark": "#111621",
+          },
+          fontFamily: {
+            "display": ["Pretendard", "-apple-system", "BlinkMacSystemFont", "system-ui", "Roboto", "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "sans-serif"]
+          },
+          borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
         },
-        fontFamily: {
-          "display": ["Pretendard", "-apple-system", "BlinkMacSystemFont", "system-ui", "Roboto", "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "sans-serif"]
-        },
-        borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
       },
-    },
-  }
-</script>
-<title>Pixkit | Fast Browser-based Batch Image Processor</title>
-<style>
-  input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 16px; height: 16px; border-radius: 50%; background: #2463eb; cursor: pointer; }
-  input[type=range] { -webkit-appearance: none; appearance: none; }
-</style>
+    }
+  </script>
+  <title>Pixkit – 브라우저에서 이미지 일괄 처리</title>
+  <link rel="icon" type="image/png" href="001_pixkitlogo.png">
+  <style>
+    input[type=range]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: #2463eb;
+      cursor: pointer;
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      appearance: none;
+    }
+  </style>
 </head>
+
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
-<div class="layout-container flex h-full grow flex-col">
+  <div class="layout-container flex h-full grow flex-col">
 
-<!-- Navigation -->
-<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 md:px-10 py-3 sticky top-0 z-50">
-  <div class="flex items-center gap-4 text-primary">
-    <div class="size-8 flex items-center justify-center bg-primary text-white rounded-lg">
-      <span class="material-symbols-outlined text-2xl">grid_view</span>
-    </div>
-    <h2 class="text-slate-900 dark:text-slate-100 text-xl font-black leading-tight tracking-tight">Pixkit</h2>
-  </div>
-  <div class="flex flex-1 justify-end gap-8 items-center">
-    <nav class="hidden md:flex items-center gap-8">
-      <div class="relative group">
-        <button class="flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors">
-          Tools
-          <span class="material-symbols-outlined text-sm">expand_more</span>
-        </button>
-        <div class="absolute left-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 py-2">
-          <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">Bulk Resize</a>
-          <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">Format Converter</a>
-          <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">EXIF Remover</a>
-          <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors" href="#">Add Padding</a>
-        </div>
+    <!-- Navigation -->
+    <header
+      class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 md:px-10 py-3 sticky top-0 z-50">
+      <div class="flex items-center gap-3 text-primary cursor-pointer" onclick="showView('main-view')">
+        <img src="001_pixkitlogo.png" alt="Pixkit Logo" class="size-9 object-contain">
+        <h2 class="text-slate-900 dark:text-slate-100 text-xl font-black leading-tight tracking-tight">Pixkit</h2>
       </div>
-      <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">Blog</a>
-      <a class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors" href="#">About</a>
-    </nav>
-    <!-- 다크모드 토글 -->
-    <button id="darkToggle" class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
-      <span class="material-symbols-outlined text-xl">dark_mode</span>
-    </button>
-  </div>
-</header>
-
-<main class="flex-1 max-w-[1440px] mx-auto w-full p-4 md:p-8">
-
-  <!-- Hero Section -->
-  <section class="mb-12 text-center flex flex-col items-center">
-    <div class="mb-6 flex gap-2 flex-wrap justify-center">
-      <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">업로드 없음</span>
-      <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">무료</span>
-      <span class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">브라우저에서 처리</span>
-    </div>
-    <h1 class="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-4 tracking-tight leading-tight">
-      이미지 처리를, 더 완벽하게.<br/>
-      <span class="text-primary">브라우저에서 바로.</span>
-    </h1>
-    <p class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl font-medium">업로드 없이, 개인정보 걱정 없이, 모든 이미지 작업을 한 곳에서.</p>
-  </section>
-
-  <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-
-    <!-- Sidebar: Settings -->
-    <aside class="lg:col-span-4 space-y-6">
-      <div class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
-        <div class="flex items-center gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
-          <span class="material-symbols-outlined text-primary">settings_suggest</span>
-          <h3 class="text-lg font-bold">Image Configuration</h3>
-        </div>
-
-        <!-- Resizing Section -->
-        <div class="space-y-4 mb-8">
-          <div class="flex items-center justify-between">
-            <label class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
-              <span class="material-symbols-outlined text-lg">aspect_ratio</span> Resizing
-            </label>
-            <div class="flex items-center gap-2">
-              <span class="text-xs text-slate-400">Lock Ratio</span>
-              <button id="ratioToggle" onclick="toggleRatio()" class="w-10 h-5 bg-primary rounded-full relative flex items-center px-1 transition-colors">
-                <div id="ratioThumb" class="bg-white w-3 h-3 rounded-full ml-auto transition-all"></div>
-              </button>
+      <div class="flex flex-1 justify-end gap-8 items-center">
+        <nav class="hidden md:flex items-center gap-8">
+          <div class="relative group">
+            <button data-i18n="tools"
+              class="flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors">
+              도구
+              <span class="material-symbols-outlined text-sm">expand_more</span>
+            </button>
+            <div
+              class="absolute left-0 top-full mt-2 w-48 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 py-2">
+              <a data-i18n="resize"
+                class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="showView('main-view')">일괄 리사이징</a>
+              <a data-i18n="convert"
+                class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="showView('main-view')">포맷 변환</a>
+              <a data-i18n="exif"
+                class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="showView('main-view')">EXIF 제거</a>
+              <a data-i18n="padding"
+                class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="showView('main-view')">여백 추가</a>
             </div>
           </div>
-          <div class="grid grid-cols-2 gap-3">
-            <div class="space-y-1">
-              <span class="text-[10px] font-bold text-slate-400 uppercase">Width (px)</span>
-              <input id="widthInput" onchange="onWidthChange()" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary h-10 px-3" placeholder="1080" type="number"/>
-            </div>
-            <div class="space-y-1">
-              <span class="text-[10px] font-bold text-slate-400 uppercase">Height (px)</span>
-              <input id="heightInput" onchange="onHeightChange()" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary h-10 px-3" placeholder="1080" type="number"/>
-            </div>
-          </div>
-          <!-- Presets -->
-          <div class="grid grid-cols-2 gap-2">
-            <button onclick="applyPreset(1080,1080)" class="text-[11px] font-bold py-2 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">Instagram Square</button>
-            <button onclick="applyPreset(1280,720)" class="text-[11px] font-bold py-2 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">YouTube HD</button>
-            <button onclick="applyPreset(1500,500)" class="text-[11px] font-bold py-2 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">Twitter Header</button>
-            <button onclick="applyPreset(820,312)" class="text-[11px] font-bold py-2 bg-slate-100 dark:bg-slate-800 rounded-lg hover:bg-primary/10 hover:text-primary transition-colors">Facebook Cover</button>
-          </div>
-        </div>
-
-        <!-- Quality Section -->
-        <div class="space-y-4 mb-8">
-          <label class="text-sm font-bold flex items-center justify-between uppercase tracking-wide text-slate-500 dark:text-slate-400">
-            <span class="flex items-center gap-2">
-              <span class="material-symbols-outlined text-lg">high_quality</span> Quality
-            </span>
-            <span id="qualityLabel" class="text-primary">85%</span>
-          </label>
-          <input id="qualityInput" oninput="document.getElementById('qualityLabel').textContent=this.value+'%'" class="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary" type="range" min="1" max="100" value="85"/>
-        </div>
-
-        <!-- Format Section -->
-        <div class="space-y-4 mb-8">
-          <label class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
-            <span class="material-symbols-outlined text-lg">image</span> Output Format
-          </label>
-          <div class="grid grid-cols-3 gap-2" id="formatBtns">
-            <button onclick="selectFormat('image/jpeg', this)" class="py-2 rounded-lg bg-primary text-white font-bold text-xs format-btn">JPG</button>
-            <button onclick="selectFormat('image/png', this)" class="py-2 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold text-xs format-btn">PNG</button>
-            <button onclick="selectFormat('image/webp', this)" class="py-2 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold text-xs format-btn">WebP</button>
-          </div>
-        </div>
-
-        <!-- Filename Section -->
-        <div class="space-y-4 mb-8">
-          <label class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
-            <span class="material-symbols-outlined text-lg">drive_file_rename_outline</span> Filename
-          </label>
-          <div class="space-y-3">
-            <input id="prefixInput" class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary h-10 px-3" placeholder="Prefix (e.g. vacation_)" type="text"/>
-            <div class="flex items-center justify-between px-1">
-              <span class="text-xs font-medium text-slate-500">Auto-numbering</span>
-              <button id="autoNumToggle" onclick="toggleAutoNum()" class="w-10 h-5 bg-primary rounded-full relative flex items-center px-1 transition-colors">
-                <div id="autoNumThumb" class="bg-white w-3 h-3 rounded-full ml-auto transition-all"></div>
-              </button>
+          <div class="relative group">
+            <button
+              class="flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors">
+              <span class="material-symbols-outlined text-sm">language</span>
+              <span id="currentLangName">한국어</span>
+              <span class="material-symbols-outlined text-sm">expand_more</span>
+            </button>
+            <div
+              class="absolute left-0 top-full mt-2 w-32 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-50 py-2 scrollbar-thin overflow-y-auto max-h-64">
+              <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="changeLang('ko')">한국어</a>
+              <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="changeLang('en')">English</a>
+              <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="changeLang('ja')">日本語</a>
+              <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="changeLang('zh')">简体中文</a>
+              <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="changeLang('es')">Español</a>
+              <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="changeLang('hi')">हिन्दी</a>
+              <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="changeLang('pt')">Português</a>
+              <a class="block px-4 py-2 text-sm text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-800 hover:text-primary transition-colors cursor-pointer"
+                onclick="changeLang('sw')">Kiswahili</a>
             </div>
           </div>
-        </div>
-
-        <!-- Options Section -->
-        <div class="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
-          <div class="flex items-center gap-3">
-            <input checked id="exifCheck" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-            <label class="text-xs font-medium" for="exifCheck">Remove Metadata (EXIF)</label>
-          </div>
-          <div class="flex items-center gap-3">
-            <input id="paddingCheck" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary" type="checkbox"/>
-            <label class="text-xs font-medium" for="paddingCheck">Add Padding (Force Square)</label>
-          </div>
-        </div>
-
-        <!-- Convert Button -->
-        <button onclick="convertAll()" class="mt-6 w-full bg-primary text-white py-3 rounded-lg font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
-          <span class="material-symbols-outlined text-lg">auto_fix_high</span>
-          Convert All
+          <a data-i18n="blog"
+            class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors"
+            href="#">Blog</a>
+          <a data-i18n="about"
+            class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors cursor-pointer"
+            onclick="showView('about-view')">About</a>
+        </nav>
+        <!-- 다크모드 토글 -->
+        <button id="darkToggle"
+          class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
+          <span class="material-symbols-outlined text-xl">dark_mode</span>
         </button>
       </div>
-    </aside>
+    </header>
 
-    <!-- Main Area -->
-    <div class="lg:col-span-8 space-y-6">
+    <main id="main-view" class="flex-1 max-w-[1440px] mx-auto w-full p-4 md:p-8">
 
-      <!-- Dropzone -->
-      <div id="dropZone"
-        class="bg-white dark:bg-slate-900 border-2 border-dashed border-primary/30 dark:border-primary/20 rounded-xl p-12 text-center flex flex-col items-center justify-center gap-6 hover:bg-primary/5 transition-colors cursor-pointer group"
-        onclick="document.getElementById('fileInput').click()"
-        ondragover="event.preventDefault(); this.classList.add('bg-primary/10')"
-        ondragleave="this.classList.remove('bg-primary/10')"
-        ondrop="handleDrop(event)">
-        <div class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
-          <span class="material-symbols-outlined text-4xl">cloud_upload</span>
+      <!-- Hero Section -->
+      <section class="mb-12 text-center flex flex-col items-center">
+        <div class="mb-6 flex gap-2 flex-wrap justify-center">
+          <span data-i18n="no_upload"
+            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">업로드
+            없음</span>
+          <span data-i18n="free"
+            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">무료</span>
+          <span data-i18n="in_browser"
+            class="px-3 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold uppercase tracking-wider">브라우저에서
+            처리</span>
+        </div>
+        <h1 data-i18n="hero_title"
+          class="text-4xl md:text-6xl font-black text-slate-900 dark:text-white mb-4 tracking-tight leading-tight">
+          이미지 처리를, 더 완벽하게.<br />
+          <span class="text-primary">브라우저에서 바로.</span>
+        </h1>
+        <p data-i18n="hero_subtitle"
+          class="text-lg md:text-xl text-slate-500 dark:text-slate-400 max-w-2xl font-medium">업로드 없이, 개인정보 걱정 없이, 모든
+          이미지 작업을 한 곳에서.</p>
+      </section>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+        <!-- Sidebar: Settings -->
+        <aside class="lg:col-span-4 space-y-6">
+          <div
+            class="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
+            <div class="flex items-center gap-2 mb-6 pb-4 border-b border-slate-100 dark:border-slate-800">
+              <span class="material-symbols-outlined text-primary">settings_suggest</span>
+              <h3 data-i18n="settings_title" class="text-lg font-bold">이미지 설정</h3>
+            </div>
+
+            <!-- Resizing Section -->
+            <div class="space-y-4 mb-8">
+              <div class="space-y-3">
+                <div class="flex items-center justify-between">
+                  <label data-i18n="presets" class="text-xs font-bold uppercase tracking-wide text-slate-500">
+                    소셜 프리셋
+                  </label>
+                </div>
+                <select id="presetSelect"
+                  class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary h-10 px-3">
+                  <option data-i18n="custom_size" value="">직접 입력 (Custom)</option>
+                  <option data-i18n="instagram_feed" value="1080x1080">인스타그램 피드 (1080×1080)</option>
+                  <option data-i18n="instagram_story" value="1080x1920">인스타그램 스토리 (1080×1920)</option>
+                  <option data-i18n="youtube_thumbnail" value="1280x720">유튜브 썸네일 (1280×720)</option>
+                  <option data-i18n="twitter_header" value="1500x500">트위터 헤더 (1500×500)</option>
+                  <option data-i18n="facebook_cover" value="820x312">페이스북 커버 (820×312)</option>
+                  <option data-i18n="naver_blog" value="860x860">네이버 블로그 (860×860)</option>
+                </select>
+              </div>
+              <div class="flex items-center justify-between mt-4">
+                <label data-i18n="dimensions"
+                  class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                  <span class="material-symbols-outlined text-lg">aspect_ratio</span> 사이즈 (px)
+                </label>
+                <div class="flex items-center gap-2">
+                  <span data-i18n="lock_ratio" class="text-xs text-slate-400">비율 유지</span>
+                  <button id="ratioToggle" onclick="toggleRatio()"
+                    class="w-10 h-5 bg-primary rounded-full relative flex items-center px-1 transition-colors">
+                    <div id="ratioThumb" class="bg-white w-3 h-3 rounded-full ml-auto transition-all"></div>
+                  </button>
+                </div>
+              </div>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="space-y-1">
+                  <span data-i18n="width" class="text-[10px] font-bold text-slate-400 uppercase">너비 (Width)</span>
+                  <input id="widthInput" onchange="onWidthChange()"
+                    class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary h-10 px-3"
+                    placeholder="1080" type="number" />
+                </div>
+                <div class="space-y-1">
+                  <span data-i18n="height" class="text-[10px] font-bold text-slate-400 uppercase">높이 (Height)</span>
+                  <input id="heightInput" onchange="onHeightChange()"
+                    class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary h-10 px-3"
+                    placeholder="1080" type="number" />
+                </div>
+              </div>
+            </div>
+
+            <!-- Quality Section -->
+            <div class="space-y-4 mb-8">
+              <label
+                class="text-sm font-bold flex items-center justify-between uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                <span class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-lg">high_quality</span> <span data-i18n="quality">압축
+                    품질</span>
+                </span>
+                <span id="qualityLabel" class="text-primary">85%</span>
+              </label>
+              <input id="qualityInput" oninput="document.getElementById('qualityLabel').textContent=this.value+'%'"
+                class="w-full h-1.5 bg-slate-200 dark:bg-slate-800 rounded-lg appearance-none cursor-pointer accent-primary"
+                type="range" min="1" max="100" value="85" />
+            </div>
+
+            <!-- Format Section -->
+            <div class="space-y-4 mb-8">
+              <label
+                class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                <span class="material-symbols-outlined text-lg">image</span> <span data-i18n="format">출력 포맷</span>
+              </label>
+              <div class="grid grid-cols-3 gap-2" id="formatBtns">
+                <button onclick="selectFormat('image/jpeg', this)"
+                  class="py-2 rounded-lg bg-primary text-white font-bold text-xs format-btn">JPG</button>
+                <button onclick="selectFormat('image/png', this)"
+                  class="py-2 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold text-xs format-btn">PNG</button>
+                <button onclick="selectFormat('image/webp', this)"
+                  class="py-2 rounded-lg bg-slate-100 dark:bg-slate-800 font-bold text-xs format-btn">WebP</button>
+              </div>
+            </div>
+
+            <!-- Filename Section -->
+            <div class="space-y-4 mb-8">
+              <label
+                class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
+                <span class="material-symbols-outlined text-lg">drive_file_rename_outline</span> <span
+                  data-i18n="filename">파일명 설정</span>
+              </label>
+              <div class="space-y-3">
+                <input id="prefixInput" data-i18n="prefix_placeholder"
+                  class="w-full bg-slate-50 dark:bg-slate-800 border-none rounded-lg text-sm focus:ring-2 focus:ring-primary h-10 px-3"
+                  placeholder="접두사 기입 (예: 여행_)" type="text" />
+                <div class="flex items-center justify-between px-1">
+                  <span data-i18n="auto_numbering" class="text-xs font-medium text-slate-500">자동 번호 부여</span>
+                  <button id="autoNumToggle" onclick="toggleAutoNum()"
+                    class="w-10 h-5 bg-primary rounded-full relative flex items-center px-1 transition-colors">
+                    <div id="autoNumThumb" class="bg-white w-3 h-3 rounded-full ml-auto transition-all"></div>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Options Section -->
+            <div class="space-y-3 pt-4 border-t border-slate-100 dark:border-slate-800">
+              <div class="flex flex-col gap-3">
+                <div class="flex items-center gap-3">
+                  <input checked id="exifCheck" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
+                    type="checkbox" />
+                  <label data-i18n="remove_exif" class="text-xs font-medium" for="exifCheck">메타데이터(EXIF) 제거</label>
+                </div>
+                <div class="flex items-center gap-3">
+                  <input id="paddingCheck" class="w-4 h-4 rounded border-slate-300 text-primary focus:ring-primary"
+                    type="checkbox" />
+                  <label data-i18n="force_square" class="text-xs font-medium" for="paddingCheck">여백 추가 (정사각형
+                    만들기)</label>
+                </div>
+                <div id="paddingColorGroup" class="hidden pl-7 space-y-1">
+                  <span data-i18n="pad_color" class="text-[10px] font-bold text-slate-400 uppercase">여백 색상</span>
+                  <div class="flex items-center gap-2">
+                    <input id="paddingColor" type="color" value="#ffffff"
+                      class="w-8 h-8 rounded border-none cursor-pointer bg-transparent" />
+                    <span id="paddingColorHex" class="text-[10px] font-mono text-slate-500 uppercase">#FFFFFF</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Convert Button -->
+            <button onclick="convertAll()"
+              class="mt-6 w-full bg-primary text-white py-3 rounded-lg font-bold text-sm hover:opacity-90 transition-opacity flex items-center justify-center gap-2">
+              <span class="material-symbols-outlined text-lg">auto_fix_high</span>
+              <span data-i18n="convert_all">전체 변환하기</span>
+            </button>
+          </div>
+        </aside>
+
+        <!-- Main Area -->
+        <div class="lg:col-span-8 space-y-6">
+
+          <!-- Dropzone -->
+          <div id="dropZone"
+            class="bg-white dark:bg-slate-900 border-2 border-dashed border-primary/30 dark:border-primary/20 rounded-xl p-12 text-center flex flex-col items-center justify-center gap-6 hover:bg-primary/5 transition-colors cursor-pointer group"
+            onclick="document.getElementById('fileInput').click()"
+            ondragover="event.preventDefault(); this.classList.add('bg-primary/10')"
+            ondragleave="this.classList.remove('bg-primary/10')" ondrop="handleDrop(event)">
+            <div
+              class="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center group-hover:scale-110 transition-transform">
+              <span class="material-symbols-outlined text-4xl">cloud_upload</span>
+            </div>
+            <div>
+              <h3 data-i18n="drop_title" class="text-xl font-bold mb-1">📁 이미지를 여기에 끌어다 놓거나 클릭하여 업로드하세요</h3>
+              <p data-i18n="drop_subtitle" class="text-slate-500 text-sm">최대 20개 파일. JPG, PNG, WebP, HEIC 지원</p>
+            </div>
+            <button data-i18n="select_files"
+              class="bg-primary text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow pointer-events-none">파일
+              선택</button>
+            <input type="file" id="fileInput" multiple accept="image/*" class="hidden"
+              onchange="handleFiles(this.files)" />
+          </div>
+
+          <!-- Preview Area -->
+          <div
+            class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+            <div
+              class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between">
+              <div class="flex items-center gap-2">
+                <h3 data-i18n="queue" class="font-bold">대기열</h3>
+                <span id="fileCount"
+                  class="bg-slate-100 dark:bg-slate-800 text-[10px] font-black px-2 py-0.5 rounded uppercase">0
+                  개 파일</span>
+              </div>
+              <div class="flex items-center gap-3">
+                <button onclick="clearAll()"
+                  class="text-slate-500 hover:text-red-500 flex items-center gap-1 text-xs font-bold uppercase transition-colors">
+                  <span class="material-symbols-outlined text-lg">delete</span> <span data-i18n="clear_all">전체 삭제</span>
+                </button>
+                <button id="downloadAllBtn" onclick="downloadZip()"
+                  class="bg-primary/10 text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-all hidden">
+                  <span class="material-symbols-outlined text-lg">folder_zip</span> ZIP
+                </button>
+                <button id="downloadPdfBtn" onclick="downloadPdf()"
+                  class="bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500 hover:text-white px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-all hidden">
+                  <span class="material-symbols-outlined text-lg">picture_as_pdf</span> PDF
+                </button>
+              </div>
+            </div>
+
+            <!-- 진행바 -->
+            <div id="progressBar"
+              class="hidden px-6 py-8 bg-slate-50 dark:bg-slate-800/20 border-b border-slate-100 dark:border-slate-800">
+              <div class="max-w-md mx-auto">
+                <div class="flex justify-between text-xs font-bold mb-2 uppercase tracking-widest text-primary">
+                  <span id="progressStatus">Converting...</span>
+                  <span id="progressPercent">0%</span>
+                </div>
+                <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-3 overflow-hidden shadow-inner">
+                  <div id="progressFill" class="bg-primary h-full rounded-full transition-all duration-300 ease-out"
+                    style="width:0%"></div>
+                </div>
+                <p id="progressSub" class="text-center text-[10px] text-slate-400 mt-2 font-bold uppercase">0 / 0 Files
+                  processed</p>
+              </div>
+            </div>
+
+            <!-- Thumbnails Grid -->
+            <div id="previewList" class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <!-- 빈 상태 -->
+              <div id="emptyState" class="col-span-2 text-center py-12 text-slate-400">
+                <span class="material-symbols-outlined text-5xl mb-3 block">image_search</span>
+                <p class="text-sm font-medium">이미지를 업로드하면 여기에 표시됩니다</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </main>
+
+    <!-- Privacy View -->
+    <main id="privacy-view" class="hidden flex-1 max-w-[900px] mx-auto w-full p-6 md:p-12 pb-24 space-y-16">
+      <!-- Back Link -->
+      <div class="mb-8">
+        <button onclick="showView('main-view')"
+          class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors group">
+          <span
+            class="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
+          <span class="text-xs font-bold uppercase tracking-wider">픽스킷으로 돌아가기</span>
+        </button>
+      </div>
+
+      <!-- Korean Privacy Policy -->
+      <article class="prose prose-slate dark:prose-invert max-w-none">
+        <div class="max-w-[800px] mx-auto space-y-12">
+          <h1 data-i18n="privacy_title" class="text-4xl font-black text-slate-900 dark:text-white">개인정보처리방침</h1>
+
+          <div class="space-y-4">
+            <p data-i18n="privacy_intro" class="text-slate-500 font-medium">Pixkit(이하 "서비스")은
+              <strong>pickit.app</strong>에서 운영되며, 이용자의 개인정보 보호를 매우 중요하게 생각합니다. 본 개인정보처리방침은 서비스 이용 과정에서 개인정보가 어떻게
+              수집·이용·보관·파기되는지를 안내합니다.
+              <br><br>
+              서비스를 이용하시는 것은 본 개인정보처리방침에 동의하는 것으로 간주됩니다.
+            </p>
+          </div>
+
+          <div class="space-y-20">
+            <!-- 1. 서비스 소개 -->
+            <section>
+              <h2 class="text-2xl font-black mb-6 flex items-center gap-3">
+                <span
+                  class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-primary/20">1</span>
+                서비스 소개
+              </h2>
+              <div
+                class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm leading-relaxed">
+                <p class="mb-6">Pixkit은 브라우저 기반의 서버리스(Serverless) 이미지 일괄 처리 도구입니다. 이미지 리사이징, 포맷 변환, 압축, EXIF 제거 등 모든 처리가
+                  이용자의 웹 브라우저(클라이언트) 내에서 수행되며, HTML5 Canvas API, JSZip, heic2any, jsPDF, piexifjs 등의 오픈소스 라이브러리를 활용합니다.
+                </p>
+                <div class="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30 p-5 rounded-xl">
+                  <p class="text-red-600 dark:text-red-400 font-black flex items-start gap-2 m-0">
+                    <span class="material-symbols-outlined shrink-0 text-red-500">warning</span>
+                    중요: Pixkit은 이용자의 이미지를 서버에 업로드하거나 전송하거나 저장하지 않습니다. 모든 이미지 처리는 100% 이용자의 기기에서 이루어집니다.
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            <!-- 2. 수집하는 개인정보 항목 -->
+            <section>
+              <h2 class="text-2xl font-black mb-6 flex items-center gap-3">
+                <span
+                  class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-primary/20">2</span>
+                수집하는 개인정보 항목
+              </h2>
+
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">2.1 수집하지 않는 정보</h3>
+              <div class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 mb-10">
+                <table class="w-full text-left border-collapse m-0">
+                  <thead>
+                    <tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                      <th class="py-4 px-6 font-bold text-sm uppercase tracking-wider">항목</th>
+                      <th class="py-4 px-6 font-bold text-sm uppercase tracking-wider">설명</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+                    <tr>
+                      <td class="py-4 px-6 font-bold text-slate-900 dark:text-white whitespace-nowrap">이미지 파일</td>
+                      <td class="py-4 px-6 text-slate-600 dark:text-slate-400 text-sm">이용자의 이미지는 서버로 전송되지 않으며, 어떠한 형태로도
+                        저장되지 않습니다</td>
+                    </tr>
+                    <tr>
+                      <td class="py-4 px-6 font-bold text-slate-900 dark:text-white whitespace-nowrap">이미지 메타데이터</td>
+                      <td class="py-4 px-6 text-slate-600 dark:text-slate-400 text-sm">EXIF, GPS 좌표, 촬영 기기 정보 등은 브라우저
+                        내에서만
+                        처리됩니다</td>
+                    </tr>
+                    <tr>
+                      <td class="py-4 px-6 font-bold text-slate-900 dark:text-white whitespace-nowrap">이미지 내 개인정보</td>
+                      <td class="py-4 px-6 text-slate-600 dark:text-slate-400 text-sm">이미지 콘텐츠에 대한 접근 권한이 없습니다</td>
+                    </tr>
+                    <tr>
+                      <td class="py-4 px-6 font-bold text-slate-900 dark:text-white whitespace-nowrap">회원정보</td>
+                      <td class="py-4 px-6 text-slate-600 dark:text-slate-400 text-sm">회원가입, 로그인, 이메일 수집을 하지 않습니다</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">2.2 자동으로 수집되는 정보</h3>
+              <p class="text-slate-600 dark:text-slate-400 mb-6">이용자가 Pixkit 웹사이트를 방문할 때 아래의 정보가 자동으로 수집될 수 있습니다.</p>
+              <div class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 mb-10">
+                <table class="w-full text-left border-collapse m-0 leading-tight">
+                  <thead>
+                    <tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                      <th class="py-4 px-6 font-bold text-sm uppercase tracking-wider">수집 항목</th>
+                      <th class="py-4 px-6 font-bold text-sm uppercase tracking-wider">수집 목적</th>
+                      <th class="py-4 px-6 font-bold text-sm uppercase tracking-wider">법적 근거</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+                    <tr>
+                      <td class="py-4 px-6 font-semibold">IP 주소</td>
+                      <td class="py-4 px-6 text-slate-500">서비스 보안 및 부정 이용 방지</td>
+                      <td class="py-4 px-6 text-slate-400 italic">정당한 이익</td>
+                    </tr>
+                    <tr>
+                      <td class="py-4 px-6 font-semibold">브라우저 종류 및 버전</td>
+                      <td class="py-4 px-6 text-slate-500">서비스 호환성 개선</td>
+                      <td class="py-4 px-6 text-slate-400 italic">정당한 이익</td>
+                    </tr>
+                    <tr>
+                      <td class="py-4 px-6 font-semibold">운영체제 정보</td>
+                      <td class="py-4 px-6 text-slate-500">서비스 최적화</td>
+                      <td class="py-4 px-6 text-slate-400 italic">정당한 이익</td>
+                    </tr>
+                    <tr>
+                      <td class="py-4 px-6 font-semibold">방문 페이지 및 체류 시간</td>
+                      <td class="py-4 px-6 text-slate-500">서비스 품질 개선</td>
+                      <td class="py-4 px-6 text-slate-400 italic">정당한 이익</td>
+                    </tr>
+                    <tr>
+                      <td class="py-4 px-6 font-semibold">유입 경로(Referrer)</td>
+                      <td class="py-4 px-6 text-slate-500">서비스 분석</td>
+                      <td class="py-4 px-6 text-slate-400 italic">정당한 이익</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <h3 class="text-xl font-bold mb-4 flex items-center gap-2">2.3 쿠키(Cookie) 수집 정보</h3>
+              <p class="text-slate-600 dark:text-slate-400 mb-6">Pixkit은 서비스 제공 및 개선을 위해 쿠키를 사용합니다.</p>
+              <div class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800">
+                <table class="w-full text-left border-collapse m-0">
+                  <thead>
+                    <tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                      <th class="py-4 px-6 font-bold text-sm uppercase tracking-wider">쿠키 유형</th>
+                      <th class="py-4 px-6 font-bold text-sm uppercase tracking-wider">목적</th>
+                      <th class="py-4 px-6 font-bold text-sm uppercase tracking-wider">보관 기간</th>
+                      <th class="py-4 px-6 font-bold text-sm uppercase tracking-wider">필수 여부</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+                    <tr>
+                      <td class="py-4 px-6 font-semibold">필수 쿠키</td>
+                      <td class="py-4 px-6 text-slate-500">사이트 기본 기능 작동, 사용자 설정 저장</td>
+                      <td class="py-4 px-6 text-slate-400 font-mono text-[10px]">세션 / 최대 1년</td>
+                      <td class="py-4 px-6"><span
+                          class="bg-primary/10 text-primary px-2 py-1 rounded text-[10px] font-bold">필수</span></td>
+                    </tr>
+                    <tr>
+                      <td class="py-4 px-6 font-semibold">분석 쿠키</td>
+                      <td class="py-4 px-6 text-slate-500">방문자 행동 분석 (Google Analytics)</td>
+                      <td class="py-4 px-6 text-slate-400 font-mono text-[10px]">최대 2년</td>
+                      <td class="py-4 px-6"><span
+                          class="bg-slate-100 dark:bg-slate-800 text-slate-500 px-2 py-1 rounded text-[10px] font-bold">선택</span>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="text-xs text-slate-400 italic mt-4 px-2">이용자는 브라우저 설정을 통해 쿠키 수집을 거부할 수 있습니다. 다만, 필수 쿠키를 차단할 경우
+                일부
+                서비스 이용에 제한이 있을 수 있습니다.</p>
+            </section>
+
+            <!-- 3. 개인정보의 수집 및 이용 목적 -->
+            <section>
+              <h2 class="text-2xl font-black mb-6 flex items-center gap-3">
+                <span
+                  class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-primary/20">3</span>
+                개인정보의 수집 및 이용 목적
+              </h2>
+              <p class="text-slate-600 dark:text-slate-400 mb-6">수집된 정보는 다음의 목적으로만 이용됩니다.</p>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div
+                  class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 transition-colors">
+                  <h4 class="font-bold mb-2 flex items-center gap-2 text-primary">
+                    <span class="material-symbols-outlined text-xl">speed</span> 서비스 운영 및 유지
+                  </h4>
+                  <p class="text-sm text-slate-500 m-0">웹사이트의 안정적인 운영과 기능 제공</p>
+                </div>
+                <div
+                  class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 transition-colors">
+                  <h4 class="font-bold mb-2 flex items-center gap-2 text-primary">
+                    <span class="material-symbols-outlined text-xl">analytics</span> 서비스 개선
+                  </h4>
+                  <p class="text-sm text-slate-500 m-0">이용 패턴 분석을 통한 UI/UX 개선 및 기능 고도화</p>
+                </div>
+                <div
+                  class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 transition-colors">
+                  <h4 class="font-bold mb-2 flex items-center gap-2 text-primary">
+                    <span class="material-symbols-outlined text-xl">shield</span> 보안 및 부정 이용 방지
+                  </h4>
+                  <p class="text-sm text-slate-500 m-0">비정상적 접근 탐지, DDoS 공격 방어</p>
+                </div>
+                <div
+                  class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 transition-colors">
+                  <h4 class="font-bold mb-2 flex items-center gap-2 text-primary">
+                    <span class="material-symbols-outlined text-xl">ads_click</span> 광고 게재
+                  </h4>
+                  <p class="text-sm text-slate-500 m-0">Google AdSense를 통한 광고 표시 (서비스 운영비 충당)</p>
+                </div>
+              </div>
+            </section>
+
+            <!-- 4. 개인정보의 보관 및 파기 -->
+            <section>
+              <h2 class="text-2xl font-black mb-6 flex items-center gap-3">
+                <span
+                  class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-primary/20">4</span>
+                개인정보의 보관 및 파기
+              </h2>
+              <h3 class="text-xl font-bold mb-4">4.1 보관 기간</h3>
+              <div class="overflow-hidden rounded-2xl border border-slate-200 dark:border-slate-800 mb-8">
+                <table class="w-full text-left border-collapse m-0">
+                  <thead>
+                    <tr class="bg-slate-50 dark:bg-slate-800/50 border-b border-slate-200 dark:border-slate-800">
+                      <th class="py-4 px-6 font-bold text-sm">정보 유형</th>
+                      <th class="py-4 px-6 font-bold text-sm">보관 기간</th>
+                      <th class="py-4 px-6 font-bold text-sm">비고</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+                    <tr>
+                      <td class="py-4 px-6 font-bold text-primary">이미지 데이터</td>
+                      <td class="py-4 px-6 font-black uppercase text-red-500">보관하지 않음</td>
+                      <td class="py-4 px-6 text-slate-500">탭 종료 시 즉시 삭제</td>
+                    </tr>
+                    <tr>
+                      <td class="py-4 px-6 font-semibold">분석 데이터</td>
+                      <td class="py-4 px-6">최대 26개월</td>
+                      <td class="py-4 px-6 text-slate-500">Google Analytics 정책</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- 6. 개인정보의 안전성 확보 조치 -->
+            <section>
+              <h2 class="text-2xl font-black mb-6 flex items-center gap-3">
+                <span
+                  class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-primary/20">6</span>
+                개인정보의 안전성 확보 조치
+              </h2>
+              <div class="space-y-4">
+                <div
+                  class="flex gap-4 p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800">
+                  <div class="size-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined">lock</span>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white">SSL/TLS 암호화</h4>
+                    <p class="text-sm text-slate-500 m-0 leading-relaxed">모든 데이터 전송 시 HTTPS 프로토콜 적용으로 안전한 통신 환경을 유지합니다.
+                    </p>
+                  </div>
+                </div>
+                <div
+                  class="flex gap-4 p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800">
+                  <div class="size-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
+                    <span class="material-symbols-outlined">cloud_off</span>
+                  </div>
+                  <div>
+                    <h4 class="font-bold text-slate-900 dark:text-white">서버리스 아키텍처</h4>
+                    <p class="text-sm text-slate-500 m-0 leading-relaxed">이미지 데이터가 서버에 전송되거나 저장되지 않는 구조적 보안을 실천합니다.</p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 7. 이용자의 권리 및 행사 방법 -->
+            <section>
+              <h2 class="text-2xl font-black mb-6 flex items-center gap-3">
+                <span
+                  class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-primary/20">7</span>
+                이용자의 권리와 행사 방법
+              </h2>
+              <p class="text-slate-600 dark:text-slate-400 mb-8 leading-relaxed">이용자는 자신의 개인정보에 대해 열람, 정정, 삭제, 처리정지 등을
+                요구할
+                수 있습니다. 특히 <strong>GDPR(유럽)</strong> 및 <strong>CCPA(캘리포니아)</strong> 규정을 준수하며, 이용자의 권리를 적극 보호합니다.</p>
+
+              <div class="bg-slate-900 text-white p-8 rounded-2xl shadow-xl shadow-slate-200 dark:shadow-none">
+                <h4 class="text-primary font-black uppercase tracking-widest text-xs mb-6 px-1">Privacy Officer Contacts
+                </h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div>
+                    <span class="block text-slate-500 text-xs font-bold uppercase mb-1">Protection Officer</span>
+                    <span class="text-lg font-black">운영자 (Operator)</span>
+                  </div>
+                  <div>
+                    <span class="block text-slate-500 text-xs font-bold uppercase mb-1">Official Support</span>
+                    <a href="mailto:jellapick@gmail.com"
+                      class="text-lg font-black text-primary hover:underline">jellapick@gmail.com</a>
+                  </div>
+                </div>
+              </div>
+            </section>
+
+            <!-- 13. 연락처 -->
+            <section>
+              <h2 class="text-2xl font-black mb-6 flex items-center gap-3">
+                <span
+                  class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-primary/20">13</span>
+                연락처 (Contact Us)
+              </h2>
+              <p class="text-slate-600 dark:text-slate-400 mb-6">본 개인정보처리방침에 대한 질문이나 요청이 있으시면 아래로 연락해 주시기 바랍니다.</p>
+              <div class="flex flex-col gap-2 font-bold text-slate-700 dark:text-slate-300">
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-slate-400">link</span>
+                  <span>Website: <a href="https://pickit.app"
+                      class="text-primary hover:underline">https://pickit.app</a></span>
+                </div>
+                <div class="flex items-center gap-2">
+                  <span class="material-symbols-outlined text-slate-400">mail</span>
+                  <span>Email: <a href="mailto:jellapick@gmail.com"
+                      class="text-primary hover:underline">jellapick@gmail.com</a></span>
+                </div>
+              </div>
+            </section>
+          </div>
+      </article>
+
+      <!-- English Privacy Policy -->
+      <article class="prose prose-slate dark:prose-invert max-w-none">
+        <div class="text-center mb-16">
+          <h1 class="text-3xl md:text-5xl font-black tracking-tight mb-4 text-primary">Privacy Policy</h1>
+          <p class="text-slate-500 font-bold uppercase tracking-widest text-xs">Last Updated: 2026.02.28</p>
+        </div>
+        <p class="lead text-slate-600 dark:text-slate-400 leading-relaxed">
+          Pixkit (accessible via <strong>pickit.app</strong>) is a browser-based, serverless image processing tool. We
+          do NOT upload, transmit, or store any of your images on our servers. All image processing occurs locally on
+          your device.
+        </p>
+        <p class="text-sm text-slate-400 mt-12 italic border-t border-slate-100 dark:border-slate-800 pt-8 text-center">
+          © 2026 Pixkit. All rights reserved.
+        </p>
+      </article>
+    </main>
+
+    <!-- FAQ View -->
+    <main id="faq-view" class="hidden flex-1 max-w-[900px] mx-auto w-full p-6 md:p-12 pb-24 space-y-16">
+      <!-- Back Link -->
+      <div class="mb-8">
+        <button onclick="showView('main-view')"
+          class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors group">
+          <span
+            class="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
+          <span class="text-xs font-bold uppercase tracking-wider">Back to Pixkit</span>
+        </button>
+      </div>
+
+      <!-- FAQ Content -->
+      <div class="max-w-[800px] mx-auto space-y-12">
+        <div class="text-center space-y-4">
+          <h1 data-i18n="faq_title" class="text-4xl font-black text-slate-900 dark:text-white mt-12">Frequently Asked
+            Questions</h1>
+          <p data-i18n="faq_subtitle" class="text-slate-500 font-medium">Pixkit에 대해 자주 묻는 질문들을 모았습니다.</p>
+        </div>
+
+        <div class="space-y-20">
+          <!-- 🔒 개인정보 & 보안 -->
+          <section>
+            <h2 class="text-2xl font-black mb-8 flex items-center gap-3">
+              <span
+                class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-primary/20">🔒</span>
+              개인정보 & 보안
+            </h2>
+            <div class="space-y-6">
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Q1. Pixkit에 업로드한 이미지는 서버에 저장되나요?</h3>
+                <p class="text-slate-600 dark:text-slate-400 m-0 leading-relaxed text-sm">아니요, 절대 저장되지 않습니다. Pixkit은 완전한
+                  서버리스(Serverless) 구조로 설계되었습니다. 모든 이미지 처리는 사용자의 브라우저(클라이언트) 내에서 HTML5 Canvas API를 이용해 수행됩니다. 이미지가 외부 서버로
+                  전송되거나 업로드되는 일은 없으며, 브라우저 탭을 닫으면 모든 데이터가 즉시 메모리에서 삭제됩니다.</p>
+              </div>
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Q2. EXIF 데이터(위치 정보 등)가 제거되나요?</h3>
+                <p class="text-slate-600 dark:text-slate-400 m-0 leading-relaxed text-sm">Pixkit의 "EXIF 데이터 제거" 옵션을
+                  활성화하면, 이미지에 포함된 GPS 좌표, 촬영 기기 정보, 촬영 일시 등의 메타데이터가 완전히 제거됩니다. 이 처리 역시 브라우저 내에서 piexifjs 라이브러리를 통해 로컬로
+                  수행되므로, 개인정보가 외부로 유출될 위험이 없습니다.</p>
+              </div>
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Q3. 회원가입이나 로그인이 필요한가요?</h3>
+                <p class="text-slate-600 dark:text-slate-400 m-0 leading-relaxed text-sm">아니요. Pixkit은 회원가입, 로그인, 이메일 입력
+                  등 어떠한 개인정보 수집 절차 없이 모든 기능을 무료로 이용하실 수 있습니다.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 🛠️ 기능 관련 -->
+          <section>
+            <h2 class="text-2xl font-black mb-8 flex items-center gap-3">
+              <span
+                class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-primary/20">🛠️</span>
+              기능 관련
+            </h2>
+            <div class="space-y-6">
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Q4. 한 번에 몇 장까지 처리할 수 있나요?</h3>
+                <p class="text-slate-600 dark:text-slate-400 m-0 leading-relaxed text-sm">현재 한 번에 최대 20장까지 동시 처리가 가능합니다.
+                  모든 처리가 브라우저 내에서 이루어지므로, 사용 중인 기기의 메모리(RAM)와 브라우저 성능에 따라 처리 속도가 달라질 수 있습니다. 대량의 고해상도 이미지를 처리할 때는 10장씩
+                  나누어 처리하는 것을 권장합니다.</p>
+              </div>
+
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <h3 class="text-xl font-bold mb-4 px-1">Q5. 어떤 이미지 포맷을 지원하나요?</h3>
+                <table class="w-full text-left border-collapse m-0">
+                  <thead class="bg-slate-50 dark:bg-slate-800/50">
+                    <tr>
+                      <th class="py-3 px-4 font-bold text-xs uppercase tracking-wider">입력 포맷</th>
+                      <th class="py-3 px-4 font-bold text-xs uppercase tracking-wider">출력 포맷</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+                    <tr>
+                      <td class="py-3 px-4">JPG / JPEG</td>
+                      <td class="py-3 px-4 text-primary font-bold">✅ JPG</td>
+                    </tr>
+                    <tr>
+                      <td class="py-3 px-4">PNG</td>
+                      <td class="py-3 px-4 text-primary font-bold">✅ PNG</td>
+                    </tr>
+                    <tr>
+                      <td class="py-3 px-4">WebP</td>
+                      <td class="py-3 px-4 text-primary font-bold">✅ WebP</td>
+                    </tr>
+                    <tr>
+                      <td class="py-3 px-4">HEIC / HEIF (아이폰)</td>
+                      <td class="py-3 px-4 text-primary font-bold">✅ (JPG/PNG로 변환)</td>
+                    </tr>
+                    <tr>
+                      <td class="py-3 px-4">BMP / GIF</td>
+                      <td class="py-3 px-4 text-primary font-bold">✅ 지원</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Q6. 아이폰에서 찍은 HEIC 사진도 변환할 수 있나요?</h3>
+                <p class="text-slate-600 dark:text-slate-400 m-0 leading-relaxed text-sm">네. Pixkit은 heic2any 라이브러리를
+                  사용하여 아이폰의 HEIC/HEIF 포맷을 JPG, PNG, WebP 등으로 변환할 수 있습니다. 별도의 앱 설치 없이 브라우저에서 바로 변환 가능합니다.</p>
+              </div>
+
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
+                <h3 class="text-xl font-bold mb-4 px-1">Q7. 소셜 미디어 프리셋이란 무엇인가요?</h3>
+                <table class="w-full text-left border-collapse m-0">
+                  <thead class="bg-slate-50 dark:bg-slate-800/50">
+                    <tr>
+                      <th class="py-3 px-4 font-bold text-xs">프리셋</th>
+                      <th class="py-3 px-4 font-bold text-xs">사이즈 (px)</th>
+                      <th class="py-3 px-4 font-bold text-xs">용도</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-100 dark:divide-slate-800 text-sm">
+                    <tr>
+                      <td class="py-3 px-4 font-bold">Instagram 피드</td>
+                      <td class="py-3 px-4">1080 × 1080</td>
+                      <td class="py-3 px-4 text-slate-500">정사각형 게시물</td>
+                    </tr>
+                    <tr>
+                      <td class="py-3 px-4 font-bold">YouTube 썸네일</td>
+                      <td class="py-3 px-4">1280 × 720</td>
+                      <td class="py-3 px-4 text-slate-500">영상 미리보기</td>
+                    </tr>
+                    <tr>
+                      <td class="py-3 px-4 font-bold">Twitter 헤더</td>
+                      <td class="py-3 px-4">1500 × 500</td>
+                      <td class="py-3 px-4 text-slate-500">프로필 배경</td>
+                    </tr>
+                    <tr>
+                      <td class="py-3 px-4 font-bold">Facebook 커버</td>
+                      <td class="py-3 px-4">820 × 312</td>
+                      <td class="py-3 px-4 text-slate-500">페이지 커버</td>
+                    </tr>
+                    <tr>
+                      <td class="py-3 px-4 font-bold">네이버 블로그</td>
+                      <td class="py-3 px-4">860 × 860</td>
+                      <td class="py-3 px-4 text-slate-500">블로그 대표 이미지</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Q8. 품질 조절 슬라이더는 어떻게 작동하나요?</h3>
+                <p class="text-slate-600 dark:text-slate-400 m-0 leading-relaxed text-sm">품질 슬라이더(10%~100%)는 JPG 및 WebP
+                  포맷의 압축률을 조절합니다. 80% 설정을 권장하며, 육안으로 품질 차이가 거의 없으면서 파일 크기를 40~60% 절약할 수 있습니다. PNG 포맷은 무손실 압축이므로 슬라이더의
+                  영향을 받지 않습니다.</p>
+              </div>
+
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Q9. "여백 추가 (정사각형 만들기)" 기능은 어떻게 작동하나요?
+                </h3>
+                <p class="text-slate-600 dark:text-slate-400 m-0 leading-relaxed text-sm">직사각형 이미지의 짧은 쪽에 흰색 여백(패딩)을
+                  추가하여 1:1 정사각형 이미지로 만들어줍니다. 인스타그램이나 쇼핑몰 상품 이미지 등록 시 유용합니다.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- 💰 요금 및 기타 -->
+          <section>
+            <h2 class="text-2xl font-black mb-8 flex items-center gap-3">
+              <span
+                class="bg-primary text-white w-10 h-10 rounded-xl flex items-center justify-center text-lg shadow-lg shadow-primary/20">💰</span>
+              요금 및 기타
+            </h2>
+            <div class="space-y-6">
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Q16. Pixkit은 정말 무료인가요?</h3>
+                <p class="text-slate-600 dark:text-slate-400 m-0 leading-relaxed text-sm">네, Pixkit의 모든 기능은 100% 무료입니다.
+                  숨겨진 결제, 워터마크, 기능 제한이 전혀 없습니다. Pixkit은 광고 수익으로 운영되며, 사용자에게 비용을 청구하지 않습니다.</p>
+              </div>
+              <div
+                class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-sm">
+                <h3 class="text-xl font-bold mb-3 text-slate-900 dark:text-white">Q18. 버그를 발견하거나 제안을 하고 싶으면 어떻게 하나요?
+                </h3>
+                <p class="text-slate-600 dark:text-slate-400 m-0 leading-relaxed text-sm">이메일(<a
+                    href="mailto:jellapick@gmail.com" class="text-primary font-bold">jellapick@gmail.com</a>)로 연락 주시면
+                  빠르게 확인 후 반영하겠습니다. 브라우저 버전과 운영체제 정보를 함께 보내주시면 큰 도움이 됩니다.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+      <div class="text-center pt-12 border-t border-slate-100 dark:border-slate-800">
+        <p class="text-sm text-slate-400 font-bold uppercase tracking-widest">© 2026 Pixkit. All rights reserved.</p>
+      </div>
+    </main>
+
+    <!-- About View -->
+    <main id="about-view" class="hidden flex-1 max-w-[1000px] mx-auto w-full p-6 md:p-12 pb-24 space-y-20">
+      <!-- Hero -->
+      <section class="text-center py-12 bg-primary/5 rounded-3xl border border-primary/10 px-6">
+        <span class="text-6xl mb-6 block">🖼️</span>
+        <h1 data-i18n="about_hero_title" class="text-4xl md:text-6xl font-black tracking-tight mb-6">Pixkit 소개</h1>
+        <p data-i18n="about_hero_subtitle"
+          class="text-lg md:text-xl text-slate-500 font-medium max-w-2xl mx-auto leading-relaxed">
+          업로드 없이, 가입 없이, 비용 없이.<br class="hidden md:block">
+          브라우저에서 이미지를 안전하고 빠르게 일괄 처리하세요.
+        </p>
+      </section>
+
+      <!-- Why Pixkit -->
+      <section class="prose prose-slate dark:prose-invert max-w-none">
+        <h3 data-i18n="tech_stack_title" class="text-3xl font-black mb-8 flex items-center gap-3">
+          <span class="text-2xl">🛠️</span> 기술 스택
+        </h3>
+        <p data-i18n="tech_stack_desc" class="text-lg text-slate-500 mb-12">Pixkit은 오직 성능과 프라이버시를 위해 최신 웹 기술만을 사용합니다.
+        </p>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div class="space-y-6 text-slate-600 dark:text-slate-400 leading-relaxed text-lg">
+            <p>블로그 글을 쓸 때마다 이미지 20장을 하나씩 리사이징하고, 포맷을 변환하고, 파일명을 바꾸는 작업을 반복한 적이 있으신가요?</p>
+            <p><strong>Pixkit</strong>은 이런 반복적이고 번거로운 이미지 작업을 <strong>단 한 번의 클릭</strong>으로 해결하기 위해 만들어졌습니다.</p>
+            <p>우리는 <strong>개인정보</strong>를 최우선으로 생각합니다. Pixkit은 이미지가 사용자의 기기를 절대로 떠나지 않는 혁신적인 서버리스 구조를 채택했습니다.</p>
+          </div>
+          <div
+            class="bg-white dark:bg-slate-900 p-8 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xl shadow-slate-200/50 dark:shadow-none">
+            <div class="space-y-4">
+              <div
+                class="flex items-start gap-4 p-4 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-900/30">
+                <span class="material-symbols-outlined text-emerald-500 font-bold">check_circle</span>
+                <p class="text-sm font-bold text-emerald-700 dark:text-emerald-400 m-0">이미지 서버 업로드 0%</p>
+              </div>
+              <div
+                class="flex items-start gap-4 p-4 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-900/30">
+                <span class="material-symbols-outlined text-blue-500 font-bold">check_circle</span>
+                <p class="text-sm font-bold text-blue-700 dark:text-blue-400 m-0">회원가입/결제 유도 0%</p>
+              </div>
+              <div
+                class="flex items-start gap-4 p-4 rounded-xl bg-purple-50 dark:bg-purple-900/20 border border-purple-100 dark:border-purple-900/30">
+                <span class="material-symbols-outlined text-purple-500 font-bold">check_circle</span>
+                <p class="text-sm font-bold text-purple-700 dark:text-purple-400 m-0">무손실/최적화 기술 100%</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Values -->
+      <section>
+        <h2 class="text-3xl font-black mb-12 text-center flex flex-col items-center gap-2">
+          <span data-i18n="core_values_label" class="text-primary text-sm uppercase tracking-widest font-black">Our Core
+            Values</span>
+          <span data-i18n="pixkit_promises">Pixkit이 지키는 세 가지 약속</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div
+            class="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all hover:-translate-y-2">
+            <div class="size-14 bg-indigo-500/10 text-indigo-600 rounded-2xl flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-3xl">lock</span>
+            </div>
+            <h3 class="text-xl font-bold mb-4">100% 서버리스</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">모든 처리는 브라우저에서 이루어집니다. 탭을 닫으면 데이터는 즉시
+              삭제됩니다. 운영자조차 파일에 접근할 수 없습니다.</p>
+          </div>
+          <div
+            class="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all hover:-translate-y-2">
+            <div class="size-14 bg-amber-500/10 text-amber-600 rounded-2xl flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-3xl">bolt</span>
+            </div>
+            <h3 class="text-xl font-bold mb-4">빠른 처리 속도</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">네트워크 업로드가 필요 없어 즉각적인 변환이 가능합니다. 최신 Web
+              API를 활용해 대용량 이미지도 수 초 내에 처리합니다.</p>
+          </div>
+          <div
+            class="bg-white dark:bg-slate-900 p-8 rounded-3xl border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl transition-all hover:-translate-y-2">
+            <div class="size-14 bg-emerald-500/10 text-emerald-600 rounded-2xl flex items-center justify-center mb-6">
+              <span class="material-symbols-outlined text-3xl">payments</span>
+            </div>
+            <h3 class="text-xl font-bold mb-4">완전 무료</h3>
+            <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">워터마크, 기능 제한, 회원가입이 없습니다. 광고 수익으로 운영되며
+              사용자에게는 어떠한 비용도 청구되지 않습니다.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Comparison -->
+      <section class="py-20 border-y border-slate-100 dark:border-slate-800">
+        <h2 class="text-3xl font-black mb-12 text-center">다른 이름과의 차이점</h2>
+        <div
+          class="overflow-hidden rounded-3xl border border-slate-200 dark:border-slate-800 shadow-2xl shadow-slate-200/50 dark:shadow-none">
+          <table class="w-full text-left border-collapse bg-white dark:bg-slate-900">
+            <thead>
+              <tr class="bg-slate-50 dark:bg-slate-800/50">
+                <th class="py-5 px-8 font-black text-xs uppercase tracking-widest text-slate-400">비교 항목</th>
+                <th class="py-5 px-8 font-black text-xs uppercase tracking-widest text-slate-400">기존 온라인 도구</th>
+                <th class="py-5 px-8 font-black text-xs uppercase tracking-widest text-primary bg-primary/5">Pixkit (우리)
+                </th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-100 dark:divide-slate-800">
+              <tr>
+                <td class="py-5 px-8 font-bold text-sm">서버 업로드</td>
+                <td class="py-5 px-8 text-sm text-slate-500">필수 (데이터 전송)</td>
+                <td class="py-5 px-8 text-sm font-black text-primary bg-primary/5">❌ 업로드 없음</td>
+              </tr>
+              <tr>
+                <td class="py-5 px-8 font-bold text-sm">개인정보 보호</td>
+                <td class="py-5 px-8 text-sm text-slate-500">위험 상존 (서버 저장)</td>
+                <td class="py-5 px-8 text-sm font-black text-primary bg-primary/5">✅ 완벽 (로컬 처리)</td>
+              </tr>
+              <tr>
+                <td class="py-5 px-8 font-bold text-sm">처리 속도</td>
+                <td class="py-5 px-8 text-sm text-slate-500">네트워크 속도 의존</td>
+                <td class="py-5 px-8 text-sm font-black text-primary bg-primary/5">⚡ 즉각 (CPU 활용)</td>
+              </tr>
+              <tr>
+                <td class="py-5 px-8 font-bold text-sm">사용 제한</td>
+                <td class="py-5 px-8 text-sm text-slate-500">일일 제한/유료 결제</td>
+                <td class="py-5 px-8 text-sm font-black text-primary bg-primary/5">♾️ 완전 무제한</td>
+              </tr>
+              <tr>
+                <td class="py-5 px-8 font-bold text-sm">워터마크</td>
+                <td class="py-5 px-8 text-sm text-slate-500">무료 버전 시 삽입</td>
+                <td class="py-5 px-8 text-sm font-black text-primary bg-primary/5">🚫 절대 없음</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Tech Stack -->
+      <section>
+        <h2 class="text-3xl font-black mb-12 flex items-center gap-3">
+          <span class="text-2xl">🧩</span> 기술 스택
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div
+            class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 group hover:border-primary transition-colors">
+            <h4
+              class="font-bold text-sm mb-2 group-hover:text-primary transition-colors text-slate-900 dark:text-white">
+              Canvas API</h4>
+            <p class="text-[10px] text-slate-400 font-bold uppercase">Image Processing</p>
+          </div>
+          <div
+            class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 group hover:border-primary transition-colors">
+            <h4
+              class="font-bold text-sm mb-2 group-hover:text-primary transition-colors text-slate-900 dark:text-white">
+              heic2any</h4>
+            <p class="text-[10px] text-slate-400 font-bold uppercase">HEIC Conversion</p>
+          </div>
+          <div
+            class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 group hover:border-primary transition-colors">
+            <h4
+              class="font-bold text-sm mb-2 group-hover:text-primary transition-colors text-slate-900 dark:text-white">
+              JSZip</h4>
+            <p class="text-[10px] text-slate-400 font-bold uppercase">Batch Compression</p>
+          </div>
+          <div
+            class="p-6 bg-slate-50 dark:bg-slate-800/50 rounded-2xl border border-slate-100 dark:border-slate-800 group hover:border-primary transition-colors">
+            <h4
+              class="font-bold text-sm mb-2 group-hover:text-primary transition-colors text-slate-900 dark:text-white">
+              jsPDF</h4>
+            <p class="text-[10px] text-slate-400 font-bold uppercase">PDF Creation</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Roadmap -->
+      <section class="bg-slate-900 text-white p-12 rounded-[40px] shadow-2xl relative overflow-hidden">
+        <div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
+        <div class="relative z-10">
+          <h2 class="text-3xl font-black mb-8 flex items-center gap-3">
+            <span class="text-2xl">🗺️</span> <span data-i18n="roadmap_title">향후 로드맵</span>
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
+            <div class="flex items-center gap-4 text-slate-400">
+              <span
+                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase">Soon</span>
+              <p data-i18n="roadmap_crop" class="text-sm font-bold">이미지 크롭(자르기) 기능</p>
+            </div>
+            <div class="flex items-center gap-4 text-slate-400">
+              <span
+                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase">Soon</span>
+              <p data-i18n="roadmap_watermark" class="text-sm font-bold">워터마크 일괄 삽입</p>
+            </div>
+            <div class="flex items-center gap-4 text-slate-400">
+              <span
+                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase">Soon</span>
+              <p data-i18n="roadmap_ai" class="text-sm font-bold">AI 기반 배경 제거 (누끼 따기)</p>
+            </div>
+            <div class="flex items-center gap-4 text-slate-400">
+              <span
+                class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase">Soon</span>
+              <p data-i18n="roadmap_gif" class="text-sm font-bold">애니메이션 GIF 리사이징 지원</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA -->
+      <div class="text-center">
+        <button onclick="showView('main-view')"
+          class="bg-primary text-white px-10 py-5 rounded-2xl font-black text-lg shadow-2xl shadow-primary/30 hover:scale-105 transition-transform">
+          <span data-i18n="start_now">지금 바로 시작하기</span>
+        </button>
+      </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-12 px-6">
+      <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div class="space-y-4">
+          <div class="flex items-center gap-3 text-primary">
+            <img src="001_pixkitlogo.png" alt="Pixkit Logo" class="size-6 object-contain">
+            <span class="font-black text-xl text-slate-900 dark:text-white">Pixkit</span>
+          </div>
+          <p data-i18n="footer_desc" class="text-sm text-slate-500 leading-relaxed">
+            Browser-based batch image processing that respects your privacy. No server uploads, no data collection. Your
+            images never leave your computer.
+          </p>
         </div>
         <div>
-          <h3 class="text-xl font-bold mb-1">📁 Drop Files Here or Click to Upload</h3>
-          <p class="text-slate-500 text-sm">Max 20 files. Supports JPG, PNG, WebP, GIF.</p>
+          <h4 data-i18n="quick_links" class="font-bold mb-6 uppercase tracking-widest text-xs text-slate-400">Quick
+            Links</h4>
+          <ul class="space-y-3 text-sm font-semibold">
+            <li><a class="hover:text-primary transition-colors" href="#">Bulk Resize</a></li>
+            <li><a class="hover:text-primary transition-colors" href="#">Format Converter</a></li>
+            <li><a class="hover:text-primary transition-colors cursor-pointer"
+                onclick="showView('privacy-view')">Privacy Policy</a></li>
+            <li><a class="hover:text-primary transition-colors cursor-pointer" onclick="showView('faq-view')">FAQ</a>
+            </li>
+            <li><a class="hover:text-primary transition-colors cursor-pointer"
+                onclick="showView('about-view')">About</a></li>
+          </ul>
         </div>
-        <button class="bg-primary text-white px-8 py-3 rounded-lg font-bold shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-shadow pointer-events-none">Select Files</button>
-        <input type="file" id="fileInput" multiple accept="image/*" class="hidden" onchange="handleFiles(this.files)"/>
-      </div>
-
-      <!-- Preview Area -->
-      <div class="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
-        <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex flex-wrap gap-4 items-center justify-between">
-          <div class="flex items-center gap-2">
-            <h3 class="font-bold">Queue</h3>
-            <span id="fileCount" class="bg-slate-100 dark:bg-slate-800 text-[10px] font-black px-2 py-0.5 rounded uppercase">0 Files</span>
-          </div>
-          <div class="flex items-center gap-3">
-            <button onclick="clearAll()" class="text-slate-500 hover:text-red-500 flex items-center gap-1 text-xs font-bold uppercase transition-colors">
-              <span class="material-symbols-outlined text-lg">delete</span> Clear All
-            </button>
-            <button id="downloadAllBtn" onclick="downloadAll()" class="bg-primary/10 text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-all hidden">
-              <span class="material-symbols-outlined text-lg">folder_zip</span> Download All as ZIP
-            </button>
-          </div>
-        </div>
-
-        <!-- 진행바 -->
-        <div id="progressBar" class="hidden px-6 pt-4">
-          <div class="flex justify-between text-xs font-bold mb-1">
-            <span>Converting...</span>
-            <span id="progressText">0%</span>
-          </div>
-          <div class="w-full bg-slate-100 dark:bg-slate-800 rounded-full h-2">
-            <div id="progressFill" class="bg-primary h-2 rounded-full transition-all" style="width:0%"></div>
-          </div>
-        </div>
-
-        <!-- Thumbnails Grid -->
-        <div id="previewList" class="p-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
-          <!-- 빈 상태 -->
-          <div id="emptyState" class="col-span-2 text-center py-12 text-slate-400">
-            <span class="material-symbols-outlined text-5xl mb-3 block">image_search</span>
-            <p class="text-sm font-medium">이미지를 업로드하면 여기에 표시됩니다</p>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</main>
-
-<!-- Footer -->
-<footer class="mt-auto border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark py-12 px-6">
-  <div class="max-w-[1440px] mx-auto grid grid-cols-1 md:grid-cols-3 gap-12">
-    <div class="space-y-4">
-      <div class="flex items-center gap-3 text-primary">
-        <span class="material-symbols-outlined">grid_view</span>
-        <span class="font-black text-xl text-slate-900 dark:text-white">Pixkit</span>
-      </div>
-      <p class="text-sm text-slate-500 leading-relaxed">
-        Browser-based batch image processing that respects your privacy. No server uploads, no data collection. Your images never leave your computer.
-      </p>
-    </div>
-    <div>
-      <h4 class="font-bold mb-6 uppercase tracking-widest text-xs text-slate-400">Quick Links</h4>
-      <ul class="space-y-3 text-sm font-semibold">
-        <li><a class="hover:text-primary transition-colors" href="#">Bulk Resize</a></li>
-        <li><a class="hover:text-primary transition-colors" href="#">Format Converter</a></li>
-        <li><a class="hover:text-primary transition-colors" href="#">Privacy Policy</a></li>
-        <li><a class="hover:text-primary transition-colors" href="#">Blog</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4 class="font-bold mb-6 uppercase tracking-widest text-xs text-slate-400">Security & Tech</h4>
-      <div class="flex flex-wrap gap-2">
-        <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-[10px] font-bold">CANVAS API</span>
-        <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-[10px] font-bold">NO CLOUD STORAGE</span>
-        <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-[10px] font-bold">100% PRIVATE</span>
-      </div>
-    </div>
-  </div>
-  <div class="max-w-[1440px] mx-auto mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-slate-400">
-    <p>© 2025 Pixkit. All rights reserved.</p>
-    <div class="flex gap-6">
-      <a class="hover:text-primary" href="#">Twitter</a>
-      <a class="hover:text-primary" href="#">GitHub</a>
-      <a class="hover:text-primary" href="#">Contact</a>
-    </div>
-  </div>
-</footer>
-
-</div>
-
-<script>
-// =====================
-// 상태 관리
-// =====================
-let files = [];           // 원본 File 객체
-let results = [];         // 변환된 Blob
-let keepRatio = true;
-let autoNum = true;
-let selectedFormat = 'image/jpeg';
-
-// =====================
-// 다크모드
-// =====================
-document.getElementById('darkToggle').addEventListener('click', () => {
-  document.documentElement.classList.toggle('dark');
-});
-
-// =====================
-// 비율 토글
-// =====================
-function toggleRatio() {
-  keepRatio = !keepRatio;
-  const btn = document.getElementById('ratioToggle');
-  const thumb = document.getElementById('ratioThumb');
-  if (keepRatio) {
-    btn.classList.add('bg-primary');
-    btn.classList.remove('bg-slate-300');
-    thumb.classList.add('ml-auto');
-    thumb.classList.remove('ml-0');
-  } else {
-    btn.classList.remove('bg-primary');
-    btn.classList.add('bg-slate-300');
-    thumb.classList.remove('ml-auto');
-    thumb.classList.add('ml-0');
-  }
-}
-
-// =====================
-// 자동번호 토글
-// =====================
-function toggleAutoNum() {
-  autoNum = !autoNum;
-  const btn = document.getElementById('autoNumToggle');
-  const thumb = document.getElementById('autoNumThumb');
-  if (autoNum) {
-    btn.classList.add('bg-primary');
-    btn.classList.remove('bg-slate-300');
-    thumb.classList.add('ml-auto');
-    thumb.classList.remove('ml-0');
-  } else {
-    btn.classList.remove('bg-primary');
-    btn.classList.add('bg-slate-300');
-    thumb.classList.remove('ml-auto');
-    thumb.classList.add('ml-0');
-  }
-}
-
-// =====================
-// 포맷 선택
-// =====================
-function selectFormat(fmt, el) {
-  selectedFormat = fmt;
-  document.querySelectorAll('.format-btn').forEach(btn => {
-    btn.classList.remove('bg-primary', 'text-white');
-    btn.classList.add('bg-slate-100', 'dark:bg-slate-800');
-  });
-  el.classList.add('bg-primary', 'text-white');
-  el.classList.remove('bg-slate-100', 'dark:bg-slate-800');
-}
-
-// =====================
-// 프리셋
-// =====================
-function applyPreset(w, h) {
-  document.getElementById('widthInput').value = w;
-  document.getElementById('heightInput').value = h;
-}
-
-// =====================
-// 비율 연동
-// =====================
-let lastRatio = 1;
-function onWidthChange() {
-  if (!keepRatio) return;
-  const w = parseInt(document.getElementById('widthInput').value);
-  if (w && lastRatio) {
-    document.getElementById('heightInput').value = Math.round(w / lastRatio);
-  }
-}
-function onHeightChange() {
-  if (!keepRatio) return;
-  const h = parseInt(document.getElementById('heightInput').value);
-  if (h && lastRatio) {
-    document.getElementById('widthInput').value = Math.round(h * lastRatio);
-  }
-}
-
-// =====================
-// 파일 처리
-// =====================
-function handleDrop(e) {
-  e.preventDefault();
-  document.getElementById('dropZone').classList.remove('bg-primary/10');
-  handleFiles(e.dataTransfer.files);
-}
-
-function handleFiles(fileList) {
-  const newFiles = Array.from(fileList).filter(f => f.type.startsWith('image/'));
-  if (files.length + newFiles.length > 20) {
-    alert('최대 20개까지 업로드 가능합니다.');
-    return;
-  }
-  files = [...files, ...newFiles];
-  results = new Array(files.length).fill(null);
-  renderQueue();
-}
-
-// =====================
-// 큐 렌더링
-// =====================
-function renderQueue() {
-  const list = document.getElementById('previewList');
-  const empty = document.getElementById('emptyState');
-  const count = document.getElementById('fileCount');
-
-  count.textContent = files.length + ' Files';
-
-  if (files.length === 0) {
-    list.innerHTML = '';
-    list.appendChild(empty);
-    document.getElementById('downloadAllBtn').classList.add('hidden');
-    return;
-  }
-
-  empty.remove();
-  list.innerHTML = '';
-
-  files.forEach((file, i) => {
-    const url = URL.createObjectURL(file);
-    const sizeMB = (file.size / 1024 / 1024).toFixed(1);
-    const sizeKB = (file.size / 1024).toFixed(0);
-    const displaySize = file.size > 1024*1024 ? sizeMB + ' MB' : sizeKB + ' KB';
-
-    const card = document.createElement('div');
-    card.id = 'card-' + i;
-    card.className = 'group relative bg-slate-50 dark:bg-slate-800/50 rounded-lg p-3 border border-slate-100 dark:border-slate-800 flex gap-4';
-    card.innerHTML = `
-      <div class="w-24 h-24 rounded-lg overflow-hidden bg-slate-200 shrink-0">
-        <img src="${url}" class="w-full h-full object-cover" alt="${file.name}"/>
-      </div>
-      <div class="flex-1 flex flex-col justify-between py-1 overflow-hidden">
         <div>
-          <p class="text-xs font-bold truncate">${file.name}</p>
-          <div class="flex gap-2 items-baseline mt-1" id="size-${i}">
-            <span class="text-[10px] text-slate-400">${displaySize}</span>
+          <h4 data-i18n="security_tech" class="font-bold mb-6 uppercase tracking-widest text-xs text-slate-400">Security
+            & Tech</h4>
+          <div class="flex flex-wrap gap-2">
+            <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-[10px] font-bold">CANVAS API</span>
+            <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-[10px] font-bold">NO CLOUD
+              STORAGE</span>
+            <span class="bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-lg text-[10px] font-bold">100%
+              PRIVATE</span>
           </div>
         </div>
-        <div class="flex justify-between items-center mt-2">
-          <span class="text-[10px] text-slate-500" id="dim-${i}">원본</span>
-          <button id="dlBtn-${i}" onclick="downloadSingle(${i})" class="text-primary hover:underline text-xs font-bold flex items-center gap-1 hidden">
-            <span class="material-symbols-outlined text-sm">download</span> Download
-          </button>
+      </div>
+      <div
+        class="max-w-[1440px] mx-auto mt-12 pt-8 border-t border-slate-100 dark:border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4 text-xs font-bold text-slate-400">
+        <p data-i18n="rights">© 2026 Pixkit. All rights reserved.</p>
+        <div class="flex gap-6">
+          <a class="hover:text-primary" href="#">Twitter</a>
+          <a class="hover:text-primary" href="#">GitHub</a>
+          <a class="hover:text-primary" href="mailto:jellapick@gmail.com">Contact</a>
         </div>
       </div>
-      <button onclick="removeFile(${i})" class="absolute -top-2 -right-2 bg-slate-900 text-white rounded-full p-1 shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
-        <span class="material-symbols-outlined text-sm">close</span>
-      </button>
-    `;
-    list.appendChild(card);
+    </footer>
 
-    // 이미지 로드 후 비율 저장
-    const img = new Image();
-    img.onload = () => {
-      if (i === 0) lastRatio = img.width / img.height;
-      document.getElementById('dim-' + i).textContent = img.width + ' × ' + img.height;
-    };
-    img.src = url;
-  });
-}
+  </div>
 
-// =====================
-// 파일 제거
-// =====================
-function removeFile(i) {
-  files.splice(i, 1);
-  results.splice(i, 1);
-  renderQueue();
-}
+  <script>
+      (function () {
+        'use strict';
 
-function clearAll() {
-  files = [];
-  results = [];
-  renderQueue();
-}
+        // ============================================================
+        // 1. 상태(State) 관리
+        // ============================================================
+        const state = {
+          files: [],          // { id, file, originalName, originalSize, originalWidth, originalHeight, thumbUrl, processed, processedBlob, processedName, processedSize, processedWidth, processedHeight, savings, error }
+          nextId: 1,
+          isProcessed: false,
+          keepRatio: true,
+          autoNum: true,
+          currentLang: 'ko',
+          selectedFormat: 'image/jpeg'
+        };
 
-// =====================
-// 변환 실행
-// =====================
-async function convertAll() {
-  if (files.length === 0) {
-    alert('이미지를 먼저 업로드해주세요.');
-    return;
-  }
+        const MAX_FILES = 20;
 
-  const targetW = parseInt(document.getElementById('widthInput').value) || null;
-  const targetH = parseInt(document.getElementById('heightInput').value) || null;
-  const quality = parseInt(document.getElementById('qualityInput').value) / 100;
-  const format = selectedFormat;
-  const addPadding = document.getElementById('paddingCheck').checked;
+        // ============================================================
+        // 2. DOM 참조
+        // ============================================================
+        const $ = (sel) => document.querySelector(sel);
+        const $$ = (sel) => document.querySelectorAll(sel);
 
-  // 진행바 표시
-  const progressBar = document.getElementById('progressBar');
-  const progressFill = document.getElementById('progressFill');
-  const progressText = document.getElementById('progressText');
-  progressBar.classList.remove('hidden');
+        const dom = {
+          dropZone: $('#dropZone'),
+          fileInput: $('#fileInput'),
+          previewList: $('#previewList'),
+          fileCount: $('#fileCount'),
+          emptyState: $('#emptyState'),
+          progressBar: $('#progressBar'),
+          progressFill: $('#progressFill'),
+          progressStatus: $('#progressStatus'),
+          progressPercent: $('#progressPercent'),
+          progressSub: $('#progressSub'),
+          downloadAllBtn: $('#downloadAllBtn'),
+          downloadPdfBtn: $('#downloadPdfBtn'),
 
-  results = [];
+          // Settings
+          presetSelect: $('#presetSelect'),
+          widthInput: $('#widthInput'),
+          heightInput: $('#heightInput'),
+          ratioToggle: $('#ratioToggle'),
+          ratioThumb: $('#ratioThumb'),
+          qualityInput: $('#qualityInput'),
+          qualityLabel: $('#qualityLabel'),
+          prefixInput: $('#prefixInput'),
+          autoNumToggle: $('#autoNumToggle'),
+          autoNumThumb: $('#autoNumThumb'),
+          exifCheck: $('#exifCheck'),
+          paddingCheck: $('#paddingCheck'),
+          paddingColorGroup: $('#paddingColorGroup'),
+          paddingColor: $('#paddingColor'),
+          paddingColorHex: $('#paddingColorHex'),
+          currentLangName: $('#currentLangName'),
+        };
 
-  for (let i = 0; i < files.length; i++) {
-    const blob = await processImage(files[i], targetW, targetH, quality, format, addPadding);
-    results.push(blob);
+        // ============================================================
+        // 3. 네비게이션 & UI 초기화
+        // ============================================================
+        window.showView = function (viewId) {
+          document.getElementById('main-view').classList.add('hidden');
+          document.getElementById('privacy-view').classList.add('hidden');
+          document.getElementById('faq-view').classList.add('hidden');
+          document.getElementById('about-view').classList.add('hidden');
+          document.getElementById(viewId).classList.remove('hidden');
+          window.scrollTo(0, 0);
+        };
 
-    // 카드 업데이트
-    updateCard(i, blob, format);
+        const translations = {
+          ko: {
+            langName: '한국어',
+            tools: '도구',
+            resize: '일괄 리사이징',
+            convert: '포맷 변환',
+            exif: 'EXIF 제거',
+            padding: '여백 추가',
+            no_upload: '업로드 없음',
+            free: '무료',
+            in_browser: '브라우저에서 처리',
+            blog: 'Blog',
+            about: 'About',
+            instagram_feed: '인스타그램 피드 (1080×1080)',
+            instagram_story: '인스타그램 스토리 (1080×1920)',
+            youtube_thumbnail: '유튜브 썸네일 (1280×720)',
+            twitter_header: '트위터 헤더 (1500×500)',
+            facebook_cover: '페이스북 커버 (820×312)',
+            naver_blog: '네이버 블로그 (860×860)',
+            hero_title: '이미지 처리를, 더 완벽하게.<br /> <span class="text-primary">브라우저에서 바로.</span>',
+            hero_subtitle: '업로드 없이, 개인정보 걱정 없이, 모든 이미지 작업을 한 곳에서.',
+            settings_title: '이미지 설정',
+            presets: '소셜 프리셋',
+            custom_size: '직접 입력 (Custom)',
+            dimensions: '사이즈 (px)',
+            lock_ratio: '비율 유지',
+            width: '너비 (Width)',
+            height: '높이 (Height)',
+            quality: '압축 품질',
+            format: '출력 포맷',
+            filename: '파일명 설정',
+            prefix_placeholder: '접두사 기입 (예: 여행_)',
+            auto_numbering: '자동 번호 부여',
+            remove_exif: '메타데이터(EXIF) 제거',
+            force_square: '여백 추가 (정사각형 만들기)',
+            pad_color: '여백 색상',
+            convert_all: '전체 변환하기',
+            drop_title: '📁 이미지를 여기에 끌어다 놓거나 클릭하여 업로드하세요',
+            drop_subtitle: '최대 20개 파일. JPG, PNG, WebP, HEIC 지원',
+            select_files: '파일 선택',
+            queue: '대기열',
+            files_count: '개 파일',
+            clear_all: '전체 삭제',
+            processing: '처리 중',
+            files_processed: '개 완료됨',
+            complete: '변환 완료!',
+            save: '다운로드',
+            back_to: '픽스킷으로 돌아가기',
+            empty_state: '이미지를 업로드하면 여기에 표시됩니다',
+            footer_desc: '개인정보를 존중하는 브라우저 기반 이미지 일괄 처리 도구입니다. 서버 업로드나 데이터 수집이 없으며, 이미지는 사용자의 컴퓨터를 절대 떠나지 않습니다.',
+            quick_links: '빠른 링크',
+            security_tech: '보안 및 기술',
+            rights: '© 2026 Pixkit. 모든 권리 보유.',
+            about_hero_title: 'Pixkit 소개',
+            about_hero_subtitle: '업로드 없이, 가입 없이, 비용 없이. 브라우저에서 이미지를 안전하고 빠르게 일괄 처리하세요.',
+            why_pixkit: 'Pixkit은 왜 만들어졌을까요?',
+            core_values_label: 'Our Core Values',
+            pixkit_promises: 'Pixkit이 지키는 세 가지 약속',
+            start_now: '지금 바로 시작하기',
+            privacy_title: '개인정보처리방침',
+            privacy_intro: 'Pixkit(이하 "서비스")은 pickit.app에서 운영되며, 이용자의 개인정보 보호를 매우 중요하게 생각합니다. 본 개인정보처리방침은 서비스 이용 과정에서 개인정보가 어떻게 수집·이용·보관·파기되는지를 안내합니다.',
+            faq_title: '자주 묻는 질문 (FAQ)',
+            faq_subtitle: 'Pixkit에 대해 자주 묻는 질문들을 모았습니다.',
+            tech_stack_title: '기술 스택',
+            tech_stack_desc: 'Pixkit은 오직 성능과 프라이버시를 위해 최신 웹 기술만을 사용합니다.',
+            roadmap_title: '향후 로드맵',
+            roadmap_crop: '이미지 크롭(자르기) 기능',
+            roadmap_watermark: '워터마크 일괄 삽입',
+            roadmap_ai: 'AI 기반 배경 제거 (누끼 따기)',
+            roadmap_gif: '애니메이션 GIF 리사이징 지원'
+          },
+          en: {
+            langName: 'English',
+            tools: 'Tools',
+            resize: 'Bulk Resize',
+            convert: 'Format Converter',
+            exif: 'EXIF Remover',
+            padding: 'Add Padding',
+            no_upload: 'No Upload',
+            free: 'Free',
+            in_browser: 'In-browser',
+            blog: 'Blog',
+            about: 'About',
+            instagram_feed: 'Instagram Feed (1080x1080)',
+            instagram_story: 'Instagram Story (1080x1920)',
+            youtube_thumbnail: 'YouTube Thumbnail (1280x720)',
+            twitter_header: 'Twitter Header (1500x500)',
+            facebook_cover: 'Facebook Cover (820x312)',
+            naver_blog: 'Naver Blog (860x860)',
+            hero_title: 'Perfect Image Processing,<br /> <span class="text-primary">Right in your browser.</span>',
+            hero_subtitle: 'No uploads, no privacy worries. All image tasks in one place.',
+            settings_title: 'Image Settings',
+            presets: 'Social Presets',
+            custom_size: 'Custom Size',
+            dimensions: 'Dimensions (px)',
+            lock_ratio: 'Lock Ratio',
+            width: 'Width',
+            height: 'Height',
+            quality: 'Quality',
+            format: 'Output Format',
+            filename: 'Filename Settings',
+            prefix_placeholder: 'Prefix (e.g. vacation_)',
+            auto_numbering: 'Auto-numbering',
+            remove_exif: 'Remove Metadata (EXIF)',
+            force_square: 'Add Padding (Force Square)',
+            pad_color: 'Padding Color',
+            convert_all: 'Convert All',
+            drop_title: '📁 Drop Files Here or Click to Upload',
+            drop_subtitle: 'Max 20 files. Supports JPG, PNG, WebP, HEIC',
+            select_files: 'Select Files',
+            queue: 'Queue',
+            files_count: 'Files',
+            clear_all: 'Clear All',
+            processing: 'Processing',
+            files_processed: 'processed',
+            complete: 'Conversion Complete!',
+            save: 'Save',
+            back_to: 'Back to Pixkit',
+            empty_state: 'Upload images to see them here',
+            footer_desc: 'Browser-based batch image processing that respects your privacy. No server uploads, no data collection. Your images never leave your computer.',
+            quick_links: 'Quick Links',
+            security_tech: 'Security & Tech',
+            rights: '© 2026 Pixkit. All rights reserved.',
+            about_hero_title: 'About Pixkit',
+            about_hero_subtitle: 'No uploads, no signups, no costs. Batch process images securely and quickly in your browser.',
+            why_pixkit: 'Why was Pixkit created?',
+            core_values_label: 'Our Core Values',
+            pixkit_promises: 'Three Promises of Pixkit',
+            start_now: 'Start Now',
+            privacy_title: 'Privacy Policy',
+            privacy_intro: 'Pixkit (the "Service") is operated at pickit.app and highly values the protection of users\' information. This privacy policy guides how personal information is collected, used, stored, and destroyed during the service process.',
+            faq_title: 'Frequently Asked Questions (FAQ)',
+            faq_subtitle: 'Collected frequently asked questions about Pixkit.',
+            tech_stack_title: 'Tech Stack',
+            tech_stack_desc: 'Pixkit uses only the latest web technologies for performance and privacy.',
+            roadmap_title: 'Future Roadmap',
+            roadmap_crop: 'Image Cropping Feature',
+            roadmap_watermark: 'Batch Watermark Insertion',
+            roadmap_ai: 'AI-based Background Removal',
+            roadmap_gif: 'Animated GIF Resizing Support'
+          },
+          ja: {
+            langName: '日本語',
+            tools: 'ツール',
+            resize: '一括リサイズ',
+            convert: 'フォーマット変換',
+            exif: 'EXIF削除',
+            padding: '余白追加',
+            no_upload: 'アップロードなし',
+            free: '無料',
+            in_browser: 'ブラウザで処理',
+            blog: 'ブログ',
+            about: '紹介',
+            instagram_feed: 'Instagramフィード (1080x1080)',
+            instagram_story: 'Instagramストーリー (1080x1920)',
+            youtube_thumbnail: 'YouTubeサムネイル (1280x720)',
+            twitter_header: 'Twitterヘッダー (1500x500)',
+            facebook_cover: 'Facebookカバー (820x312)',
+            naver_blog: 'Naverブログ (860x860)',
+            hero_title: '画像処理を、より完璧に。<br /> <span class="text-primary">ブラウザで即座に。</span>',
+            hero_subtitle: 'アップロード不要、プライバシーの心配なし。すべての画像作業を一つの場所で。',
+            settings_title: '画像設定',
+            presets: 'ソーシャルプリセット',
+            custom_size: 'カスタムサイズ',
+            dimensions: 'サイズ (px)',
+            lock_ratio: '比率を固定',
+            width: '幅 (Width)',
+            height: '高さ (Height)',
+            quality: '圧縮品質',
+            format: '出力形式',
+            filename: 'ファイル名設定',
+            prefix_placeholder: '接頭辞 (例: 旅行_)',
+            auto_numbering: '自動番号付け',
+            remove_exif: 'メタデータ(EXIF)を削除',
+            force_square: '余白追加 (正方形にする)',
+            pad_color: '余白の色',
+            convert_all: 'すべて変換',
+            drop_title: '📁 ここにファイルをドロップするか、クリックしてアップロード',
+            drop_subtitle: '最大20ファイル。JPG, PNG, WebP, HEIC 対応',
+            select_files: 'ファイルを選択',
+            queue: '待機列',
+            files_count: '個のファイル',
+            clear_all: 'すべてクリア',
+            processing: '処理中',
+            files_processed: '個完了',
+            complete: '変換完了！',
+            save: '保存',
+            back_to: 'Pixkitに戻る',
+            empty_state: '画像をアップロードするとここに表示されます',
+            footer_desc: 'プライバシーを尊重するブラウザベースの画像一括処理ツールです。 サーバーへのアップロードやデータ収集はなく、画像はお使いのコンピューターから離れることはありません。',
+            quick_links: 'クイックリンク',
+            security_tech: 'セキュリティと技術',
+            rights: '© 2026 Pixkit. 無断複写・転載を禁じます。',
+            about_hero_title: 'Pixkit 紹介',
+            about_hero_subtitle: 'アップロード不要、登録不要、費用不要。ブラウザで画像を安全かつ迅速に一括処理します。',
+            why_pixkit: 'Pixkitはなぜ作られたのでしょうか？',
+            core_values_label: 'Our Core Values',
+            pixkit_promises: 'Pixkitが守る3つの約束',
+            start_now: '今すぐ始める',
+            privacy_title: 'プライバシーポリシー',
+            privacy_intro: 'Pixkit（以下「サービス」）はpickit.appで運営されており、利用者の個人情報保護を非常に重要視しています。本プライバシーポリシーは、サービス利用過程で個人情報がどのように収集・利用・保管・破기されるかをご案内します。',
+            faq_title: 'よくある質問 (FAQ)',
+            faq_subtitle: 'Pixkitについてよく寄せられる質問をまとめました。',
+            tech_stack_title: '技術スタック',
+            tech_stack_desc: 'Pixkitは、パフォーマンスとプライバシーのために最新のウェブ技術のみを使用しています。',
+            roadmap_title: '今後のロード맵',
+            roadmap_crop: '画像クロップ（切り抜き）機能',
+            roadmap_watermark: 'ウォーターマークの一括挿入',
+            roadmap_ai: 'AIベースの背景削除',
+            roadmap_gif: 'アニメーションGIFのリサイズ対応'
+          },
+          zh: {
+            langName: '简体中文',
+            tools: '工具',
+            resize: '批量调整大小',
+            convert: '格式转换',
+            exif: '删除 EXIF',
+            padding: '添加边距',
+            no_upload: '无需上传',
+            free: '免费',
+            in_browser: '浏览器内处理',
+            blog: '博客',
+            about: '关于',
+            instagram_feed: 'Instagram 帖子 (1080x1080)',
+            instagram_story: 'Instagram 故事 (1080x1920)',
+            youtube_thumbnail: 'YouTube 缩略图 (1280x720)',
+            twitter_header: 'Twitter 页眉 (1500x500)',
+            facebook_cover: 'Facebook 封面 (820x312)',
+            naver_blog: 'Naver 博客 (860x860)',
+            hero_title: '更完美的图像处理，<br /> <span class="text-primary">直接在浏览器中。</span>',
+            hero_subtitle: '无需上传，无需担忧隐私。在一处完成所有图像工作。',
+            settings_title: '图像设置',
+            presets: '社交媒体预设',
+            custom_size: '自定义大小',
+            dimensions: '尺寸 (px)',
+            lock_ratio: '锁定比例',
+            width: '宽度',
+            height: '高度',
+            quality: '压缩质量',
+            format: '输出格式',
+            filename: '文件名设置',
+            prefix_placeholder: '前缀（例如：旅行_）',
+            auto_numbering: '自动编号',
+            remove_exif: '删除元数据 (EXIF)',
+            force_square: '添加边距（强制正方形）',
+            pad_color: '边距颜色',
+            convert_all: '全部转换',
+            drop_title: '📁 将文件拖放到此处或点击上传',
+            drop_subtitle: '最多20个文件。支持 JPG, PNG, WebP, HEIC',
+            select_files: '选择文件',
+            queue: '队列',
+            files_count: '个文件',
+            clear_all: '清除全部',
+            processing: '处理中',
+            files_processed: '个已处理',
+            complete: '转换完成！',
+            save: '保存',
+            back_to: '返回 Pixkit',
+            empty_state: '上传图像后将在此处显示',
+            footer_desc: '尊重您的隐私的基于浏览器的图像处理工具。无需上传服务器，不收集数据，您的图像永远不会离开您的计算机。',
+            quick_links: '快速链接',
+            security_tech: '安全与技术',
+            rights: '© 2026 Pixkit. 版权所有。',
+            about_hero_title: '关于 Pixkit',
+            about_hero_subtitle: '无需上传，无需注册，无需费用。在浏览器中安全快速地批量处理图像。',
+            why_pixkit: '为什么创建 Pixkit？',
+            core_values_label: 'Our Core Values',
+            pixkit_promises: 'Pixkit 的三个承诺',
+            start_now: '立即开始',
+            privacy_title: '隐私政策',
+            privacy_intro: 'Pixkit（以下简称“本服务”）在 pickit.app 运营，非常重视用户个人信息的保护。本隐私政策旨在告知用户在服务过程中如何收集、使用、存储和销毁个人信息。',
+            faq_title: '常见问题解答 (FAQ)',
+            faq_subtitle: '收集了有关 Pixkit 的常见问题。',
+            tech_stack_title: '技术栈',
+            tech_stack_desc: 'Pixkit 仅使用最新的 Web 技术，以确保性能和隐私。',
+            roadmap_title: '未来路线图',
+            roadmap_crop: '图像裁剪功能',
+            roadmap_watermark: '批量水印插入',
+            roadmap_ai: '基于 AI 的背景移除',
+            roadmap_gif: '动画 GIF 调整大小支持'
+          },
+          es: {
+            langName: 'Español',
+            tools: 'Herramientas',
+            resize: 'Redimensionar lote',
+            convert: 'Convertir formato',
+            exif: 'Eliminar EXIF',
+            padding: 'Añadir relleno',
+            no_upload: 'Sin subida',
+            free: 'Gratis',
+            in_browser: 'En el navegador',
+            blog: 'Blog',
+            about: 'Acerca de',
+            instagram_feed: 'Instagram Feed (1080x1080)',
+            instagram_story: 'Instagram Story (1080x1920)',
+            youtube_thumbnail: 'YouTube Thumbnail (1280x720)',
+            twitter_header: 'Twitter Header (1500x500)',
+            facebook_cover: 'Facebook Cover (820x312)',
+            naver_blog: 'Naver Blog (860x860)',
+            hero_title: 'Procesamiento de imágenes perfecto,<br /> <span class="text-primary">directamente en tu navegador.</span>',
+            hero_subtitle: 'Sin subidas, sin preocupaciones de privacidad. Todas las tareas de imagen en un solo lugar.',
+            settings_title: 'Ajustes de imagen',
+            presets: 'Ajustes sociales',
+            custom_size: 'Tamaño personalizado',
+            dimensions: 'Dimensiones (px)',
+            lock_ratio: 'Bloquear proporción',
+            width: 'Ancho',
+            height: 'Alto',
+            quality: 'Calidad',
+            format: 'Formato de salida',
+            filename: 'Ajustes de nombre',
+            prefix_placeholder: 'Prefijo (ej. vacaciones_)',
+            auto_numbering: 'Numeración automática',
+            remove_exif: 'Eliminar metadatos (EXIF)',
+            force_square: 'Añadir relleno (Forzar cuadrado)',
+            pad_color: 'Color de relleno',
+            convert_all: 'Convertir todo',
+            drop_title: '📁 Suelta los archivos aquí o haz clic para subir',
+            drop_subtitle: 'Máx. 20 archivos. Soporta JPG, PNG, WebP, HEIC',
+            select_files: 'Seleccionar archivos',
+            queue: 'Cola',
+            files_count: 'Archivos',
+            clear_all: 'Borrar todo',
+            processing: 'Procesando',
+            files_processed: 'procesados',
+            complete: '¡Conversión completada!',
+            save: 'Guardar',
+            back_to: 'Volver a Pixkit',
+            empty_state: 'Sube imágenes para verlas aquí',
+            footer_desc: 'Procesamiento de imágenes por lotes basado en el navegador que respeta tu privacidad. Sin subidas al servidor, sin recolección de datos. Tus imágenes nunca salen de tu dispositivo.',
+            quick_links: 'Enlaces rápidos',
+            security_tech: 'Seguridad y tecnología',
+            rights: '© 2026 Pixkit. Todos los derechos reservados.',
+            about_hero_title: 'Acerca de Pixkit',
+            about_hero_subtitle: 'Sin subidas, sin registros, sin costes. Procesa imágenes por lotes de forma segura y rápida en tu navegador.',
+            why_pixkit: '¿Por qué se creó Pixkit?',
+            core_values_label: 'Nuestros valores fundamentales',
+            pixkit_promises: 'Las tres promesas de Pixkit',
+            start_now: 'Empezar ahora',
+            privacy_title: 'Política de privacidad',
+            privacy_intro: 'Pixkit (en adelante, el "Servicio") opera en pickit.app y valora enormemente la protección de la información personal de los usuarios. Esta política de privacidad guía cómo se recopila, utiliza, almacena y destruye la información personal durante el proceso del servicio.',
+            faq_title: 'Preguntas frecuentes (FAQ)',
+            faq_subtitle: 'Preguntas frecuentes recopiladas sobre Pixkit.',
+            tech_stack_title: 'Pila tecnológica',
+            tech_stack_desc: 'Pixkit utiliza solo las últimas tecnologías web para el rendimiento y la privacidad.',
+            roadmap_title: 'Hoja de ruta futura',
+            roadmap_crop: 'Función de recorte de imagen',
+            roadmap_watermark: 'Inserción de marca de agua por lotes',
+            roadmap_ai: 'Eliminación de fondo basada en IA',
+            roadmap_gif: 'Soporte de cambio de tamaño de GIF animados'
+          },
+          hi: {
+            langName: 'हिन्दी',
+            tools: 'उपकरण',
+            resize: 'बल्क रिसाइज',
+            convert: 'फॉर्मेट कनवर्टर',
+            exif: 'EXIF हटाएं',
+            padding: 'पैडिंग जोड़ें',
+            no_upload: 'नो अपलोड',
+            free: 'निशुल्क',
+            in_browser: 'ब्राउज़र में',
+            blog: 'ब्लॉग',
+            about: 'के बारे में',
+            instagram_feed: 'इंस्टाग्राम फीड (1080x1080)',
+            instagram_story: 'इंस्टाग्राम स्टोरी (1080x1920)',
+            youtube_thumbnail: 'यूट्यूब थंबनेल (1280x720)',
+            twitter_header: 'ट्विटर हेडर (1500x500)',
+            facebook_cover: 'फेसबुक कवर (820x312)',
+            naver_blog: 'नेवर ब्लॉग (860x860)',
+            hero_title: 'बेहतरीन इमेज प्रोसेसिंग,<br /> <span class="text-primary">सीधे आपके ब्राउज़र में।</span>',
+            hero_subtitle: 'कोई अपलोड नहीं, कोई गोपनीयता चिंता नहीं। सभी इमेज कार्य एक ही स्थान पर।',
+            settings_title: 'इमेज सेटिंग्स',
+            presets: 'सोशल प्रीसेट्स',
+            custom_size: 'कस्टम आकार',
+            dimensions: 'आयाम (px)',
+            lock_ratio: 'अनुपात लॉक करें',
+            width: 'चौड़ाई',
+            height: 'ऊंचाई',
+            quality: 'गुणवत्ता',
+            format: 'आउटपुट फॉर्मेट',
+            filename: 'फ़ाइल नाम सेटिंग्स',
+            prefix_placeholder: 'उपसर्ग (उदा. छुट्टियां_)',
+            auto_numbering: 'ऑटो-नंबरिंग',
+            remove_exif: 'मेटाडेटा (EXIF) हटाएं',
+            force_square: 'पैडिंग जोड़ें (वर्ग बनाएं)',
+            pad_color: 'पैडिंग रंग',
+            convert_all: 'सभी कनवर्ट करें',
+            drop_title: '📁 फ़ाइलें यहाँ छोड़ें या अपलोड करने के लिए क्लिक करें',
+            drop_subtitle: 'अधिकतम 20 फ़ाइलें। JPG, PNG, WebP, HEIC का समर्थन करता है',
+            select_files: 'फ़ाइलें चुनें',
+            queue: 'कतार',
+            files_count: 'फ़ाइलें',
+            clear_all: 'सभी साफ़ करें',
+            processing: 'प्रसंस्करण',
+            files_processed: 'संसाधित',
+            complete: 'परिवर्तन पूर्ण!',
+            save: 'सहेजें',
+            back_to: 'Pixkit पर वापस जाएं',
+            empty_state: 'उन्हें यहाँ देखने के लिए चित्र अपलोड करें',
+            footer_desc: 'गोपनीयता का सम्मान करने वाला ब्राउज़र-आधारित बैच इमेज प्रोसेसिंग टूल। कोई सर्वर अपलोड नहीं, कोई डेटा संग्रह नहीं। आपकी छवियां कभी भी आपके कंप्यूटर से बाहर नहीं जाती हैं।',
+            quick_links: 'त्वरित लिंक',
+            security_tech: 'सुरक्षा और तकनीक',
+            rights: '© 2026 Pixkit. सर्वाधिकार सुरक्षित।',
+            about_hero_title: 'Pixkit के बारे में',
+            about_hero_subtitle: 'कोई अपलोड नहीं, कोई साइनअप नहीं, कोई खर्च नहीं। अपने ब्राउज़र में सुरक्षित और तेज़ी से इमेज बैच प्रोसेस करें।',
+            why_pixkit: 'Pixkit क्यों बनाया गया था?',
+            core_values_label: 'हमारे मूल मूल्य',
+            pixkit_promises: 'Pixkit के तीन वादे',
+            start_now: 'अभी शुरू करें',
+            privacy_title: 'गोपनीयता नीति',
+            privacy_intro: 'Pixkit ("सेवा") pickit.app पर संचालित होती है और उपयोगकर्ताओं की व्यक्तिगत जानकारी की सुरक्षा को अत्यधिक महत्व देती है। यह गोपनीयता नीति बताती है कि सेवा प्रक्रिया के दौरान व्यक्तिगत जानकारी कैसे एकत्र, उपयोग, संग्रहीत और नष्ट की जाती है।',
+            faq_title: 'अक्सर पूछे जाने वाले प्रश्न (FAQ)',
+            faq_subtitle: 'Pixkit के बारे में अक्सर पूछे जाने वाले प्रश्नों का संग्रह।',
+            tech_stack_title: 'टेक स्टैक',
+            tech_stack_desc: 'Pixkit प्रदर्शन और गोपनीयता के लिए केवल नवीनतम वेब तकनीकों का उपयोग करता है।',
+            roadmap_title: 'भविष्य का रोडमैप',
+            roadmap_crop: 'इमेज क्रॉपिंग फीचर',
+            roadmap_watermark: 'बैच वॉटरमार्क प्रविष्टि',
+            roadmap_ai: 'AI-आधारित बैकग्राउंड रिमूवल',
+            roadmap_gif: 'एनिमेटेड GIF रिसाइजिंग सपोर्ट'
+          },
+          pt: {
+            langName: 'Português',
+            tools: 'Ferramentas',
+            resize: 'Redimensionar lote',
+            convert: 'Converter formato',
+            exif: 'Remover EXIF',
+            padding: 'Adicionar preenchimento',
+            no_upload: 'Sem upload',
+            free: 'Grátis',
+            in_browser: 'No navegador',
+            blog: 'Blog',
+            about: 'Sobre',
+            instagram_feed: 'Instagram Feed (1080x1080)',
+            instagram_story: 'Instagram Story (1080x1920)',
+            youtube_thumbnail: 'YouTube Thumbnail (1280x720)',
+            twitter_header: 'Twitter Header (1500x500)',
+            facebook_cover: 'Facebook Cover (820x312)',
+            naver_blog: 'Naver Blog (860x860)',
+            hero_title: 'Processamento de imagem perfeito,<br /> <span class="text-primary">diretamente no seu navegador.</span>',
+            hero_subtitle: 'Sem uploads, sem preocupações com privacidade. Todas as tarefas de imagem num só lugar.',
+            settings_title: 'Ajustes de imagem',
+            presets: 'Predefinições sociais',
+            custom_size: 'Tamanho personalizado',
+            dimensions: 'Dimensões (px)',
+            lock_ratio: 'Bloquear proporção',
+            width: 'Largura',
+            height: 'Altura',
+            quality: 'Qualidade',
+            format: 'Formato de saída',
+            filename: 'Ajustes de nome',
+            prefix_placeholder: 'Prefixo (ex. ferias_)',
+            auto_numbering: 'Numeração automática',
+            remove_exif: 'Remover metadados (EXIF)',
+            force_square: 'Adicionar preenchimento (Forçar quadrado)',
+            pad_color: 'Cor de preenchimento',
+            convert_all: 'Converter tudo',
+            drop_title: '📁 Arraste os arquivos aqui ou clique para fazer upload',
+            drop_subtitle: 'Máx. 20 arquivos. Suporta JPG, PNG, WebP, HEIC',
+            select_files: 'Selecionar arquivos',
+            queue: 'Fila',
+            files_count: 'Arquivos',
+            clear_all: 'Limpar tudo',
+            processing: 'Processando',
+            files_processed: 'processados',
+            complete: 'Conversão concluída!',
+            save: 'Salvar',
+            back_to: 'Voltar para o Pixkit',
+            empty_state: 'Faça upload de imagens para vê-las aqui',
+            footer_desc: 'Processamento de imagem em lote baseado no navegador que respeita a sua privacidade. Sem uploads para o servidor, sem coleta de dados. Suas imagens nunca saem do seu computador.',
+            quick_links: 'Links rápidos',
+            security_tech: 'Segurança e tecnologia',
+            rights: '© 2026 Pixkit. Todos os direitos reservados.',
+            about_hero_title: 'Sobre o Pixkit',
+            about_hero_subtitle: 'Sem uploads, sem registros, sem custos. Processe imagens em lote de forma segura e rápida no seu navegador.',
+            why_pixkit: 'Por que o Pixkit foi criado?',
+            core_values_label: 'Nossos Valores Principais',
+            pixkit_promises: 'As Três Promessas do Pixkit',
+            start_now: 'Começar Agora',
+            privacy_title: 'Política de Privacidade',
+            privacy_intro: 'O Pixkit (o "Serviço") é operado em pickit.app e valoriza muito a proteção das informações pessoais dos usuários. Esta política de privacidade orienta como as informações pessoais são coletadas, usadas, armazenadas e destruídas durante o processo do serviço.',
+            faq_title: 'Perguntas Frequentes (FAQ)',
+            faq_subtitle: 'Perguntas frequentes coletadas sobre o Pixkit.',
+            tech_stack_title: 'Stack Tecnológica',
+            tech_stack_desc: 'O Pixkit usa apenas as tecnologias web mais recentes para desempenho e privacidade.',
+            roadmap_title: 'Roteiro Futuro',
+            roadmap_crop: 'Recurso de Recorte de Imagem',
+            roadmap_watermark: 'Inserção de Marca D\'água em Lote',
+            roadmap_ai: 'Remoção de Fundo Baseada em IA',
+            roadmap_gif: 'Suporte para Redimensionamento de GIF Animado'
+          },
+          sw: {
+            langName: 'Kiswahili',
+            tools: 'Zana',
+            resize: 'Badilisha ukubwa kwa wingi',
+            convert: 'Badilisha umbizo',
+            exif: 'Ondoa EXIF',
+            padding: 'Ongeza nafasi',
+            no_upload: 'Hakuna kupakia',
+            free: 'Bure',
+            in_browser: 'Kwenye kivinjari',
+            blog: 'Blogu',
+            about: 'Kuhusu',
+            instagram_feed: 'Instagram Feed (1080x1080)',
+            instagram_story: 'Instagram Story (1080x1920)',
+            youtube_thumbnail: 'YouTube Thumbnail (1280x720)',
+            twitter_header: 'Twitter Header (1500x500)',
+            facebook_cover: 'Facebook Cover (820x312)',
+            naver_blog: 'Naver Blog (860x860)',
+            hero_title: 'Uchakataji wa Picha Kamilifu,<br /> <span class="text-primary">Moja kwa moja kwenye kivinjari chako.</span>',
+            hero_subtitle: 'Hakuna vipakiaji, hakuna wasiwasi wa faragha. Kazi zote za picha mahali pamoja.',
+            settings_title: 'Mipangilio ya Picha',
+            presets: 'Vipendwa vya kijamii',
+            custom_size: 'Ukubwa maalum',
+            dimensions: 'Vipimo (px)',
+            lock_ratio: 'Funga uwiano',
+            width: 'Upana',
+            height: 'Urefu',
+            quality: 'Ubora',
+            format: 'Umbizo la matokeo',
+            filename: 'Mipangilio ya jina la faili',
+            prefix_placeholder: 'Kiambishi awali (mfano. likizo_)',
+            auto_numbering: 'Nambari za kiotomatiki',
+            remove_exif: 'Ondoa metadata (EXIF)',
+            force_square: 'Ongeza nafasi (Lazimisha mraba)',
+            pad_color: 'Rangi ya nafasi',
+            convert_all: 'Badilisha yote',
+            drop_title: '📁 Angusha faili hapa au bofya ili kupakia',
+            drop_subtitle: 'Upeo wa faili 20. Inasaidia JPG, PNG, WebP, HEIC',
+            select_files: 'Chagua faili',
+            queue: 'Foleni',
+            files_count: 'Faili',
+            clear_all: 'Futa yote',
+            processing: 'Inachakata',
+            files_processed: 'zimechakatwa',
+            complete: 'Ubadilishaji Umekamilika!',
+            save: 'Hifadhi',
+            back_to: 'Rudi kwa Pixkit',
+            empty_state: 'Pakia picha ili uzione hapa',
+            footer_desc: 'Uchakataji wa picha kwa wingi kwenye kivinjari unaoheshimu faragha yako. Hakuna vipakiaji kwenye seva, hakuna ukusanyaji wa data. Picha zako hazitoki kwenye kompyuta yako kamwe.',
+            quick_links: 'Viungo vya haraka',
+            security_tech: 'Usalama na Teknolojia',
+            rights: '© 2026 Pixkit. Haki zote zimehifadhiwa.',
+            about_hero_title: 'Kuhusu Pixkit',
+            about_hero_subtitle: 'Hakuna kupakiwa, hakuna kujisajili, hakuna gharama. Shughulikia picha kwa wingi kwa usalama na haraka kwenye kivinjari chako.',
+            why_pixkit: 'Kwa nini Pixkit iliundwa?',
+            core_values_label: 'Maadili yetu ya Msingi',
+            pixkit_promises: 'Ahadi Tatu za Pixkit',
+            start_now: 'Anza Sasa',
+            privacy_title: 'Sera ya Faragha',
+            privacy_intro: 'Pixkit ("Huduma") inaendeshwa katika pickit.app na inathamini sana ulinzi wa taarifa za kibinafsi za watumiaji. Sera hii ya faragha inaongoza jinsi taarifa za kibinafsi zinavyokusanywa, kutumiwa, kuhifadhiwa na kuharibiwa wakati wa mchakato wa huduma.',
+            faq_title: 'Maswali Yanayoulizwa Mara kwa Mara (FAQ)',
+            faq_subtitle: 'Maswali yanayoulizwa mara kwa mara kuhusu Pixkit.',
+            tech_stack_title: 'Stack ya Teknolojia',
+            tech_stack_desc: 'Pixkit hutumia teknolojia za hivi punde za wavuti kwa ajili ya utendaji na faragha.',
+            roadmap_title: 'Mpango wa Baadaye',
+            roadmap_crop: 'Kipengele cha Kukata Picha',
+            roadmap_watermark: 'Uwekaji wa Watermark kwa Wingi',
+            roadmap_ai: 'Uondoaji wa Mandhari kulingana na AI',
+            roadmap_gif: 'Msaada wa Kubadilisha Ukubwa wa GIF ya Uhuishaji'
+          },
+        };
 
-    // 진행바 업데이트
-    const pct = Math.round(((i + 1) / files.length) * 100);
-    progressFill.style.width = pct + '%';
-    progressText.textContent = pct + '%';
-  }
+        window.changeLang = function (lang) {
+          state.currentLang = lang;
+          const t = translations[lang];
+          dom.currentLangName.textContent = t.langName;
 
-  progressBar.classList.add('hidden');
-  document.getElementById('downloadAllBtn').classList.remove('hidden');
-}
+          // Update DOM elements with data-i18n
+          document.querySelectorAll('[data-i18n]').forEach(el => {
+            const key = el.getAttribute('data-i18n');
+            if (t[key]) {
+              if (el.tagName === 'INPUT' && el.hasAttribute('placeholder')) {
+                el.placeholder = t[key];
+              } else {
+                el.innerHTML = t[key];
+              }
+            }
+          });
 
-// =====================
-// 이미지 처리 (Canvas)
-// =====================
-function processImage(file, targetW, targetH, quality, format, addPadding) {
-  return new Promise((resolve) => {
-    const img = new Image();
-    const url = URL.createObjectURL(file);
-    img.onload = () => {
-      let w = targetW || img.width;
-      let h = targetH || img.height;
+          // Update presets select
+          const presets = dom.presetSelect.options[0];
+          presets.textContent = t.custom_size;
 
-      // 비율 유지
-      if (keepRatio && targetW && !targetH) {
-        h = Math.round(w * img.height / img.width);
-      } else if (keepRatio && targetH && !targetW) {
-        w = Math.round(h * img.width / img.height);
-      } else if (keepRatio && targetW && targetH) {
-        const ratio = Math.min(targetW / img.width, targetH / img.height);
-        w = Math.round(img.width * ratio);
-        h = Math.round(img.height * ratio);
-      }
+          renderQueue(); // Refresh queue text
+        };
 
-      let canvasW = w;
-      let canvasH = h;
+        $('#darkToggle').addEventListener('click', () => {
+          document.documentElement.classList.toggle('dark');
+        });
 
-      // 패딩 (정사각형)
-      if (addPadding) {
-        const max = Math.max(w, h);
-        canvasW = max;
-        canvasH = max;
-      }
+        // ============================================================
+        // 4. 설정(Settings) 핸들러
+        // =====================
+        window.toggleRatio = function () {
+          state.keepRatio = !state.keepRatio;
+          dom.ratioToggle.classList.toggle('bg-primary', state.keepRatio);
+          dom.ratioToggle.classList.toggle('bg-slate-300', !state.keepRatio);
+          dom.ratioThumb.classList.toggle('ml-auto', state.keepRatio);
+          dom.ratioThumb.classList.toggle('ml-0', !state.keepRatio);
+        };
 
-      const canvas = document.createElement('canvas');
-      canvas.width = canvasW;
-      canvas.height = canvasH;
-      const ctx = canvas.getContext('2d');
+        window.toggleAutoNum = function () {
+          state.autoNum = !state.autoNum;
+          dom.autoNumToggle.classList.toggle('bg-primary', state.autoNum);
+          dom.autoNumToggle.classList.toggle('bg-slate-300', !state.autoNum);
+          dom.autoNumThumb.classList.toggle('ml-auto', state.autoNum);
+          dom.autoNumThumb.classList.toggle('ml-0', !state.autoNum);
+        };
 
-      // 배경 흰색 (패딩용)
-      ctx.fillStyle = '#ffffff';
-      ctx.fillRect(0, 0, canvasW, canvasH);
+        window.selectFormat = function (fmt, el) {
+          state.selectedFormat = fmt;
+          $$('.format-btn').forEach(btn => {
+            btn.classList.remove('bg-primary', 'text-white');
+            btn.classList.add('bg-slate-100', 'dark:bg-slate-800');
+          });
+          el.classList.add('bg-primary', 'text-white');
+          el.classList.remove('bg-slate-100', 'dark:bg-slate-800');
+        };
 
-      const offsetX = Math.floor((canvasW - w) / 2);
-      const offsetY = Math.floor((canvasH - h) / 2);
-      ctx.drawImage(img, offsetX, offsetY, w, h);
+        dom.presetSelect.addEventListener('change', () => {
+          const val = dom.presetSelect.value;
+          if (val) {
+            const [w, h] = val.split('x').map(Number);
+            dom.widthInput.value = w;
+            dom.heightInput.value = h;
+            dom.widthInput.disabled = true;
+            dom.heightInput.disabled = true;
+          } else {
+            dom.widthInput.disabled = false;
+            dom.heightInput.disabled = false;
+          }
+        });
 
-      URL.revokeObjectURL(url);
+        window.onWidthChange = function () {
+          if (!state.keepRatio || !state.files.length) return;
+          const first = state.files.find(f => !f.error);
+          if (!first) return;
+          const ratio = first.originalHeight / first.originalWidth;
+          const w = parseInt(dom.widthInput.value);
+          if (w > 0) dom.heightInput.value = Math.round(w * ratio);
+        };
 
-      canvas.toBlob((blob) => {
-        resolve(blob);
-      }, format, quality);
-    };
-    img.src = url;
-  });
-}
+        window.onHeightChange = function () {
+          if (!state.keepRatio || !state.files.length) return;
+          const first = state.files.find(f => !f.error);
+          if (!first) return;
+          const ratio = first.originalWidth / first.originalHeight;
+          const h = parseInt(dom.heightInput.value);
+          if (h > 0) dom.widthInput.value = Math.round(h * ratio);
+        };
 
-// =====================
-// 카드 업데이트 (변환 후)
-// =====================
-function updateCard(i, blob, format) {
-  const origSize = files[i].size;
-  const newSize = blob.size;
-  const saved = Math.round((1 - newSize / origSize) * 100);
+        dom.paddingCheck.addEventListener('change', () => {
+          dom.paddingColorGroup.classList.toggle('hidden', !dom.paddingCheck.checked);
+        });
 
-  const origDisplay = origSize > 1024*1024
-    ? (origSize/1024/1024).toFixed(1) + ' MB'
-    : (origSize/1024).toFixed(0) + ' KB';
-  const newDisplay = newSize > 1024*1024
-    ? (newSize/1024/1024).toFixed(1) + ' MB'
-    : (newSize/1024).toFixed(0) + ' KB';
+        dom.paddingColor.addEventListener('input', () => {
+          dom.paddingColorHex.textContent = dom.paddingColor.value.toUpperCase();
+        });
 
-  const sizeEl = document.getElementById('size-' + i);
-  const badgeColor = saved > 0 ? 'bg-green-500' : 'bg-orange-400';
-  const badgeText = saved > 0 ? '-' + saved + '%' : '+' + Math.abs(saved) + '%';
+        // ============================================================
+        // 5. 파일 추가 & HEIC 처리
+        // ============================================================
+        window.handleDrop = function (e) {
+          e.preventDefault();
+          dom.dropZone.classList.remove('bg-primary/10');
+          handleFiles(e.dataTransfer.files);
+        };
 
-  sizeEl.innerHTML = `
-    <span class="text-[10px] text-slate-400 line-through">${origDisplay}</span>
-    <span class="text-[10px] font-bold text-primary">${newDisplay}</span>
-    <span class="text-[9px] ${badgeColor} text-white px-1.5 py-0.5 rounded-full font-bold uppercase">${badgeText}</span>
-  `;
+        window.handleFiles = async function (fileList) {
+          const files = Array.from(fileList).filter(f =>
+            f.type.startsWith('image/') || /\.(heic|heif)$/i.test(f.name)
+          );
 
-  document.getElementById('dlBtn-' + i).classList.remove('hidden');
-}
+          if (state.files.length + files.length > MAX_FILES) {
+            alert(`최대 ${MAX_FILES}개까지 업로드 가능합니다.`);
+            return;
+          }
 
-// =====================
-// 개별 다운로드
-// =====================
-function downloadSingle(i) {
-  if (!results[i]) return;
-  const ext = getExt(selectedFormat);
-  const prefix = document.getElementById('prefixInput').value || '';
-  const baseName = files[i].name.replace(/\.[^.]+$/, '');
-  const fileName = autoNum
-    ? prefix + String(i + 1).padStart(3, '0') + '_' + baseName + '.' + ext
-    : prefix + baseName + '.' + ext;
+          for (const file of files) {
+            const id = state.nextId++;
+            const item = {
+              id, file, originalName: file.name, originalSize: file.size,
+              originalWidth: 0, originalHeight: 0, thumbUrl: '',
+              processed: false, processedBlob: null, processedName: '',
+              processedSize: 0, processedWidth: 0, processedHeight: 0,
+              savings: 0, error: null
+            };
 
-  const url = URL.createObjectURL(results[i]);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = fileName;
-  a.click();
-  URL.revokeObjectURL(url);
-}
+            try {
+              let imgFile = file;
+              if (file.type === 'image/heic' || file.type === 'image/heif' || /\.(heic|heif)$/i.test(file.name)) {
+                const blob = await heic2any({ blob: file, toType: 'image/jpeg', quality: 0.9 });
+                const resultBlob = Array.isArray(blob) ? blob[0] : blob;
+                imgFile = new File([resultBlob], file.name.replace(/\.(heic|heif)$/i, '.jpg'), { type: 'image/jpeg' });
+                item.file = imgFile;
+                item.originalSize = imgFile.size;
+              }
 
-// =====================
-// 전체 ZIP 다운로드
-// =====================
-async function downloadAll() {
-  if (results.filter(r => r).length === 0) {
-    alert('먼저 Convert All을 눌러주세요.');
-    return;
-  }
+              const img = await loadImage(imgFile);
+              item.originalWidth = img.naturalWidth;
+              item.originalHeight = img.naturalHeight;
 
-  const zip = new JSZip();
-  const ext = getExt(selectedFormat);
-  const prefix = document.getElementById('prefixInput').value || '';
+              const thumbCanvas = document.createElement('canvas');
+              const maxThumb = 200;
+              const scale = Math.min(maxThumb / img.naturalWidth, maxThumb / img.naturalHeight, 1);
+              thumbCanvas.width = img.naturalWidth * scale;
+              thumbCanvas.height = img.naturalHeight * scale;
+              thumbCanvas.getContext('2d').drawImage(img, 0, 0, thumbCanvas.width, thumbCanvas.height);
+              item.thumbUrl = thumbCanvas.toDataURL('image/jpeg', 0.8);
+            } catch (e) {
+              item.error = '파일을 읽을 수 없습니다.';
+            }
+            state.files.push(item);
+          }
+          state.isProcessed = false;
+          renderQueue();
+        };
 
-  results.forEach((blob, i) => {
-    if (!blob) return;
-    const baseName = files[i].name.replace(/\.[^.]+$/, '');
-    const fileName = autoNum
-      ? prefix + String(i + 1).padStart(3, '0') + '_' + baseName + '.' + ext
-      : prefix + baseName + '.' + ext;
-    zip.file(fileName, blob);
-  });
+        function loadImage(file) {
+          return new Promise((resolve, reject) => {
+            const img = new Image();
+            img.onload = () => { URL.revokeObjectURL(img.src); resolve(img); };
+            img.onerror = () => reject();
+            img.src = URL.createObjectURL(file);
+          });
+        }
 
-  const content = await zip.generateAsync({ type: 'blob' });
-  const url = URL.createObjectURL(content);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'pixkit_images.zip';
-  a.click();
-  URL.revokeObjectURL(url);
-}
+        // ============================================================
+        // 6. 이미지 프로세싱
+        // ============================================================
+        window.convertAll = async function () {
+          if (!state.files.length) return;
+          const targetW = parseInt(dom.widthInput.value) || 0;
+          const targetH = parseInt(dom.heightInput.value) || 0;
+          const quality = parseInt(dom.qualityInput.value) / 100;
+          const format = state.selectedFormat;
+          const addPadding = dom.paddingCheck.checked;
+          const padColor = dom.paddingColor.value;
+          const prefix = dom.prefixInput.value.trim();
 
-// =====================
-// 유틸
-// =====================
-function getExt(format) {
-  const map = {
-    'image/jpeg': 'jpg',
-    'image/png': 'png',
-    'image/webp': 'webp',
-  };
-  return map[format] || 'jpg';
-}
-</script>
+          dom.progressBar.classList.remove('hidden');
+
+          for (let i = 0; i < state.files.length; i++) {
+            const item = state.files[i];
+            if (item.error) continue;
+
+            const t = translations[state.currentLang];
+            dom.progressStatus.textContent = `${t.processing}: ${item.originalName}`;
+            dom.progressSub.textContent = `${i + 1} / ${state.files.length} ${t.files_processed}`;
+
+            try {
+              const img = await loadImage(item.file);
+              let w = targetW || img.naturalWidth;
+              let h = targetH || img.naturalHeight;
+
+              if (state.keepRatio && targetW && !targetH) {
+                h = Math.round(w * img.naturalHeight / img.naturalWidth);
+              } else if (state.keepRatio && targetH && !targetW) {
+                w = Math.round(h * img.naturalWidth / img.naturalHeight);
+              } else if (state.keepRatio && targetW && targetH) {
+                const ratio = Math.min(targetW / img.naturalWidth, targetH / img.naturalHeight);
+                w = Math.round(img.naturalWidth * ratio);
+                h = Math.round(img.naturalHeight * ratio);
+              }
+
+              let canvasW = w, canvasH = h;
+              if (addPadding) {
+                const max = Math.max(w, h);
+                canvasW = max; canvasH = max;
+              }
+
+              const canvas = document.createElement('canvas');
+              canvas.width = canvasW; canvas.height = canvasH;
+              const ctx = canvas.getContext('2d');
+
+              if (addPadding) {
+                ctx.fillStyle = padColor;
+                ctx.fillRect(0, 0, canvasW, canvasH);
+              }
+              const ox = Math.floor((canvasW - w) / 2);
+              const oy = Math.floor((canvasH - h) / 2);
+              ctx.drawImage(img, ox, oy, w, h);
+
+              const mime = format === 'original' ? item.file.type : format;
+              const blob = await new Promise(r => canvas.toBlob(r, mime, quality));
+
+              const ext = mime.split('/')[1].replace('jpeg', 'jpg');
+              const base = item.originalName.replace(/\.[^.]+$/, '');
+              item.processedName = state.autoNum
+                ? `${prefix}${String(i + 1).padStart(3, '0')}_${base}.${ext}`
+                : `${prefix}${base}.${ext}`;
+
+              item.processedBlob = blob;
+              item.processedSize = blob.size;
+              item.processedWidth = canvasW;
+              item.processedHeight = canvasH;
+              item.savings = Math.round((1 - blob.size / item.originalSize) * 100);
+              item.processed = true;
+
+              const pct = Math.round(((i + 1) / state.files.length) * 100);
+              dom.progressFill.style.width = pct + '%';
+              dom.progressPercent.textContent = pct + '%';
+            } catch (e) {
+              item.error = '변환 중 오류 발생';
+            }
+            await new Promise(r => setTimeout(r, 50));
+          }
+
+          state.isProcessed = true;
+          dom.progressStatus.textContent = '변환 완료!';
+          setTimeout(() => dom.progressBar.classList.add('hidden'), 1000);
+          renderQueue();
+        };
+
+        // ============================================================
+        // 7. 다운로드 (ZIP, PDF, 개별)
+        // ============================================================
+        window.downloadZip = async function () {
+          const zip = new JSZip();
+          state.files.forEach(f => {
+            if (f.processed) zip.file(f.processedName, f.processedBlob);
+          });
+          const content = await zip.generateAsync({ type: 'blob' });
+          triggerDownload(content, 'pixkit_images.zip');
+        };
+
+        window.downloadPdf = async function () {
+          const { jsPDF } = window.jspdf;
+          let doc = null;
+
+          for (let i = 0; i < state.files.length; i++) {
+            const f = state.files[i];
+            if (!f.processed) continue;
+
+            const dataUrl = await new Promise(r => {
+              const rd = new FileReader();
+              rd.onload = () => r(rd.result);
+              rd.readAsDataURL(f.processedBlob);
+            });
+
+            const pxToMm = 0.264583;
+            const pw = f.processedWidth * pxToMm, ph = f.processedHeight * pxToMm;
+
+            if (!doc) doc = new jsPDF({ orientation: pw > ph ? 'l' : 'p', unit: 'mm', format: [pw, ph] });
+            else doc.addPage([pw, ph], pw > ph ? 'l' : 'p');
+
+            doc.addImage(dataUrl, 'JPEG', 0, 0, pw, ph);
+          }
+          if (doc) doc.save('pixkit_images.pdf');
+        };
+
+        window.downloadSingle = function (id) {
+          const item = state.files.find(f => f.id === id);
+          if (item && item.processed) triggerDownload(item.processedBlob, item.processedName);
+        };
+
+        function triggerDownload(blob, name) {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url; a.download = name; a.click();
+          URL.revokeObjectURL(url);
+        }
+
+        // ============================================================
+        // 8. 큐 렌더링 & 관리
+        // ============================================================
+        window.removeFile = function (id) {
+          state.files = state.files.filter(f => f.id !== id);
+          renderQueue();
+        };
+
+        window.clearAll = function () {
+          state.files = [];
+          state.isProcessed = false;
+          renderQueue();
+        };
+
+        function renderQueue() {
+          const t = translations[state.currentLang];
+          dom.fileCount.textContent = `${state.files.length} ${t.files_count}`;
+          dom.previewList.innerHTML = '';
+
+          if (!state.files.length) {
+            const empty = dom.emptyState.cloneNode(true);
+            empty.id = '';
+            empty.classList.remove('hidden');
+            dom.previewList.appendChild(empty);
+            dom.downloadAllBtn.classList.add('hidden');
+            dom.downloadPdfBtn.classList.add('hidden');
+            return;
+          }
+
+          state.files.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'group relative bg-white dark:bg-slate-900 rounded-xl p-4 border border-slate-200 dark:border-slate-800 flex gap-4 shadow-sm hover:shadow-md transition-all';
+
+            const sizeOrig = formatBytes(item.originalSize);
+            const sizeProc = item.processed ? formatBytes(item.processedSize) : '';
+            const savingsHtml = item.processed ? `<span class="px-1.5 py-0.5 rounded text-[10px] font-black ${item.savings > 0 ? 'bg-emerald-500 text-white' : 'bg-orange-500 text-white'}">${item.savings > 0 ? '-' : '+'}${Math.abs(item.savings)}%</span>` : '';
+
+            card.innerHTML = `
+            <div class="w-24 h-24 rounded-lg overflow-hidden bg-slate-100 dark:bg-slate-800 shrink-0 border border-slate-100 dark:border-slate-800">
+              <img src="${item.thumbUrl || ''}" class="w-full h-full object-cover" alt=""/>
+            </div>
+            <div class="flex-1 flex flex-col justify-between py-1 min-w-0">
+              <div>
+                <p class="text-[13px] font-bold truncate text-slate-800 dark:text-slate-200">${item.processedName || item.originalName}</p>
+                <div class="flex items-center gap-2 mt-1.5">
+                  <span class="text-[11px] font-bold ${item.processed ? 'text-slate-400 line-through' : 'text-slate-500'}">${sizeOrig}</span>
+                  ${item.processed ? `<span class="text-[11px] font-black text-primary">${sizeProc}</span>` : ''}
+                  ${savingsHtml}
+                </div>
+              </div>
+              <div class="flex justify-between items-center">
+                <p class="text-[11px] font-bold text-slate-400 uppercase tracking-tight">
+                  ${item.processed ? `${item.processedWidth} × ${item.processedHeight}` : `${item.originalWidth} × ${item.originalHeight}`}
+                </p>
+                ${item.processed ? `
+                  <button onclick="downloadSingle(${item.id})" class="text-primary hover:text-primary-hover font-black text-[11px] uppercase tracking-wider flex items-center gap-1">
+                    <span class="material-symbols-outlined text-sm">download</span> ${t.save}
+                  </button>
+                ` : ''}
+              </div>
+            </div>
+            <button onclick="removeFile(${item.id})" class="absolute -top-2 -right-2 bg-slate-900 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+              <span class="material-symbols-outlined text-[16px]">close</span>
+            </button>
+          `;
+            dom.previewList.appendChild(card);
+          });
+
+          if (state.isProcessed) {
+            dom.downloadAllBtn.classList.remove('hidden');
+            dom.downloadPdfBtn.classList.remove('hidden');
+          }
+        }
+
+        function formatBytes(bytes) {
+          if (!bytes) return '0 B';
+          const k = 1024;
+          const dm = 1;
+          const sizes = ['B', 'KB', 'MB', 'GB'];
+          const i = Math.floor(Math.log(bytes) / Math.log(k));
+          return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + ' ' + sizes[i];
+        }
+
+        document.addEventListener('dragover', (e) => e.preventDefault());
+        document.addEventListener('drop', (e) => e.preventDefault());
+
+      })();
+  </script>
 </body>
+
 </html>
