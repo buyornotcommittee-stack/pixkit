@@ -1090,7 +1090,7 @@
       <!-- Tech Stack -->
       <section>
         <h2 data-i18n="tech_stack_title" class="text-3xl font-black mb-12 flex items-center gap-3">
-          <span class="text-2xl">🧩</span> 技術スタック
+          <span class="text-2xl">🧩</span> 기술 스택
         </h2>
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           <div
@@ -1129,14 +1129,14 @@
         <div class="absolute top-0 right-0 w-64 h-64 bg-primary/20 rounded-full blur-3xl -mr-32 -mt-32"></div>
         <div class="relative z-10">
           <h2 class="text-3xl font-black mb-8 flex items-center gap-3">
-            <span class="text-2xl">🗺️</span> <span data-i18n="roadmap_title">今後のロードマップ</span>
+            <span class="text-2xl">🗺️</span> <span data-i18n="roadmap_title">향후 로드맵</span>
           </h2>
           <div class="grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-6">
             <div class="flex items-center gap-4 text-slate-400">
               <span
                 class="size-6 border-2 border-slate-700 rounded-lg flex items-center justify-center font-bold text-xs uppercase"
                 data-i18n="badge_soon">Soon</span>
-              <p data-i18n="roadmap_crop" class="text-sm font-bold">画像クロップ(자르기) 기능</p>
+              <p data-i18n="roadmap_crop" class="text-sm font-bold">이미지 크롭(자르기) 기능</p>
             </div>
             <div class="flex items-center gap-4 text-slate-400">
               <span
@@ -1810,7 +1810,7 @@
             roadmap_title: '今後のロードマップ',
             roadmap_crop: '画像クロップ（切り抜き）機能',
             roadmap_watermark: 'ウォーターマークの一括挿入',
-            roadmap_ai: 'AIベースの背景削除',
+            roadmap_ai: 'AIベースの背景削除（切り抜き）',
             roadmap_gif: 'アニメーションGIFのリサイズ対応',
             nav_resize: '画像リサイズ',
             nav_convert: '形式変換',
@@ -1952,22 +1952,22 @@
             about_c_r2_c2: '存在风险 (服务器存储)',
             about_c_r2_c3: '✅ 完美 (本地处理)',
             about_c_r3_c1: '处理速度',
-            about_c_r3_c2: '依赖网络速度',
+            about_c_r3_c2: '取决于网络速度',
             about_c_r3_c3: '⚡ 即时 (利用 CPU)',
             about_c_r4_c1: '使用限制',
-            about_c_r4_c2: '每日限制/付费',
+            about_c_r4_c2: '每日限制/付费订阅',
             about_c_r4_c3: '♾️ 完全无限制',
             about_c_r5_c1: '水印',
-            about_c_r5_c2: '免费版本自动插入',
-            about_c_r5_c3: '🚫 绝无水印',
+            about_c_r5_c2: '免费版本会插入水印',
+            about_c_r5_c3: '🚫 绝对没有',
             tech_canvas_label: '图像处理',
             tech_heic_label: 'HEIC 转换',
             tech_jszip_label: '批量压缩',
             tech_jspdf_label: 'PDF 创建',
-            tech_canvas_desc: '利用浏览器内置 API，实现高速无服务器处理。',
-            tech_heic_desc: '立即将 iPhone HEIC 格式转换为 JPG/PNG。',
-            tech_jszip_desc: '将数十张图片压缩为一个 ZIP 文件。',
-            tech_jspdf_desc: '轻松将图片转换为 PDF 文档。',
+            tech_canvas_desc: '利用浏览器 API 进行高速无服务器处理。',
+            tech_heic_desc: '立即将 iPhone HEIC 转换为 JPG/PNG。',
+            tech_jszip_desc: '将数十张图像批量压缩为一个 ZIP。',
+            tech_jspdf_desc: '轻松将图像转换为 PDF 文档。',
             badge_soon: '即将推出',
             empty_state_desc: '上传图像后将在此处显示'
           },
@@ -2418,7 +2418,7 @@
             about_c_r5_c3: '🚫 Hakuna',
             tech_canvas_label: 'Uchakataji wa Picha',
             tech_heic_label: 'Ubadilishaji wa HEIC',
-            tech_jszip_label: 'Batch Compression',
+            tech_jszip_label: 'Kubana kwa Wingi',
             tech_jspdf_label: 'Uundaji wa PDF',
             tech_canvas_desc: 'Hutumia API za kivinjari kwa usindikaji wa kasi wa bila seva.',
             tech_heic_desc: 'Badilisha iPhone HEIC kuwa JPG/PNG mara moja.',
@@ -2815,6 +2815,9 @@
 
         document.addEventListener('dragover', (e) => e.preventDefault());
         document.addEventListener('drop', (e) => e.preventDefault());
+
+        // Initialize language
+        changeLang(state.currentLang);
 
       })();
   </script>
