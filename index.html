@@ -2750,6 +2750,8 @@
             const empty = dom.emptyState.cloneNode(true);
             empty.id = '';
             empty.classList.remove('hidden');
+            const p = empty.querySelector('[data-i18n="empty_state_desc"]');
+            if (p) p.innerHTML = t.empty_state_desc;
             dom.previewList.appendChild(empty);
             dom.downloadAllBtn.classList.add('hidden');
             dom.downloadPdfBtn.classList.add('hidden');
