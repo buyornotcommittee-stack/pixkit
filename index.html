@@ -85,7 +85,7 @@
           <div class="relative group">
             <button
               class="flex items-center gap-1 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors">
-              <span class="material-symbols-outlined text-sm">language</span>
+              <span class="text-sm">🌐</span>
               <span id="currentLangName">한국어</span>
             </button>
             <div
@@ -118,7 +118,7 @@
         <!-- 다크모드 토글 -->
         <button id="darkToggle"
           class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
-          <span class="material-symbols-outlined text-xl">dark_mode</span>
+          <span class="text-xl">🌙</span>
         </button>
       </div>
     </header>
@@ -180,7 +180,7 @@
               <div class="flex items-center justify-between mt-4">
                 <label data-i18n="dimensions"
                   class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                  <span class="material-symbols-outlined text-lg">aspect_ratio</span> 사이즈 (px)
+                  <span class="text-lg">📏</span> 사이즈 (px)
                 </label>
                 <div class="flex items-center gap-2">
                   <span data-i18n="lock_ratio" class="text-xs text-slate-400">비율 유지</span>
@@ -211,7 +211,7 @@
               <label
                 class="text-sm font-bold flex items-center justify-between uppercase tracking-wide text-slate-500 dark:text-slate-400">
                 <span class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-lg">high_quality</span> <span data-i18n="quality">압축
+                  <span class="text-lg">💎</span> <span data-i18n="quality">압축
                     품질</span>
                 </span>
                 <span id="qualityLabel" class="text-primary">85%</span>
@@ -225,7 +225,7 @@
             <div class="space-y-4 mb-8">
               <label
                 class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                <span class="material-symbols-outlined text-lg">image</span> <span data-i18n="format">출력 포맷</span>
+                <span class="text-lg">🖼️</span> <span data-i18n="format">출력 포맷</span>
               </label>
               <div class="grid grid-cols-3 gap-2" id="formatBtns">
                 <button onclick="selectFormat('image/jpeg', this)"
@@ -241,8 +241,7 @@
             <div class="space-y-4 mb-8">
               <label
                 class="text-sm font-bold flex items-center gap-2 uppercase tracking-wide text-slate-500 dark:text-slate-400">
-                <span class="material-symbols-outlined text-lg">drive_file_rename_outline</span> <span
-                  data-i18n="filename">파일명 설정</span>
+                <span class="text-lg">✏️</span> <span data-i18n="filename">파일명 설정</span>
               </label>
               <div class="space-y-3">
                 <input id="prefixInput" data-i18n="prefix_placeholder"
@@ -330,15 +329,15 @@
               <div class="flex items-center gap-3">
                 <button onclick="clearAll()"
                   class="text-slate-500 hover:text-red-500 flex items-center gap-1 text-xs font-bold uppercase transition-colors">
-                  <span class="material-symbols-outlined text-lg">delete</span> <span data-i18n="clear_all">전체 삭제</span>
+                  <span class="text-lg">🗑️</span> <span data-i18n="clear_all">전체 삭제</span>
                 </button>
                 <button id="downloadAllBtn" onclick="downloadZip()"
                   class="bg-primary/10 text-primary hover:bg-primary hover:text-white px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-all hidden">
-                  <span class="material-symbols-outlined text-lg">folder_zip</span> ZIP
+                  <span class="text-lg">📦</span> ZIP
                 </button>
                 <button id="downloadPdfBtn" onclick="downloadPdf()"
                   class="bg-emerald-500/10 text-emerald-600 hover:bg-emerald-500 hover:text-white px-4 py-2 rounded-lg font-bold text-xs flex items-center gap-2 transition-all hidden">
-                  <span class="material-symbols-outlined text-lg">picture_as_pdf</span> PDF
+                  <span class="text-lg">📄</span> PDF
                 </button>
               </div>
             </div>
@@ -380,8 +379,7 @@
       <div class="mb-8">
         <button onclick="showView('main-view')"
           class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors group">
-          <span
-            class="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
+          <span class="text-sm group-hover:-translate-x-1 transition-transform">⬅️</span>
           <span data-i18n="back_to" class="text-xs font-bold uppercase tracking-wider">픽스킷으로 돌아가기</span>
         </button>
       </div>
@@ -416,7 +414,7 @@
                 </p>
                 <div class="bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/30 p-5 rounded-xl">
                   <p class="text-red-600 dark:text-red-400 font-black flex items-start gap-2 m-0">
-                    <span class="material-symbols-outlined shrink-0 text-red-500">warning</span>
+                    <span class="shrink-0 text-red-500">⚠️</span>
                     <span data-i18n="p_s1_w">중요: Pixkit은 이용자의 이미지를 서버에 업로드하거나 전송하거나 저장하지 않습니다. 모든 이미지 처리는 100% 이용자의 기기에서
                       이루어집니다.</span>
                   </p>
@@ -565,7 +563,7 @@
                 <div
                   class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 transition-colors">
                   <h4 class="font-bold mb-2 flex items-center gap-2 text-primary">
-                    <span class="material-symbols-outlined text-xl">speed</span> <span data-i18n="p_s3_i1_t">서비스 운영 및
+                    <span class="text-xl">🚀</span> <span data-i18n="p_s3_i1_t">서비스 운영 및
                       유지</span>
                   </h4>
                   <p data-i18n="p_s3_i1_c" class="text-sm text-slate-500 m-0">웹사이트의 안정적인 운영과 기능 제공</p>
@@ -573,7 +571,7 @@
                 <div
                   class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 transition-colors">
                   <h4 class="font-bold mb-2 flex items-center gap-2 text-primary">
-                    <span class="material-symbols-outlined text-xl">analytics</span> <span data-i18n="p_s3_i2_t">서비스
+                    <span class="text-xl">📊</span> <span data-i18n="p_s3_i2_t">서비스
                       개선</span>
                   </h4>
                   <p data-i18n="p_s3_i2_c" class="text-sm text-slate-500 m-0">이용 패턴 분석을 통한 UI/UX 개선 및 기능 고도화</p>
@@ -581,7 +579,7 @@
                 <div
                   class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 transition-colors">
                   <h4 class="font-bold mb-2 flex items-center gap-2 text-primary">
-                    <span class="material-symbols-outlined text-xl">shield</span> <span data-i18n="p_s3_i3_t">보안 및 부정 이용
+                    <span class="text-xl">🛡️</span> <span data-i18n="p_s3_i3_t">보안 및 부정 이용
                       방지</span>
                   </h4>
                   <p data-i18n="p_s3_i3_c" class="text-sm text-slate-500 m-0">비정상적 접근 탐지, DDoS 공격 방어</p>
@@ -589,7 +587,7 @@
                 <div
                   class="bg-slate-50 dark:bg-slate-800/50 p-5 rounded-2xl border border-slate-100 dark:border-slate-800 hover:border-primary/30 transition-colors">
                   <h4 class="font-bold mb-2 flex items-center gap-2 text-primary">
-                    <span class="material-symbols-outlined text-xl">ads_click</span> <span data-i18n="p_s3_i4_t">광고
+                    <span class="text-xl">🖱️</span> <span data-i18n="p_s3_i4_t">광고
                       게재</span>
                   </h4>
                   <p data-i18n="p_s3_i4_c" class="text-sm text-slate-500 m-0">Google AdSense를 통한 광고 표시 (서비스 운영비 충당)</p>
@@ -641,7 +639,7 @@
                 <div
                   class="flex gap-4 p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800">
                   <div class="size-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
-                    <span class="material-symbols-outlined">lock</span>
+                    <span>🔒</span>
                   </div>
                   <div>
                     <h4 data-i18n="p_s6_i1_t" class="font-bold text-slate-900 dark:text-white">SSL/TLS 암호화</h4>
@@ -653,7 +651,7 @@
                 <div
                   class="flex gap-4 p-5 bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800">
                   <div class="size-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center shrink-0">
-                    <span class="material-symbols-outlined">cloud_off</span>
+                    <span>🚫</span>
                   </div>
                   <div>
                     <h4 data-i18n="p_s6_i2_t" class="font-bold text-slate-900 dark:text-white">서버리스 아키텍처</h4>
@@ -707,12 +705,12 @@
                 연락해 주시기 바랍니다.</p>
               <div class="flex flex-col gap-2 font-bold text-slate-700 dark:text-slate-300">
                 <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-slate-400">link</span>
+                  <span class="text-slate-400">🔗</span>
                   <span>Website: <a href="https://pickit.app"
                       class="text-primary hover:underline">https://pickit.app</a></span>
                 </div>
                 <div class="flex items-center gap-2">
-                  <span class="material-symbols-outlined text-slate-400">mail</span>
+                  <span class="text-slate-400">📧</span>
                   <span>Email: <a href="mailto:jellapick@gmail.com"
                       class="text-primary hover:underline">jellapick@gmail.com</a></span>
                 </div>
@@ -729,8 +727,7 @@
       <div class="mb-8">
         <button onclick="showView('main-view')"
           class="flex items-center gap-2 text-slate-500 hover:text-primary transition-colors group">
-          <span
-            class="material-symbols-outlined text-sm group-hover:-translate-x-1 transition-transform">arrow_back</span>
+          <span class="text-sm group-hover:-translate-x-1 transition-transform">⬅️</span>
           <span data-i18n="back_to" class="text-xs font-bold uppercase tracking-wider">Back to Pixkit</span>
         </button>
       </div>
@@ -2786,13 +2783,13 @@
                 </p>
                 ${item.processed ? `
                   <button onclick="downloadSingle(${item.id})" class="text-primary hover:text-primary-hover font-black text-[11px] uppercase tracking-wider flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">download</span> ${t.save}
+                    <span class="text-sm">📥</span> ${t.save}
                   </button>
                 ` : ''}
               </div>
             </div>
             <button onclick="removeFile(${item.id})" class="absolute -top-2 -right-2 bg-slate-900 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
-              <span class="material-symbols-outlined text-[16px]">close</span>
+              <span class="text-[16px]">❌</span>
             </button>
           `;
             dom.previewList.appendChild(card);
