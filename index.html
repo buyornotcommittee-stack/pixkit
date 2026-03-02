@@ -31,22 +31,8 @@
     }
   </script>
   <title>Pixkit – 브라우저에서 이미지 일괄 처리</title>
-  <link rel="icon" type="image/png" href="001_pixkitlogo.png">
-  <style>
-    input[type=range]::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #2463eb;
-      cursor: pointer;
-    }
-
-    input[type=range] {
-      -webkit-appearance: none;
-      appearance: none;
-    }
-  </style>
+  <link rel="icon" type="image/png" href="/001_pixkitlogo.png">
+  <link rel="stylesheet" href="/css/style.css">
 </head>
 
 <body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 min-h-screen">
@@ -55,8 +41,8 @@
     <!-- Navigation -->
     <header
       class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 bg-white dark:bg-background-dark px-6 md:px-10 py-3 sticky top-0 z-50">
-      <div class="flex items-center gap-3 text-primary cursor-pointer" onclick="showView('main-view')">
-        <img src="001_pixkitlogo.png" alt="Pixkit Logo" class="size-9 object-contain">
+      <div class="flex items-center gap-3 text-primary cursor-pointer" onclick="location.href='/'">
+        <img src="/001_pixkitlogo.png" alt="Pixkit Logo" class="size-9 object-contain">
         <h2 class="text-slate-900 dark:text-slate-100 text-xl font-black leading-tight tracking-tight">Pixkit</h2>
       </div>
       <div class="flex flex-1 justify-end gap-8 items-center">
