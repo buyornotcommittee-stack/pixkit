@@ -39,7 +39,7 @@
                 <h2 class="text-slate-900 dark:text-slate-100 text-xl font-black leading-tight tracking-tight">Pixkit
                 </h2>
             </div>
-            <nav class="hidden lg:flex items-center gap-6">
+            <nav class="hidden md:flex items-center gap-6">
                 <a data-i18n="nav_resize"
                     class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors"
                     href="../">Bulk Resize</a>
@@ -56,10 +56,12 @@
                     class="text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary text-sm font-semibold transition-colors"
                     href="../faq/">FAQ</a>
             </nav>
-            <button id="darkToggle"
-                class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
-                <span class="text-xl">🌙</span>
-            </button>
+            <div class="flex items-center gap-6">
+                <button id="darkToggle"
+                    class="p-2 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:text-primary transition-colors">
+                    <span class="text-xl">🌙</span>
+                </button>
+            </div>
         </header>
 
         <main id="about-view" class="flex-1 max-w-[1000px] mx-auto w-full p-6 md:p-12 pb-24 space-y-20">
