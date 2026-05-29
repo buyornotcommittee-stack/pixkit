@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
-  const titles = { ko: '개인정보처리방침', en: 'Privacy Policy', ja: 'プライバシーポリシー', zh: '隐私政策', fr: 'Politique de confidentialité', es: 'Política de privacidad' };
+  const titles = { ko: '개인정보처리방침', en: 'Privacy Policy', ja: 'プライバシーポリシー', zh: '隐私政策', fr: 'Politique de confidentialité', es: 'Política de privacidad', hi: 'गोपनीयता नीति' };
   const descs = {
     ko: 'Pixkit 개인정보처리방침 — 이미지 데이터 수집 및 처리에 관한 안내.',
     en: 'Pixkit Privacy Policy — How we handle your image data and personal information.',
@@ -10,8 +10,21 @@ export async function generateMetadata({ params }) {
     zh: 'Pixkit 隐私政策 — 关于图片数据收集和处理的说明。',
     fr: 'Politique de confidentialité Pixkit — Comment nous traitons vos données d\'images et informations personnelles.',
     es: 'Política de privacidad de Pixkit — Cómo manejamos sus datos de imagen e información personal.',
+    hi: 'Pixkit गोपनीयता नीति — हम आपके इमेज डेटा और व्यक्तिगत जानकारी को कैसे संभालते हैं।',
   };
-  return { title: titles[locale] || titles.ko, description: descs[locale] || descs.ko };
+  const baseUrl = 'https://pixkit.app';
+  const prefix = locale === 'ko' ? '' : `/${locale}`;
+  const languages = {};
+  ['ko', 'en', 'ja', 'zh', 'fr', 'es', 'hi'].forEach((l) => {
+    const p = l === 'ko' ? '' : `/${l}`;
+    languages[l] = `${baseUrl}${p}/privacy`;
+  });
+  languages['x-default'] = `${baseUrl}/privacy`;
+  return {
+    title: titles[locale] || titles.ko,
+    description: descs[locale] || descs.ko,
+    alternates: { canonical: `${baseUrl}${prefix}/privacy`, languages },
+  };
 }
 
 const content = {

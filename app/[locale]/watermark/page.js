@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import ToolLayout from '../../../components/ToolLayout';
+import ToolGuide from '../../../components/ToolGuide';
 
 export default function WatermarkPage() {
   const t = useTranslations();
@@ -323,6 +324,7 @@ export default function WatermarkPage() {
           )}
         </div>
       )}
+      <ToolGuide tool="watermark" />
     </ToolLayout>
   );
 }

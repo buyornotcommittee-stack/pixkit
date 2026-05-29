@@ -2,6 +2,8 @@
 import { useState, useRef, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import ToolLayout from '../../../components/ToolLayout';
+import ToolGuide from '../../../components/ToolGuide';
+import HowToUse from '../../../components/HowToUse';
 
 const presets = [
   { label: 'HD', w: 1280, h: 720 },
@@ -300,6 +302,8 @@ export default function ResizePage() {
           </div>
         </div>
       )}
+      <HowToUse tool="resize" />
+      <ToolGuide tool="resize" />
     </ToolLayout>
   );
 }

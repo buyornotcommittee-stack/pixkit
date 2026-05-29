@@ -1,11 +1,11 @@
 import { getPostsByLocale } from './[locale]/blog/posts';
 
-const locales = ['ko', 'en', 'ja', 'zh', 'fr', 'es'];
+const locales = ['ko', 'en', 'ja', 'zh', 'fr', 'es', 'hi'];
 
 export default function sitemap() {
   const baseUrl = 'https://pixkit.app';
 
-  const tools = ['resize', 'batch', 'img-to-pdf', 'pdf-to-img', 'crop', 'rotate', 'convert', 'watermark', 'merge', 'remove-exif', 'qr-code'];
+  const tools = ['resize', 'batch', 'img-to-pdf', 'pdf-to-img', 'crop', 'rotate', 'convert', 'watermark', 'merge', 'remove-exif', 'qr-code', 'remove-bg', 'upscale'];
 
   const staticPages = locales.flatMap((locale) => {
     const prefix = locale === 'ko' ? '' : `/${locale}`;
@@ -31,7 +31,7 @@ export default function sitemap() {
       priority: 0.8,
     };
 
-    const infoPages = ['about', 'privacy', 'terms'].map((page) => ({
+    const infoPages = ['about', 'contact', 'privacy', 'terms', 'disclaimer'].map((page) => ({
       url: `${baseUrl}${prefix}/${page}`,
       lastModified: new Date(),
       changeFrequency: 'monthly',

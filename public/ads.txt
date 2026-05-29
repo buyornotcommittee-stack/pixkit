@@ -1,1 +1,2 @@
 google.com, pub-1862816623457447, DIRECT, f08c47fec0942fa0
+ad.daum.net, DAN-V7n9IvlTj18Yivj9, DIRECT

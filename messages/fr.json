@@ -17,6 +17,7 @@
     "contents": "Contenu",
     "privacy": "Politique de confidentialité",
     "terms": "Conditions d'utilisation",
+    "contact": "Nous contacter",
     "about": "À propos",
     "blog": "Blog",
     "openMenu": "Ouvrir le menu",
@@ -39,11 +40,10 @@
     "timeout": "Délai dépassé. Veuillez réessayer."
   },
   "landing": {
-    "heroTitle": "Outils d'image gratuits",
-    "heroHighlight": "directement dans votre navigateur",
-    "heroDesc": "Aucune installation, aucune inscription, aucun envoi sur un serveur.\nTous les traitements se font en toute sécurité dans votre navigateur.",
-    "start": "Commencer",
-    "learnMore": "En savoir plus",
+    "heroTitle": "Rapide. Gratuit. Privé.\nOutils image.",
+    "heroSub": "Vos fichiers ne quittent jamais votre navigateur.",
+    "toolsTitle": "12 outils d'édition d'images gratuits",
+    "heroCta": "Commencer gratuitement →",
     "free": "Entièrement gratuit",
     "freeDesc": "Utilisez toutes les fonctionnalités sans aucune limite ni frais cachés.",
     "privacyTitle": "Respect de la vie privée",
@@ -76,16 +76,20 @@
     "removeExif": "Suppr. EXIF",
     "removeExifSub": "Supprimer les métadonnées",
     "qrCode": "QR Code",
-    "qrCodeSub": "Générer un QR code"
+    "qrCodeSub": "Générer un QR code",
+    "removeBg": "Suppr. fond",
+    "removeBgSub": "Suppression IA du fond",
+    "upscale": "Upscaling IA",
+    "upscaleSub": "Améliorer la qualité d'image"
   },
   "resize": {
-    "title": "Redimensionner une image — Gratuit",
-    "description": "Redimensionnez vos images gratuitement. Directement dans le navigateur, sans installation.",
+    "title": "Redimensionner Image — Gratuit en 3 Secondes (2026)",
+    "description": "Redimensionnez JPG, PNG, WebP dans votre navigateur. Présets Instagram, YouTube, blogs. Illimité, sans inscription.",
     "resize": "Redimensionner"
   },
   "batch": {
-    "title": "Redimensionnement par lot",
-    "description": "Redimensionnez plusieurs images en une fois. Gratuit, sans installation.",
+    "title": "Traitement par Lot — Redimensionner Plusieurs Images à la Fois (Gratuit)",
+    "description": "Idéal pour les boutiques et blogs. Appliquez les mêmes réglages à toutes les images. Gratuit.",
     "dropzone": "Glissez ou cliquez pour importer plusieurs images",
     "resizeAll": "Tout redimensionner",
     "downloadAll": "Tout télécharger",
@@ -97,30 +101,30 @@
     "status": "Statut"
   },
   "imgToPdf": {
-    "title": "Images en PDF — JPG en PDF gratuit",
-    "description": "Combinez plusieurs images en un seul PDF gratuitement. Réorganisez, format A4 auto.",
+    "title": "Image en PDF — Combiner Plusieurs Photos en un Fichier (Gratuit)",
+    "description": "Convertissez des photos scannées en un seul PDF. Glissez pour réorganiser. Sans envoi au serveur, gratuit.",
     "dropzone": "Glissez ou cliquez pour importer des images (plusieurs autorisées)",
     "generating": "Génération du PDF...",
     "downloadPdf": "Télécharger le PDF"
   },
   "pdfToImg": {
-    "title": "PDF en images — PDF en JPG gratuit",
-    "description": "Convertissez chaque page PDF en image JPG ou PNG gratuitement.",
+    "title": "PDF en Image — Extraire des Pages en JPG ou PNG (Gratuit)",
+    "description": "Extrayez toutes les pages ou certaines pages du PDF en images haute qualité. Gratuit, sans installation.",
     "dropzone": "Glissez ou cliquez pour importer un fichier PDF",
     "analyzing": "Analyse du PDF...",
     "downloadAll": "Tout télécharger",
     "page": "Page"
   },
   "crop": {
-    "title": "Recadrer une image — Gratuit",
-    "description": "Recadrez vos images librement ou avec un ratio fixe. Gratuit, sans installation.",
+    "title": "Recadrer Image — Crop en Ligne Gratuit (Ratio Fixe)",
+    "description": "Présets de ratio pour Instagram 1:1, YouTube 16:9 et plus. Qualité originale préservée. Sans inscription.",
     "free": "Libre",
     "dragHint": "Faites glisser pour sélectionner la zone de recadrage",
     "apply": "Appliquer le recadrage"
   },
   "rotate": {
-    "title": "Rotation d'image — Retourner",
-    "description": "Rotation 90°, 180° ou retournement horizontal/vertical. Gratuit, sans installation.",
+    "title": "Rotation et Retournement — Miroir Horizontal/Vertical Gratuit",
+    "description": "Corrigez l'orientation et retournez les selfies en un clic. Rotation 90° sans perte. Gratuit, sans install.",
     "left90": "Gauche 90°",
     "right90": "Droite 90°",
     "rotate180": "180°",
@@ -129,17 +133,17 @@
     "preview": "Aperçu"
   },
   "convert": {
-    "title": "Convertir une image — HEIC JPG PNG WebP",
-    "description": "Convertissez entre JPG, PNG, WebP, GIF, BMP, HEIC gratuitement dans votre navigateur.",
-    "dropzone": "Cliquez ou glissez pour importer une image",
+    "title": "Convertir Image — HEIC, JPG, PNG, WebP Gratuit (2026)",
+    "description": "Convertissez HEIC iPhone en JPG en 3 secondes. Traitement local uniquement. Illimité, gratuit.",
+    "dropzone": "Cliquez ou glissez pour importer des images",
     "supportedFormats": "JPG, PNG, WebP, GIF, BMP, HEIC pris en charge",
     "targetFormat": "Format cible",
     "convert": "Convertir",
     "converting": "Traitement du fichier..."
   },
   "watermark": {
-    "title": "Ajouter un filigrane — Gratuit",
-    "description": "Ajoutez un filigrane texte ou logo à vos images. Position, opacité et taille ajustables.",
+    "title": "Ajouter Filigrane — Texte ou Logo sur Images (Gratuit)",
+    "description": "Filigrane de copyright en 3 secondes. Réglez opacité, position et rotation. Gratuit, illimité.",
     "dropzone": "Importez une image pour ajouter un filigrane",
     "text": "Texte",
     "logo": "Image logo",
@@ -164,8 +168,8 @@
     "preview": "Aperçu"
   },
   "removeExif": {
-    "title": "Supprimer les données EXIF",
-    "description": "Supprimez les données GPS, date et appareil photo cachées dans vos photos. Gratuit.",
+    "title": "Supprimer EXIF — Effacer GPS et Infos Privées en 3 Secondes (Gratuit)",
+    "description": "Indispensable avant de vendre ou publier en ligne. Supprimez GPS et horodatages. Qualité inchangée.",
     "dropzone": "Importez une image pour supprimer les données EXIF",
     "exifInfo": "Informations EXIF",
     "noExif": "Aucune donnée EXIF trouvée",
@@ -175,8 +179,8 @@
     "removedInfo": "{count} métadonnées supprimées"
   },
   "qrCode": {
-    "title": "Générateur de QR code — Gratuit",
-    "description": "Créez des QR codes à partir d'URLs ou texte. Couleurs personnalisées, insertion de logo.",
+    "title": "Générateur QR — QR Gratuit avec Support Logo",
+    "description": "Générez des QR codes depuis URLs ou texte en 3 secondes. Personnalisation couleur et logo. Gratuit.",
     "inputLabel": "URL ou texte",
     "inputPlaceholder": "https://example.com ou saisissez du texte",
     "size": "Taille",
@@ -190,8 +194,8 @@
     "emptyState": "Saisissez du texte pour générer"
   },
   "merge": {
-    "title": "Fusionner des images — Gratuit",
-    "description": "Combinez plusieurs images horizontalement, verticalement ou en grille. Collage gratuit.",
+    "title": "Fusionner Images — Collage Horizontal, Vertical et Grille (Gratuit)",
+    "description": "Combinez plusieurs photos en une. Parfait pour avant/après et photos produit. Gratuit, illimité.",
     "dropzone": "Glissez ou cliquez pour importer les images à fusionner (plusieurs)",
     "direction": "Direction",
     "horizontal": "Horizontal (G→D)",
@@ -203,6 +207,30 @@
     "merge": "Fusionner",
     "moveLeft": "Déplacer à gauche",
     "moveRight": "Déplacer à droite"
+  },
+  "removeBg": {
+    "title": "Supprimer le Fond d'une Photo — Photo Produit Fond Blanc Gratuit (2026)",
+    "description": "Créez des photos produit sur fond blanc gratuitement. L'IA supprime le fond automatiquement. Sans inscription, sans envoi au serveur.",
+    "dropzone": "Importez une image pour supprimer le fond",
+    "removeBtn": "Supprimer le fond",
+    "processing": "Suppression du fond...",
+    "modelLoading": "Chargement du modèle IA...",
+    "modelHint": "Chargement du modèle IA. Cela peut prendre environ 30 secondes.",
+    "bgLabel": "Fond",
+    "bgTransparent": "Transparent",
+    "bgWhite": "Blanc",
+    "bgBlack": "Noir",
+    "bgCustom": "Personnalisé",
+    "downloadPng": "Télécharger PNG",
+    "downloadJpg": "Télécharger JPG",
+    "resultPlaceholder": "Cliquez sur Supprimer le fond pour commencer",
+    "editBtn": "Édition manuelle",
+    "eraser": "Gomme",
+    "restore": "Restaurer",
+    "brushSize": "Pinceau",
+    "editReset": "Réinitialiser",
+    "editDone": "Terminé",
+    "editHint": "E: Gomme | R: Restaurer | [ ]: Taille | Ctrl+Z: Annuler | Ctrl+Y: Rétablir | Molette: Zoom"
   },
   "toolCards": {
     "resize": "Redimensionner",
@@ -226,6 +254,20 @@
     "removeExif": "Suppr. EXIF",
     "removeExifDesc": "Supprimer localisation et métadonnées",
     "qrCode": "QR Code",
-    "qrCodeDesc": "Générer un QR code depuis une URL ou texte"
+    "qrCodeDesc": "Générer un QR code depuis une URL ou texte",
+    "removeBg": "Suppr. fond",
+    "removeBgDesc": "Suppression IA du fond d'image",
+    "upscale": "Upscaling IA",
+    "upscaleDesc": "Agrandir les images basse résolution 2x·4x avec l'IA"
+  },
+  "upscale": {
+    "title": "Super-résolution IA — Agrandir les photos 2x·4x sans perte de qualité",
+    "description": "L'IA prédit les pixels manquants pour des agrandissements nets. 2x ou 4x. Aucun envoi serveur. Entièrement gratuit.",
+    "upscale": "Lancer l'upscaling IA",
+    "scale": "Sélectionner l'échelle",
+    "modelLoading": "Chargement du modèle IA... (première fois uniquement)",
+    "processing": "L'IA analyse et génère les pixels...",
+    "hint": "Le modèle IA peut prendre quelques secondes à charger lors de la première utilisation.",
+    "sizeWarning": "Les grandes images peuvent prendre plus de temps avec un agrandissement 4x."
   }
 }

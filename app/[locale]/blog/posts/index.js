@@ -4,8 +4,9 @@ import { posts as ja } from './ja';
 import { posts as zh } from './zh';
 import { posts as fr } from './fr';
 import { posts as es } from './es';
+import { posts as hi } from './hi';
 
-const allPosts = { ko, en, ja, zh, fr, es };
+const allPosts = { ko, en, ja, zh, fr, es, hi };
 
 export function getPostsByLocale(locale) {
   const posts = allPosts[locale] || allPosts.ko;

@@ -3,12 +3,33 @@ import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { getMessages, setRequestLocale } from 'next-intl/server';
 import { routing } from '../../i18n/routing';
 import { notFound } from 'next/navigation';
+import { Sora, DM_Mono } from 'next/font/google';
 import '../globals.css';
 import Sidebar from '../../components/Sidebar';
 import ThemeProvider from '../../components/ThemeProvider';
+import CookieConsent from '../../components/CookieConsent';
+import AdSenseScript from '../../components/AdSenseScript';
+import Footer from '../../components/Footer';
+import EzoicPageRefresh from '../../components/EzoicPageRefresh';
 
-const localeNames = { ko: '한국어', en: 'English', ja: '日本語', zh: '中文', fr: 'Français', es: 'Español' };
-const localeHtml = { ko: 'ko', en: 'en', ja: 'ja', zh: 'zh', fr: 'fr', es: 'es' };
+const sora = Sora({
+  subsets: ['latin'],
+  weight: ['400', '500', '600', '700'],
+  display: 'swap',
+  variable: '--font-sora',
+  preload: true,
+});
+
+const dmMono = DM_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  display: 'swap',
+  variable: '--font-dm-mono',
+  preload: false,
+});
+
+const localeNames = { ko: '한국어', en: 'English', ja: '日本語', zh: '中文', fr: 'Français', es: 'Español', hi: 'हिन्दी' };
+const localeHtml = { ko: 'ko', en: 'en', ja: 'ja', zh: 'zh', fr: 'fr', es: 'es', hi: 'hi' };
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
@@ -16,23 +37,25 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
-  const ogLocale = { ko: 'ko_KR', en: 'en_US', ja: 'ja_JP', zh: 'zh_CN', fr: 'fr_FR', es: 'es_ES' };
+  const ogLocale = { ko: 'ko_KR', en: 'en_US', ja: 'ja_JP', zh: 'zh_CN', fr: 'fr_FR', es: 'es_ES', hi: 'hi_IN' };
 
   const titles = {
-    ko: 'Pixkit — 무료 온라인 이미지 편집 도구',
-    en: 'Pixkit — Free Online Image Editor',
-    ja: 'Pixkit — 無料オンライン画像編集ツール',
+    ko: 'Pixkit — 무료 온라인 이미지 편집기 (설치 없음, 회원가입 없음)',
+    en: 'Pixkit — Free Online Image Editor | Resize, Convert, Remove Background',
+    ja: 'Pixkit — 無料オンライン画像編集ツール | インストール不要',
     zh: 'Pixkit — 免费在线图片编辑工具',
     fr: 'Pixkit — Éditeur d\'images en ligne gratuit',
-    es: 'Pixkit — Editor de imágenes en línea gratuito',
+    es: 'Pixkit — Editor de Imágenes Online Gratis | Sin Registro',
+    hi: 'Pixkit — मुफ्त ऑनलाइन इमेज एडिटर | रिसाइज़, कन्वर्ट, बैकग्राउंड हटाएं',
   };
   const descriptions = {
-    ko: '브라우저에서 바로 사용하는 무료 이미지 리사이즈, 크롭, 변환, PDF 변환 도구. 설치 없이, 업로드 없이, 빠르고 안전하게.',
-    en: 'Free image resize, crop, convert and PDF tools. Works in your browser — no upload, no installation.',
-    ja: 'ブラウザで直接使える無料画像リサイズ、クロップ、変換、PDF変換ツール。インストール不要。',
+    ko: '이미지 리사이즈·누끼·PDF변환·HEIC변환까지. 파일은 서버에 안 올라가요. 3초면 끝. 완전 무료.',
+    en: 'Free image tools that run in your browser. Resize, convert, crop, remove backgrounds, merge images and more. No uploads, no signup, always free.',
+    ja: 'オンライン画像編集ツールが無料で使えます。リサイズ、クロップ、形式変換、背景除去まで。ブラウザで完結、インストール不要、サーバー送信なし。',
     zh: '浏览器中直接使用的免费图片调整大小、裁剪、转换和PDF工具。无需安装。',
     fr: 'Outils gratuits de redimensionnement, recadrage, conversion d\'images et PDF. Directement dans votre navigateur.',
-    es: 'Herramientas gratuitas para redimensionar, recortar, convertir imágenes y PDF. Directo en tu navegador.',
+    es: 'Herramientas de imagen gratuitas que funcionan en tu navegador. Redimensiona, convierte, elimina fondos y más. Sin subir archivos.',
+    hi: 'ब्राउज़र में मुफ्त इमेज टूल्स। रिसाइज़, क्रॉप, कन्वर्ट, बैकग्राउंड हटाएं और भी बहुत कुछ। कोई अपलोड नहीं, कोई साइनअप नहीं।',
   };
 
   const baseUrl = 'https://pixkit.app';
@@ -48,13 +71,21 @@ export async function generateMetadata({ params }) {
       'zh': `${baseUrl}/zh`,
       'fr': `${baseUrl}/fr`,
       'es': `${baseUrl}/es`,
+      'hi': `${baseUrl}/hi`,
       'x-default': baseUrl,
     },
   };
 
+  const keywords = locale === 'ko'
+    ? '무료 이미지 편집기, 무료 이미지 편집 도구, 온라인 이미지 편집, 이미지 리사이즈, 사진 편집 무료'
+    : locale === 'en'
+    ? 'free image editor, online image editor, resize image, convert image, remove background, image tools'
+    : undefined;
+
   return {
     title: { default: titles[locale] || titles.ko, template: `%s | Pixkit` },
     description: descriptions[locale] || descriptions.ko,
+    ...(keywords ? { keywords } : {}),
     metadataBase: new URL(baseUrl),
     alternates,
     icons: {
@@ -77,10 +108,8 @@ export async function generateMetadata({ params }) {
       card: 'summary_large_image',
     },
     verification: {
-      google: '나중에입력',
       other: {
         'naver-site-verification': '867fe7bbc94032949164bbfce71c412a5ff2d764',
-        'msvalidate.01': '나중에입력',
       },
     },
   };
@@ -94,24 +123,35 @@ export default async function LocaleLayout({ children, params }) {
   const messages = await getMessages();
 
   return (
-    <html lang={localeHtml[locale] || 'ko'} suppressHydrationWarning>
+    <html lang={localeHtml[locale] || 'ko'} className={`${sora.variable} ${dmMono.variable}`} suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* Ezoic Incubator — Privacy Scripts (must load first) */}
+        <script data-cfasync="false" src="https://cmp.gatekeeperconsent.com/min.js"></script>
+        <script data-cfasync="false" src="https://the.gatekeeperconsent.com/cmp.min.js"></script>
+        {/* Ezoic Incubator — Header Scripts */}
+        <script async src="//www.ezojs.com/ezoic/sa.min.js"></script>
+        <script dangerouslySetInnerHTML={{ __html: 'window.ezstandalone = window.ezstandalone || {}; ezstandalone.cmd = ezstandalone.cmd || [];' }} />
+        <script src="//ezoicanalytics.com/analytics.js"></script>
+        {/* Existing */}
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://pagead2.googlesyndication.com" />
         <link rel="alternate" type="application/rss+xml" title="Pixkit Blog" href="/feed.xml" />
         <meta name="google-adsense-account" content="ca-pub-1862816623457447" />
-        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-1862816623457447" crossOrigin="anonymous" />
       </head>
       <body className="dot-grid min-h-screen">
         <NextIntlClientProvider messages={messages}>
           <ThemeProvider>
+            <EzoicPageRefresh />
             <Sidebar />
-            <main className="lg:ml-[220px] px-4 sm:px-6 lg:px-10 py-8 pt-16 lg:pt-8 min-h-screen">
+            <main className="lg:ml-[220px] px-4 sm:px-6 lg:px-10 py-8 pt-16 mt-12 min-h-screen">
               {children}
             </main>
+            <Footer />
+            <CookieConsent />
           </ThemeProvider>
         </NextIntlClientProvider>
         <GoogleAnalytics gaId="G-5ZNG5H76MV" />
+        <AdSenseScript />
       </body>
     </html>
   );

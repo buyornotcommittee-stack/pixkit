@@ -1,4 +1,5 @@
 'use client';
+import KakaoAd from './KakaoAd';
 
 export default function ToolLayout({ title, description, children }) {
   return (
@@ -8,6 +9,7 @@ export default function ToolLayout({ title, description, children }) {
         <p className="text-text-secondary text-sm">{description}</p>
       </div>
       {children}
+      <KakaoAd unit="DAN-HuODIrdxUXc8lsdF" width="728" height="90" />
     </div>
   );
 }

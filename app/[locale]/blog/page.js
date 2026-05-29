@@ -1,52 +1,34 @@
-'use client';
-import { useTranslations, useLocale } from 'next-intl';
-import { Link } from '../../../i18n/navigation';
+import { getLocale } from 'next-intl/server';
 import { getPostsByLocale } from './posts';
+import BlogSearch from '../../../components/BlogSearch';
+import KakaoAd from '../../../components/KakaoAd';
 
 const uiText = {
-  ko: { title: '블로그', desc: '이미지 편집과 최적화에 관한 실용적인 가이드', read: '읽기' },
-  en: { title: 'Blog', desc: 'Practical guides on image editing and optimization', read: 'read' },
-  ja: { title: 'ブログ', desc: '画像編集と最適化に関する実用的なガイド', read: '読む' },
-  zh: { title: '博客', desc: '关于图片编辑和优化的实用指南', read: '阅读' },
-  fr: { title: 'Blog', desc: 'Guides pratiques sur l\'édition et l\'optimisation d\'images', read: 'lecture' },
-  es: { title: 'Blog', desc: 'Guías prácticas sobre edición y optimización de imágenes', read: 'lectura' },
+  ko: { title: '블로그', desc: '이미지 편집과 최적화에 관한 실용적인 가이드', read: '읽기', placeholder: '블로그 검색...', noResults: '검색 결과가 없습니다', searchLabel: '블로그 검색' },
+  en: { title: 'Blog', desc: 'Practical guides on image editing and optimization', read: 'read', placeholder: 'Search posts...', noResults: 'No results found', searchLabel: 'Search blog' },
+  ja: { title: 'ブログ', desc: '画像編集と最適化に関する実用的なガイド', read: '読む', placeholder: '記事を検索...', noResults: '検索結果がありません', searchLabel: 'ブログ検索' },
+  zh: { title: '博客', desc: '关于图片编辑和优化的实用指南', read: '阅读', placeholder: '搜索文章...', noResults: '没有搜索结果', searchLabel: '博客搜索' },
+  fr: { title: 'Blog', desc: 'Guides pratiques sur l\'édition et l\'optimisation d\'images', read: 'lecture', placeholder: 'Rechercher des articles...', noResults: 'Aucun résultat trouvé', searchLabel: 'Rechercher dans le blog' },
+  es: { title: 'Blog', desc: 'Guías prácticas sobre edición y optimización de imágenes', read: 'lectura', placeholder: 'Buscar publicaciones...', noResults: 'No se encontraron resultados', searchLabel: 'Buscar en el blog' },
+  hi: { title: 'ब्लॉग', desc: 'इमेज एडिटिंग और ऑप्टिमाइज़ेशन पर व्यावहारिक गाइड', read: 'पढ़ें', placeholder: 'पोस्ट खोजें...', noResults: 'कोई परिणाम नहीं मिला', searchLabel: 'ब्लॉग खोजें' },
 };
 
-export default function BlogPage() {
-  const locale = useLocale();
+export default async function BlogPage() {
+  const locale = await getLocale();
   const posts = getPostsByLocale(locale);
   const ui = uiText[locale] || uiText.ko;
+
+  // content 필드 제외하고 클라이언트로 전달 (페이로드 최소화)
+  const postCards = posts.map(({ slug, title, summary, tags, date, readTime }) => ({
+    slug, title, summary, tags, date, readTime,
+  }));
 
   return (
     <div className="max-w-4xl mx-auto">
       <h1 className="text-2xl font-bold font-heading mb-2">{ui.title}</h1>
-      <p className="text-text-secondary text-sm mb-8">{ui.desc}</p>
-
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        {posts.map((post) => (
-          <Link
-            key={post.slug}
-            href={`/blog/${post.slug}`}
-            className="card-glow rounded-xl p-6 hover:border-gold/30 transition-all group"
-          >
-            <div className="flex gap-2 mb-3">
-              {post.tags.slice(0, 3).map((tag) => (
-                <span key={tag} className="text-[10px] px-2 py-0.5 rounded-full bg-gold-dim text-gold">
-                  {tag}
-                </span>
-              ))}
-            </div>
-            <h2 className="font-heading font-semibold text-text-primary group-hover:text-gold transition-colors mb-2 leading-snug">
-              {post.title}
-            </h2>
-            <p className="text-text-muted text-sm mb-3 line-clamp-2">{post.summary}</p>
-            <div className="flex items-center gap-3 text-xs text-text-muted">
-              <span>{post.date}</span>
-              {post.readTime && <span>{post.readTime} {ui.read}</span>}
-            </div>
-          </Link>
-        ))}
-      </div>
+      <p className="text-text-secondary text-sm mb-6">{ui.desc}</p>
+      <BlogSearch posts={postCards} ui={ui} />
+      <KakaoAd />
     </div>
   );
 }

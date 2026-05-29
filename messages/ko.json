@@ -18,6 +18,7 @@
     "privacy": "개인정보처리방침",
     "terms": "이용약관",
     "about": "서비스 소개",
+    "contact": "문의하기",
     "blog": "블로그",
     "openMenu": "메뉴 열기",
     "closeMenu": "메뉴 닫기",
@@ -39,11 +40,10 @@
     "timeout": "시간이 초과되었습니다. 다시 시도해주세요."
   },
   "landing": {
-    "heroTitle": "브라우저에서 바로 쓰는",
-    "heroHighlight": "무료 이미지 도구",
-    "heroDesc": "설치도, 회원가입도, 서버 업로드도 필요 없습니다.\n모든 처리는 당신의 브라우저에서 안전하게 이루어집니다.",
-    "start": "지금 시작하기",
-    "learnMore": "더 알아보기",
+    "heroTitle": "무료 온라인 이미지 편집기",
+    "heroSub": "설치 없이 브라우저에서 바로 사용하는 이미지 편집 도구",
+    "toolsTitle": "무료 이미지 편집 도구 12가지",
+    "heroCta": "무료로 시작하기 →",
     "free": "완전 무료",
     "freeDesc": "모든 기능을 제한 없이 무료로 사용할 수 있습니다.",
     "privacyTitle": "프라이버시 보장",
@@ -76,16 +76,20 @@
     "removeExif": "EXIF 제거",
     "removeExifSub": "사진 개인정보 삭제",
     "qrCode": "QR코드 생성",
-    "qrCodeSub": "QR코드 무료 만들기"
+    "qrCodeSub": "QR코드 무료 만들기",
+    "removeBg": "배경 제거",
+    "removeBgSub": "AI로 누끼 따기",
+    "upscale": "AI 업스케일",
+    "upscaleSub": "이미지 화질 향상"
   },
   "resize": {
-    "title": "이미지 리사이즈 — 사진 크기 줄이기",
-    "description": "사진 크기를 원하는 해상도로 무료 변경. 브라우저에서 바로 이미지 리사이즈, 설치 없이 빠르게.",
+    "title": "이미지 리사이즈 — 3초면 끝나는 무료 사이즈 변경 (2026)",
+    "description": "JPG·PNG·WebP 크기 변경을 브라우저에서 바로. 인스타·유튜브·블로그 프리셋 제공. 회원가입 없이 무제한.",
     "resize": "리사이즈"
   },
   "batch": {
-    "title": "이미지 일괄 리사이즈",
-    "description": "여러 이미지를 한 번에 같은 크기로 일괄 리사이즈. 무료, 설치 없이 브라우저에서 바로.",
+    "title": "이미지 일괄 처리 — 여러 장 한번에 리사이즈 (무료)",
+    "description": "쇼핑몰·블로그 이미지 대량 처리에 최적. 여러 장을 같은 설정으로 한번에. 무료.",
     "dropzone": "여러 이미지를 드래그하거나 클릭하여 업로드",
     "resizeAll": "전체 리사이즈",
     "downloadAll": "전체 다운로드",
@@ -97,30 +101,30 @@
     "status": "상태"
   },
   "imgToPdf": {
-    "title": "이미지 PDF 변환 — JPG to PDF",
-    "description": "여러 이미지를 하나의 PDF로 무료 변환. 순서 조정, A4 자동 배치. 설치 없이 브라우저에서.",
+    "title": "이미지 PDF 변환 — 여러 장을 한 파일로 (무료)",
+    "description": "스캔 사진·문서 사진을 PDF 한 개로. 드래그로 순서 변경. 서버 업로드 없이 무료.",
     "dropzone": "이미지를 드래그하거나 클릭하여 업로드 (여러 장 가능)",
     "generating": "PDF 생성 중...",
     "downloadPdf": "PDF 다운로드"
   },
   "pdfToImg": {
-    "title": "PDF 이미지 변환 — PDF to JPG",
-    "description": "PDF 파일의 각 페이지를 JPG/PNG 이미지로 무료 변환. 브라우저에서 바로.",
+    "title": "PDF 이미지 변환 — 페이지를 JPG·PNG로 (무료)",
+    "description": "PDF 전체 또는 특정 페이지만 고화질 이미지로 추출. 무료, 설치 없음.",
     "dropzone": "PDF 파일을 드래그하거나 클릭하여 업로드",
     "analyzing": "PDF를 분석하고 있습니다...",
     "downloadAll": "전체 다운로드",
     "page": "페이지"
   },
   "crop": {
-    "title": "이미지 자르기 — 사진 크롭",
-    "description": "이미지에서 원하는 영역만 무료로 자르기. 비율 고정 또는 자유 크롭, 설치 없이.",
+    "title": "이미지 자르기 — 무료 온라인 크롭 (비율 고정 가능)",
+    "description": "인스타 1:1, 유튜브 16:9 등 비율 프리셋 제공. 원본 화질 그대로 유지. 가입 없이 무제한.",
     "free": "자유",
     "dragHint": "영역을 드래그하여 선택하세요",
     "apply": "크롭 적용"
   },
   "rotate": {
-    "title": "이미지 회전 — 사진 뒤집기",
-    "description": "이미지를 90도, 180도 회전하거나 좌우·상하 뒤집기. 무료, 설치 없이.",
+    "title": "이미지 회전·뒤집기 — 무료 좌우반전·상하반전",
+    "description": "셀카 반전, 사진 방향 교정을 한번에. 90도 회전은 화질 손실 없음. 무료, 설치 불필요.",
     "left90": "왼쪽 90°",
     "right90": "오른쪽 90°",
     "rotate180": "180°",
@@ -129,17 +133,17 @@
     "preview": "미리보기"
   },
   "convert": {
-    "title": "이미지 변환 — HEIC JPG PNG WebP",
-    "description": "JPG, PNG, WebP, GIF, BMP, HEIC 간 이미지 파일 형식 무료 변환. 브라우저에서 바로.",
-    "dropzone": "이미지를 드래그하거나 클릭하여 업로드",
+    "title": "이미지 형식 변환 — HEIC·JPG·PNG·WebP 무료 (2026)",
+    "description": "아이폰 HEIC를 JPG로 3초 만에. 서버 업로드 없이 내 기기에서만 처리. 무제한 무료.",
+    "dropzone": "이미지를 드래그하거나 클릭하여 업로드 (여러 장 가능)",
     "supportedFormats": "JPG, PNG, WebP, GIF, BMP, HEIC 지원",
     "targetFormat": "변환할 형식",
     "convert": "변환",
     "converting": "파일을 처리하고 있습니다..."
   },
   "watermark": {
-    "title": "워터마크 추가 — 사진 워터마크",
-    "description": "이미지에 텍스트 또는 로고 워터마크 무료 추가. 위치, 투명도, 크기 자유 조절.",
+    "title": "워터마크 추가 — 이미지에 텍스트·로고 삽입 (무료)",
+    "description": "저작권 보호용 워터마크 3초 삽입. 투명도·위치·회전 조절. 무료, 무제한.",
     "dropzone": "워터마크를 넣을 이미지를 업로드하세요",
     "text": "텍스트",
     "logo": "로고 이미지",
@@ -164,8 +168,8 @@
     "preview": "미리보기"
   },
   "removeExif": {
-    "title": "EXIF 삭제 — 사진 위치정보 제거",
-    "description": "사진에 숨겨진 GPS 위치, 촬영 날짜 등 EXIF 메타데이터 무료 삭제. 개인정보 보호.",
+    "title": "EXIF 제거 — 사진 GPS·개인정보 3초 삭제 (무료)",
+    "description": "중고거래·SNS 올리기 전 필수. GPS 위치, 촬영 시간을 깔끔히 제거. 화질은 그대로.",
     "dropzone": "EXIF를 제거할 이미지를 업로드하세요",
     "exifInfo": "EXIF 정보",
     "noExif": "EXIF 데이터가 없습니다",
@@ -175,8 +179,8 @@
     "removedInfo": "{count}개의 메타데이터가 제거되었습니다"
   },
   "qrCode": {
-    "title": "QR코드 만들기 — 무료 QR코드 생성기",
-    "description": "URL, 텍스트를 QR코드로 무료 변환. 색상 커스텀, 로고 삽입. 설치 없이 브라우저에서.",
+    "title": "QR코드 생성기 — 로고 삽입 가능 무료 QR 만들기",
+    "description": "URL·텍스트로 QR코드 3초 완성. 색상 커스텀, 로고 삽입 지원. 무료, 무제한.",
     "inputLabel": "URL 또는 텍스트",
     "inputPlaceholder": "https://example.com 또는 텍스트 입력",
     "size": "크기",
@@ -190,8 +194,8 @@
     "emptyState": "텍스트를 입력하세요"
   },
   "merge": {
-    "title": "이미지 합치기 — 사진 합치기",
-    "description": "여러 이미지를 가로, 세로, 그리드로 합치기. 콜라주 제작, 비포/애프터 비교. 무료.",
+    "title": "이미지 합치기 — 가로·세로·그리드 무료 콜라주",
+    "description": "사진 여러 장을 한 장으로. 전후 비교, 상품 다각도 이미지에 최적. 무료 무제한.",
     "dropzone": "합칠 이미지를 드래그하거나 클릭하여 업로드 (여러 장)",
     "direction": "합치기 방향",
     "horizontal": "가로 (좌→우)",
@@ -203,6 +207,30 @@
     "merge": "합치기",
     "moveLeft": "왼쪽으로",
     "moveRight": "오른쪽으로"
+  },
+  "removeBg": {
+    "title": "AI 배경 제거 — 무료 누끼 따기 (remove.bg 대체, 2026)",
+    "description": "AI가 자동으로 배경 제거. 서버에 사진 안 올라가니까 안심. 증명사진·상품사진에 최적.",
+    "dropzone": "배경을 제거할 이미지를 업로드하세요",
+    "removeBtn": "배경 제거",
+    "processing": "배경 제거 중...",
+    "modelLoading": "AI 모델을 불러오는 중입니다...",
+    "modelHint": "AI 모델을 불러오는 중입니다. 약 30초 소요됩니다.",
+    "bgLabel": "배경색",
+    "bgTransparent": "투명",
+    "bgWhite": "흰색",
+    "bgBlack": "검정",
+    "bgCustom": "직접 선택",
+    "downloadPng": "PNG 다운로드",
+    "downloadJpg": "JPG 다운로드",
+    "resultPlaceholder": "배경 제거 버튼을 눌러주세요",
+    "editBtn": "수동 편집",
+    "eraser": "지우개",
+    "restore": "복원",
+    "brushSize": "브러시",
+    "editReset": "초기화",
+    "editDone": "완료",
+    "editHint": "E: 지우개 | R: 복원 | [ ]: 브러시 크기 | Ctrl+Z: 실행 취소 | Ctrl+Y: 다시 실행 | 마우스 휠: 줌"
   },
   "toolCards": {
     "resize": "리사이즈",
@@ -226,6 +254,20 @@
     "removeExif": "EXIF 제거",
     "removeExifDesc": "사진에 숨겨진 위치·개인정보 삭제",
     "qrCode": "QR코드 생성",
-    "qrCodeDesc": "URL이나 텍스트로 QR코드 만들기"
+    "qrCodeDesc": "URL이나 텍스트로 QR코드 만들기",
+    "removeBg": "배경 제거",
+    "removeBgDesc": "AI로 이미지 배경 자동 제거",
+    "upscale": "AI 업스케일",
+    "upscaleDesc": "저화질 이미지를 AI로 2배·4배 고화질 확대"
+  },
+  "upscale": {
+    "title": "AI 이미지 업스케일링 — 화질 손상 없이 2배·4배 확대",
+    "description": "AI가 없는 픽셀을 예측해서 채웁니다. 저화질 이미지를 2배·4배 확대해도 선명함 유지. 파일 서버 전송 없음. 완전 무료.",
+    "upscale": "AI 업스케일 시작",
+    "scale": "확대 배율 선택",
+    "modelLoading": "AI 모델을 준비하고 있습니다... (최초 1회만)",
+    "processing": "AI가 픽셀을 분석하고 새 픽셀을 생성하고 있습니다...",
+    "hint": "처음 실행 시 AI 모델 로딩에 수 초가 걸릴 수 있습니다.",
+    "sizeWarning": "이미지가 크면 4배 업스케일 시 처리 시간이 길어질 수 있습니다."
   }
 }

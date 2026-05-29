@@ -1,6 +1,8 @@
 'use client';
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
+import ToolGuide from '../../../components/ToolGuide';
+import KakaoAd from '../../../components/KakaoAd';
 
 function canvasToBlob(canvas, type, quality) {
   return new Promise((resolve, reject) => {
@@ -335,6 +337,8 @@ export default function MergePage() {
           )}
         </>
       )}
+      <ToolGuide tool="merge" />
+      <KakaoAd unit="DAN-HuODIrdxUXc8lsdF" width="728" height="90" />
     </div>
   );
 }

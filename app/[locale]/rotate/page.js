@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import ToolLayout from '../../../components/ToolLayout';
+import ToolGuide from '../../../components/ToolGuide';
 
 export default function RotatePage() {
   const t = useTranslations();
@@ -145,6 +146,7 @@ export default function RotatePage() {
           )}
         </div>
       )}
+      <ToolGuide tool="rotate" />
     </ToolLayout>
   );
 }

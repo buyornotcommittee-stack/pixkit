@@ -4,6 +4,10 @@ import { useLocale } from 'next-intl';
 import { Link } from '../../../../i18n/navigation';
 import Image from 'next/image';
 import { getPostsByLocale } from '../posts';
+import ViewCounter from '../../../../components/ViewCounter';
+import KakaoAd from '../../../../components/KakaoAd';
+import EzoicAd from '../../../../components/EzoicAd';
+import Comments from '../../../../components/Comments';
 
 const localeFlags = [
   { code: 'ko', flag: '🇰🇷', label: '한국어' },
@@ -12,6 +16,7 @@ const localeFlags = [
   { code: 'zh', flag: '🇨🇳', label: '中文' },
   { code: 'fr', flag: '🇫🇷', label: 'Français' },
   { code: 'es', flag: '🇪🇸', label: 'Español' },
+  { code: 'hi', flag: '🇮🇳', label: 'हिन्दी' },
 ];
 
 const uiText = {
@@ -21,7 +26,36 @@ const uiText = {
   zh: { toc: '目录', read: '阅读', back: '← 返回博客列表' },
   fr: { toc: 'Sommaire', read: 'lecture', back: '← Retour au blog' },
   es: { toc: 'Índice', read: 'lectura', back: '← Volver al blog' },
+  hi: { toc: 'विषय-सूची', read: 'पढ़ें', back: '← ब्लॉग सूची पर वापस' },
 };
+
+function LanguageToggle({ slug, locale }) {
+  return (
+    <div className="flex items-center gap-2 mb-6 flex-wrap">
+      {localeFlags.map((l) => {
+        const isActive = l.code === locale;
+        return (
+          <button
+            key={l.code}
+            onClick={() => {
+              if (!isActive) {
+                const prefix = l.code === 'ko' ? '' : `/${l.code}`;
+                window.location.href = `${prefix}/blog/${slug}`;
+              }
+            }}
+            className={`text-sm px-3 py-1 rounded-full transition-colors ${
+              isActive
+                ? 'bg-gold text-bg-primary font-semibold'
+                : 'bg-card-bg text-text-muted hover:text-gold border border-card-border'
+            }`}
+          >
+            {l.flag} {l.label}
+          </button>
+        );
+      })}
+    </div>
+  );
+}
 
 function parseContent(content) {
   const lines = content.trim().split('\n');
@@ -56,13 +90,48 @@ function parseContent(content) {
 }
 
 function renderText(text) {
-  const parts = text.split(/(\*\*[^*]+\*\*|`[^`]+`)/g);
+  // Supports: **bold**, `code`, <a href="...">text</a>, [text](url)
+  const pattern = /(\*\*[^*]+\*\*|`[^`]+`|<a\s+href="[^"]+"[^>]*>[^<]+<\/a>|\[[^\]]+\]\([^)]+\))/g;
+  const parts = text.split(pattern);
   return parts.map((part, i) => {
+    if (!part) return null;
     if (part.startsWith('**') && part.endsWith('**')) {
       return <strong key={i} className="text-text-primary font-semibold">{part.slice(2, -2)}</strong>;
     }
     if (part.startsWith('`') && part.endsWith('`')) {
       return <code key={i} className="text-gold bg-gold-dim px-1.5 py-0.5 rounded text-xs">{part.slice(1, -1)}</code>;
+    }
+    // External HTML anchor (<a href="https://...">text</a>)
+    const htmlMatch = part.match(/^<a\s+href="([^"]+)"[^>]*>([^<]+)<\/a>$/);
+    if (htmlMatch) {
+      const [, href, label] = htmlMatch;
+      const isExternal = /^https?:\/\//.test(href);
+      return (
+        <a
+          key={i}
+          href={href}
+          className="text-gold hover:underline"
+          {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          {label}
+        </a>
+      );
+    }
+    // Markdown link [text](url)
+    const mdMatch = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+    if (mdMatch) {
+      const [, label, href] = mdMatch;
+      const isExternal = /^https?:\/\//.test(href);
+      return (
+        <a
+          key={i}
+          href={href}
+          className="text-gold hover:underline"
+          {...(isExternal ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
+          {label}
+        </a>
+      );
     }
     return part;
   });
@@ -122,28 +191,65 @@ export default function BlogPostPage({ params }) {
   const img1Index = img1After[0] ?? -1;
   const img2Index = img2After[0] ?? -1;
 
+  const blogPrefix = locale === 'ko' ? '' : `/${locale}`;
+  const postUrl = `https://pixkit.app${blogPrefix}/blog/${slug}`;
+  const headline = post.title.length > 110 ? post.title.slice(0, 107) + '...' : post.title;
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline,
+    description: post.summary,
+    ...(post.images?.[0]?.src ? { image: post.images[0].src } : {}),
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { '@type': 'Person', name: 'Pixkit' },
+    publisher: { '@type': 'Organization', name: 'Pixkit', url: 'https://pixkit.app' },
+    url: postUrl,
+    mainEntityOfPage: { '@type': 'WebPage', '@id': postUrl },
+    inLanguage: locale,
+  };
+
+  const bcLabels = {
+    ko: { home: '홈', blog: '블로그' },
+    en: { home: 'Home', blog: 'Blog' },
+    ja: { home: 'ホーム', blog: 'ブログ' },
+    zh: { home: '首页', blog: '博客' },
+    fr: { home: 'Accueil', blog: 'Blog' },
+    es: { home: 'Inicio', blog: 'Blog' },
+  };
+  const bc = bcLabels[locale] || bcLabels.ko;
+  const breadcrumbJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: bc.home, item: `https://pixkit.app${blogPrefix || '/'}` },
+      { '@type': 'ListItem', position: 2, name: bc.blog, item: `https://pixkit.app${blogPrefix}/blog` },
+      { '@type': 'ListItem', position: 3, name: post.title, item: `https://pixkit.app${blogPrefix}/blog/${slug}` },
+    ],
+  };
+
   return (
     <div className="max-w-3xl mx-auto">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(breadcrumbJsonLd) }} />
+
+      {/* Breadcrumb */}
+      <nav aria-label="Breadcrumb" className="mb-4">
+        <ol className="flex items-center gap-2 text-xs text-text-muted flex-wrap">
+          <li>
+            <Link href="/" className="hover:text-gold transition-colors">{bc.home}</Link>
+          </li>
+          <li aria-hidden="true" className="text-text-muted/50">/</li>
+          <li>
+            <Link href="/blog" className="hover:text-gold transition-colors">{bc.blog}</Link>
+          </li>
+          <li aria-hidden="true" className="text-text-muted/50">/</li>
+          <li className="text-text-secondary truncate max-w-[200px] sm:max-w-xs" aria-current="page">{post.title}</li>
+        </ol>
+      </nav>
+
       {/* Language Toggle */}
-      <div className="flex items-center gap-2 mb-6 flex-wrap">
-        {localeFlags.map((l) => {
-          const isActive = l.code === locale;
-          const prefix = l.code === 'ko' ? '' : `/${l.code}`;
-          return (
-            <a
-              key={l.code}
-              href={`${prefix}/blog/${slug}`}
-              className={`text-sm px-3 py-1 rounded-full transition-colors ${
-                isActive
-                  ? 'bg-gold text-bg-primary font-semibold'
-                  : 'bg-card-bg text-text-muted hover:text-gold border border-card-border'
-              }`}
-            >
-              {l.flag} {l.label}
-            </a>
-          );
-        })}
-      </div>
+      <LanguageToggle slug={slug} locale={locale} />
 
       {/* Header */}
       <div className="mb-8">
@@ -155,7 +261,7 @@ export default function BlogPostPage({ params }) {
         <h1 className="text-2xl sm:text-3xl font-bold font-heading leading-snug mb-3">{post.title}</h1>
         <div className="flex items-center gap-4 text-sm text-text-muted">
           <span>{post.date}</span>
-          {post.readTime && <span>{post.readTime} {ui.read}</span>}
+          <ViewCounter slug={slug} />
         </div>
       </div>
 
@@ -242,6 +348,11 @@ export default function BlogPostPage({ params }) {
         })}
       </article>
 
+      <KakaoAd />
+
+      {/* Ezoic — all locales */}
+      <EzoicAd placementId={101} />
+
       {/* CTA */}
       <div className="card-glow rounded-xl p-8 text-center mt-12 mb-8">
         <Link href={post.cta.href} className="btn-gold inline-block">
@@ -249,8 +360,11 @@ export default function BlogPostPage({ params }) {
         </Link>
       </div>
 
+      {/* Comments */}
+      <Comments lang={locale} />
+
       {/* Back to blog */}
-      <div className="text-center mb-8">
+      <div className="text-center mb-8 mt-8">
         <Link href="/blog" className="text-sm text-text-muted hover:text-gold transition-colors">
           {ui.back}
         </Link>

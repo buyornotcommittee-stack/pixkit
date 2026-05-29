@@ -18,6 +18,7 @@
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
     "about": "About",
+    "contact": "Contact",
     "blog": "Blog",
     "openMenu": "Open menu",
     "closeMenu": "Close menu",
@@ -39,11 +40,10 @@
     "timeout": "Request timed out. Please try again."
   },
   "landing": {
-    "heroTitle": "Free Image Tools",
-    "heroHighlight": "Right in Your Browser",
-    "heroDesc": "No installation, no sign-up, no server uploads.\nAll processing happens safely in your browser.",
-    "start": "Get Started",
-    "learnMore": "Learn More",
+    "heroTitle": "Free Online Image Editor",
+    "heroSub": "Everything runs in your browser. Your files never leave your device.",
+    "toolsTitle": "12 Free Image Editing Tools",
+    "heroCta": "Get started free →",
     "free": "Completely Free",
     "freeDesc": "Use all features without any limits or hidden costs.",
     "privacyTitle": "Privacy First",
@@ -76,16 +76,20 @@
     "removeExif": "Remove EXIF",
     "removeExifSub": "Strip photo metadata",
     "qrCode": "QR Code",
-    "qrCodeSub": "Generate QR codes"
+    "qrCodeSub": "Generate QR codes",
+    "removeBg": "Remove BG",
+    "removeBgSub": "AI background removal",
+    "upscale": "AI Upscale",
+    "upscaleSub": "Enhance image quality"
   },
   "resize": {
-    "title": "Image Resizer — Resize Photos Free",
-    "description": "Resize images to any resolution for free. No upload, no installation — works directly in your browser.",
+    "title": "Image Resizer — Free Size Change in 3 Seconds (2026)",
+    "description": "Resize JPG, PNG, WebP in your browser. Presets for Instagram, YouTube, and blogs. Unlimited, no signup.",
     "resize": "Resize"
   },
   "batch": {
-    "title": "Batch Image Resizer",
-    "description": "Resize multiple images at once to the same dimensions. Free, no installation required.",
+    "title": "Batch Image Processing — Resize Multiple Images at Once (Free)",
+    "description": "Perfect for bulk processing for shops and blogs. Apply the same settings to all images at once. Free.",
     "dropzone": "Drag or click to upload multiple images",
     "resizeAll": "Resize All",
     "downloadAll": "Download All",
@@ -97,30 +101,30 @@
     "status": "Status"
   },
   "imgToPdf": {
-    "title": "Images to PDF — JPG to PDF Free",
-    "description": "Combine multiple images into one PDF file for free. Reorder pages, auto-fit A4.",
+    "title": "Image to PDF — Combine Multiple Photos in One File (Free)",
+    "description": "Turn scanned photos and documents into a single PDF. Drag to reorder pages. No server uploads, free.",
     "dropzone": "Drag or click to upload images (multiple allowed)",
     "generating": "Generating PDF...",
     "downloadPdf": "Download PDF"
   },
   "pdfToImg": {
-    "title": "PDF to Image — PDF to JPG Free",
-    "description": "Convert each PDF page to JPG or PNG image for free. Works directly in your browser.",
+    "title": "PDF to Image — Extract Pages as JPG or PNG (Free)",
+    "description": "Extract all or specific PDF pages as high-quality images. Free, no install.",
     "dropzone": "Drag or click to upload a PDF file",
     "analyzing": "Analyzing PDF...",
     "downloadAll": "Download All",
     "page": "Page"
   },
   "crop": {
-    "title": "Image Crop — Crop Photos Free",
-    "description": "Crop images to any size with free or fixed aspect ratios. No installation, works in browser.",
+    "title": "Crop Image Online Free — Cut & Resize Photos Instantly (2026)",
+    "description": "Crop image online free with fixed aspect ratios for Instagram, YouTube, and more. Runs in browser, no server upload. Quality preserved.",
     "free": "Free",
     "dragHint": "Drag to select crop area",
     "apply": "Apply Crop"
   },
   "rotate": {
-    "title": "Rotate Image — Flip Photos Free",
-    "description": "Rotate images 90°, 180° or flip horizontally/vertically. Free, no installation.",
+    "title": "Rotate & Flip Image — Free Horizontal/Vertical Mirror",
+    "description": "Fix photo orientation and flip selfies in one click. Lossless 90° rotation. Free, no install.",
     "left90": "Left 90°",
     "right90": "Right 90°",
     "rotate180": "180°",
@@ -129,17 +133,17 @@
     "preview": "Preview"
   },
   "convert": {
-    "title": "Image Converter — HEIC JPG PNG WebP",
-    "description": "Convert between JPG, PNG, WebP, GIF, BMP, HEIC formats for free. No upload needed.",
-    "dropzone": "Click or drag to upload image",
+    "title": "Image Converter — Free HEIC, JPG, PNG, WebP (2026)",
+    "description": "Convert iPhone HEIC to JPG in 3 seconds. Processed on your device only. Unlimited, free.",
+    "dropzone": "Click or drag to upload images",
     "supportedFormats": "Supports JPG, PNG, WebP, GIF, BMP, HEIC",
     "targetFormat": "Target format",
     "convert": "Convert",
     "converting": "Processing file..."
   },
   "watermark": {
-    "title": "Add Watermark — Photo Watermark Free",
-    "description": "Add text or logo watermark to images for free. Adjust position, opacity, and size.",
+    "title": "Add Watermark — Insert Text or Logo on Images (Free)",
+    "description": "Add copyright watermarks in 3 seconds. Adjust opacity, position, and rotation. Free, unlimited.",
     "dropzone": "Upload an image to add watermark",
     "text": "Text",
     "logo": "Logo Image",
@@ -164,8 +168,8 @@
     "preview": "Preview"
   },
   "removeExif": {
-    "title": "Remove EXIF Data — Delete Photo Location",
-    "description": "Remove hidden GPS location, date, and camera info from photos for free. Protect privacy.",
+    "title": "EXIF Remover — Delete GPS & Private Info in 3 Seconds (Free)",
+    "description": "Essential before selling or posting online. Remove GPS and timestamps. Quality unchanged.",
     "dropzone": "Upload an image to remove EXIF data",
     "exifInfo": "EXIF Information",
     "noExif": "No EXIF data found",
@@ -175,8 +179,8 @@
     "removedInfo": "{count} metadata entries removed"
   },
   "qrCode": {
-    "title": "QR Code Generator — Free",
-    "description": "Generate QR codes from URLs or text for free. Custom colors, logo insertion supported.",
+    "title": "QR Code Generator — Free QR with Logo Support",
+    "description": "Generate QR codes from URLs or text in 3 seconds. Color customization and logo support. Free, unlimited.",
     "inputLabel": "URL or text",
     "inputPlaceholder": "https://example.com or enter text",
     "size": "Size",
@@ -190,8 +194,8 @@
     "emptyState": "Enter text to generate"
   },
   "merge": {
-    "title": "Merge Images — Combine Photos Free",
-    "description": "Combine multiple images horizontally, vertically, or in grid layout. Free collage maker.",
+    "title": "Merge Images — Horizontal, Vertical & Grid Collage (Free)",
+    "description": "Combine multiple photos into one. Perfect for before/after and product shots. Free, unlimited.",
     "dropzone": "Drag or click to upload images to merge (multiple)",
     "direction": "Direction",
     "horizontal": "Horizontal (L→R)",
@@ -203,6 +207,30 @@
     "merge": "Merge",
     "moveLeft": "Move left",
     "moveRight": "Move right"
+  },
+  "removeBg": {
+    "title": "AI Background Remover — Free (remove.bg Alternative, 2026)",
+    "description": "AI removes backgrounds automatically. No server uploads. Perfect for ID photos and product shots.",
+    "dropzone": "Upload an image to remove background",
+    "removeBtn": "Remove Background",
+    "processing": "Removing background...",
+    "modelLoading": "Loading AI model...",
+    "modelHint": "Loading AI model. This may take about 30 seconds.",
+    "bgLabel": "Background",
+    "bgTransparent": "Transparent",
+    "bgWhite": "White",
+    "bgBlack": "Black",
+    "bgCustom": "Custom",
+    "downloadPng": "Download PNG",
+    "downloadJpg": "Download JPG",
+    "resultPlaceholder": "Click Remove Background to start",
+    "editBtn": "Manual Edit",
+    "eraser": "Eraser",
+    "restore": "Restore",
+    "brushSize": "Brush",
+    "editReset": "Reset",
+    "editDone": "Done",
+    "editHint": "E: Eraser | R: Restore | [ ]: Brush size | Ctrl+Z: Undo | Ctrl+Y: Redo | Scroll: Zoom"
   },
   "toolCards": {
     "resize": "Resize",
@@ -226,6 +254,20 @@
     "removeExif": "Remove EXIF",
     "removeExifDesc": "Strip hidden location & metadata",
     "qrCode": "QR Code",
-    "qrCodeDesc": "Generate QR codes from URL or text"
+    "qrCodeDesc": "Generate QR codes from URL or text",
+    "removeBg": "Remove BG",
+    "removeBgDesc": "AI-powered background removal",
+    "upscale": "AI Upscale",
+    "upscaleDesc": "Enlarge low-res images 2x·4x with AI"
+  },
+  "upscale": {
+    "title": "AI Image Upscaling — Enlarge Photos 2x·4x Without Quality Loss",
+    "description": "AI predicts missing pixels to sharpen upscaled images. 2x or 4x enlargement. No server uploads. Completely free.",
+    "upscale": "Start AI Upscale",
+    "scale": "Select Scale",
+    "modelLoading": "Loading AI model... (first run only)",
+    "processing": "AI is analyzing pixels and generating new ones...",
+    "hint": "The AI model may take a few seconds to load on first run.",
+    "sizeWarning": "Large images may take longer with 4x upscaling."
   }
 }

@@ -2,6 +2,8 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import ToolLayout from '../../../components/ToolLayout';
+import ToolGuide from '../../../components/ToolGuide';
+import HowToUse from '../../../components/HowToUse';
 
 export default function CropPage() {
   const t = useTranslations();
@@ -208,6 +210,8 @@ export default function CropPage() {
           </div>
         </div>
       )}
+      <HowToUse tool="crop" />
+      <ToolGuide tool="crop" />
     </ToolLayout>
   );
 }

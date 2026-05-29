@@ -2,6 +2,7 @@
 import { useState, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import ToolLayout from '../../../components/ToolLayout';
+import ToolGuide from '../../../components/ToolGuide';
 
 export default function ImgToPdfPage() {
   const t = useTranslations();
@@ -143,6 +144,7 @@ export default function ImgToPdfPage() {
           </div>
         </>
       )}
+      <ToolGuide tool="img-to-pdf" />
     </ToolLayout>
   );
 }

@@ -1,7 +1,7 @@
 import { ImageResponse } from 'next/og';
 
 export const runtime = 'edge';
-export const alt = 'Pixkit — 무료 이미지 리사이저 · PDF 변환';
+export const alt = 'Pixkit — Free Online Image Tools';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
@@ -63,7 +63,7 @@ export default function OGImage() {
             fontWeight: '500',
           }}
         >
-          무료 이미지 리사이저 · PDF 변환
+          Free Image Tools — Fast, Private, No Upload
         </p>
         <p
           style={{

@@ -2,6 +2,8 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
 import { useTranslations } from 'next-intl';
 import QRCode from 'qrcode';
+import ToolGuide from '../../../components/ToolGuide';
+import KakaoAd from '../../../components/KakaoAd';
 
 export default function QrCodePage() {
   const t = useTranslations();
@@ -230,6 +232,8 @@ export default function QrCodePage() {
           )}
         </div>
       </div>
+      <ToolGuide tool="qr-code" />
+      <KakaoAd unit="DAN-HuODIrdxUXc8lsdF" width="728" height="90" />
     </div>
   );
 }

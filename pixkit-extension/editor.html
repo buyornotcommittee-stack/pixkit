@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pixkit</title>
+  <link rel="stylesheet" href="editor.css">
+</head>
+<body>
+  <!-- Top tab bar -->
+  <div id="tab-bar" class="tab-bar">
+    <button class="tab active" data-tab="remove-bg">배경 제거</button>
+    <button class="tab" data-tab="resize">리사이즈</button>
+    <button class="tab" data-tab="compress">압축</button>
+  </div>
+
+  <!-- Remaining count bar (remove-bg only) -->
+  <div id="remaining-bar" class="remaining-bar">
+    <span id="remaining-text"></span>
+  </div>
+
+  <!-- ════════════════ REMOVE-BG TAB ════════════════ -->
+  <div id="panel-remove-bg" class="panel active">
+
+    <!-- Limit -->
+    <div id="step-limit" class="step">
+      <div class="center-box limit-box">
+        <div class="limit-icon">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M15 4V2m0 2v2m0-2h-4.5M3 10v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-9M3 10l2.96-5.17A2 2 0 0 1 7.69 3.5h8.62a2 2 0 0 1 1.73 1.33L21 10M3 10h18"/>
+            <circle cx="12" cy="16" r="3"/>
+          </svg>
+        </div>
+        <h2 class="limit-title">오늘 무료 사용 횟수를 모두 사용했어요</h2>
+        <p class="limit-desc">무제한으로 사용하려면 pixkit.app을 방문하세요<br>브라우저에서 바로, 완전 무료!</p>
+        <div class="limit-buttons">
+          <button id="btn-visit-pixkit" class="action-btn gold">pixkit.app 방문하기</button>
+          <button id="btn-come-back" class="action-btn outline">내일 다시 오기</button>
+        </div>
+        <p class="limit-reset-hint">매일 자정에 횟수가 초기화됩니다</p>
+      </div>
+    </div>
+
+    <!-- Loading -->
+    <div id="step-loading" class="step active">
+      <div class="center-box">
+        <div class="logo-area">
+          <svg width="40" height="40" viewBox="0 0 32 32" fill="none">
+            <rect width="32" height="32" rx="8" fill="#f59e0b"/>
+            <text x="16" y="23" text-anchor="middle" font-size="20" font-weight="800" fill="#0a0f1e" font-family="system-ui">P</text>
+          </svg>
+          <span class="logo-text">Pixkit</span>
+        </div>
+        <div class="spinner"></div>
+        <p id="loading-msg" class="status-msg">이미지를 불러오는 중...</p>
+        <div class="progress-bar"><div id="loading-progress" class="progress-fill"></div></div>
+        <p id="loading-hint" class="hint"></p>
+      </div>
+    </div>
+
+    <!-- Processing -->
+    <div id="step-processing" class="step">
+      <div class="center-box">
+        <div class="preview-small"><img id="preview-img" alt="preview"></div>
+        <div class="spinner"></div>
+        <p id="processing-msg" class="status-msg">배경을 제거하는 중...</p>
+        <div class="progress-bar"><div id="processing-progress" class="progress-fill"></div></div>
+        <p id="processing-percent" class="percent"></p>
+      </div>
+    </div>
+
+    <!-- Editor -->
+    <div id="step-editor" class="step">
+      <div class="editor-layout">
+        <div class="canvas-area">
+          <div id="canvas-container" class="canvas-container">
+            <canvas id="edit-canvas"></canvas>
+          </div>
+        </div>
+        <div class="toolbar">
+          <div class="tool-section">
+            <p class="tool-label">도구</p>
+            <button id="btn-eraser" class="tool-btn active" title="E">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 20H7L3 16l9.5-9.5a2.828 2.828 0 0 1 4 0l3.5 3.5a2.828 2.828 0 0 1 0 4L12.5 21.5"/></svg>
+              <span>지우개</span><kbd>E</kbd>
+            </button>
+            <button id="btn-restore" class="tool-btn" title="R">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/></svg>
+              <span>복원</span><kbd>R</kbd>
+            </button>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">브러시</p>
+            <div class="brush-size-row">
+              <input id="brush-size" type="range" min="5" max="100" value="30">
+              <span id="brush-size-val">30px</span>
+            </div>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">줌</p>
+            <div class="zoom-row">
+              <button id="btn-zoom-out" class="icon-btn">−</button>
+              <span id="zoom-val">100%</span>
+              <button id="btn-zoom-in" class="icon-btn">+</button>
+              <button id="btn-zoom-fit" class="icon-btn">⊡</button>
+            </div>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">히스토리</p>
+            <div class="history-row">
+              <button id="btn-undo" class="icon-btn" disabled>↶</button>
+              <button id="btn-redo" class="icon-btn" disabled>↷</button>
+              <button id="btn-reset-edit" class="icon-btn">⟲</button>
+            </div>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">배경색</p>
+            <div class="bg-options">
+              <button class="bg-btn active" data-bg="transparent"><span class="checker-swatch"></span></button>
+              <button class="bg-btn" data-bg="#ffffff"><span class="color-swatch" style="background:#fff"></span></button>
+              <button class="bg-btn" data-bg="#000000"><span class="color-swatch" style="background:#000"></span></button>
+              <button class="bg-btn" data-bg="custom"><input id="custom-color" type="color" value="#ff0000"></button>
+            </div>
+          </div>
+          <div class="tool-section download-section">
+            <button id="btn-download-png" class="action-btn gold">PNG 다운로드</button>
+            <button id="btn-download-jpg" class="action-btn outline">JPG 다운로드</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ RESIZE TAB ════════════════ -->
+  <div id="panel-resize" class="panel">
+    <!-- Dropzone (no URL) -->
+    <div id="resize-dropzone" class="step active">
+      <div class="center-box">
+        <div class="dropzone-area" id="resize-drop-area">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/>
+            <line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/>
+          </svg>
+          <p class="status-msg">이미지를 드래그하거나 클릭하여 업로드</p>
+          <input id="resize-file-input" type="file" accept="image/*" hidden>
+        </div>
+      </div>
+    </div>
+    <!-- Tool UI -->
+    <div id="resize-tool" class="step">
+      <div class="simple-layout">
+        <div class="simple-preview">
+          <img id="resize-preview" alt="preview">
+        </div>
+        <div class="simple-sidebar">
+          <div class="tool-section">
+            <p class="tool-label">원본 크기</p>
+            <p id="resize-orig-size" class="info-value">–</p>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">새 크기</p>
+            <div class="input-row">
+              <div class="input-group">
+                <label>너비</label>
+                <input id="resize-w" type="number" min="1" placeholder="px">
+              </div>
+              <span class="input-x">×</span>
+              <div class="input-group">
+                <label>높이</label>
+                <input id="resize-h" type="number" min="1" placeholder="px">
+              </div>
+            </div>
+            <label class="checkbox-row">
+              <input id="resize-lock" type="checkbox" checked> 비율 유지
+            </label>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">프리셋</p>
+            <div class="preset-row">
+              <button class="preset-btn" data-w="1280" data-h="720">HD</button>
+              <button class="preset-btn" data-w="1920" data-h="1080">FHD</button>
+              <button class="preset-btn" data-w="1080" data-h="1080">인스타</button>
+              <button class="preset-btn" data-w="1280" data-h="720">썸네일</button>
+            </div>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">출력 형식</p>
+            <div class="format-row">
+              <button class="format-btn active" data-fmt="image/jpeg">JPG</button>
+              <button class="format-btn" data-fmt="image/png">PNG</button>
+              <button class="format-btn" data-fmt="image/webp">WebP</button>
+            </div>
+          </div>
+          <div class="tool-section" id="resize-quality-section">
+            <p class="tool-label">품질</p>
+            <div class="brush-size-row">
+              <input id="resize-quality" type="range" min="10" max="100" value="90">
+              <span id="resize-quality-val">90%</span>
+            </div>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">용량</p>
+            <p id="resize-size-info" class="info-value">–</p>
+          </div>
+          <div class="tool-section download-section">
+            <button id="resize-download" class="action-btn gold">리사이즈 & 다운로드</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════ COMPRESS TAB ════════════════ -->
+  <div id="panel-compress" class="panel">
+    <!-- Dropzone -->
+    <div id="compress-dropzone" class="step active">
+      <div class="center-box">
+        <div class="dropzone-area" id="compress-drop-area">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          <p class="status-msg">이미지를 드래그하거나 클릭하여 업로드</p>
+          <input id="compress-file-input" type="file" accept="image/*" hidden>
+        </div>
+      </div>
+    </div>
+    <!-- Tool UI -->
+    <div id="compress-tool" class="step">
+      <div class="simple-layout">
+        <div class="simple-preview">
+          <img id="compress-preview" alt="preview">
+        </div>
+        <div class="simple-sidebar">
+          <div class="tool-section">
+            <p class="tool-label">원본 용량</p>
+            <p id="compress-orig-size" class="info-value">–</p>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">품질</p>
+            <div class="brush-size-row">
+              <input id="compress-quality" type="range" min="10" max="100" value="80">
+              <span id="compress-quality-val">80%</span>
+            </div>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">출력 형식</p>
+            <div class="format-row">
+              <button class="format-btn active" data-fmt="image/jpeg" id="compress-fmt-jpg">JPG</button>
+              <button class="format-btn" data-fmt="image/webp" id="compress-fmt-webp">WebP</button>
+            </div>
+          </div>
+          <div class="tool-section">
+            <p class="tool-label">예상 결과</p>
+            <p id="compress-result-size" class="info-value gold-text">–</p>
+            <p id="compress-saving" class="info-value saving-text"></p>
+          </div>
+          <div class="tool-section download-section">
+            <button id="compress-download" class="action-btn gold">압축 & 다운로드</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="editor.js" type="module"></script>
+</body>
+</html>

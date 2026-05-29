@@ -17,6 +17,7 @@
     "contents": "コンテンツ",
     "privacy": "プライバシーポリシー",
     "terms": "利用規約",
+    "contact": "お問い合わせ",
     "about": "サービス紹介",
     "blog": "ブログ",
     "openMenu": "メニューを開く",
@@ -39,11 +40,10 @@
     "timeout": "タイムアウトしました。もう一度お試しください。"
   },
   "landing": {
-    "heroTitle": "ブラウザで直接使える",
-    "heroHighlight": "無料画像ツール",
-    "heroDesc": "インストール不要、会員登録不要、サーバーアップロード不要。\nすべての処理はブラウザ内で安全に行われます。",
-    "start": "今すぐ始める",
-    "learnMore": "詳しく見る",
+    "heroTitle": "Pixkit — 無料オンライン画像編集ツール\nインストール不要",
+    "heroSub": "オンライン画像編集をブラウザだけで完結。ファイルはサーバーに送信されません。",
+    "toolsTitle": "無料画像編集ツール 12種類",
+    "heroCta": "無料で始める →",
     "free": "完全無料",
     "freeDesc": "すべての機能を制限なく無料でご利用いただけます。",
     "privacyTitle": "プライバシー保護",
@@ -76,16 +76,20 @@
     "removeExif": "EXIF削除",
     "removeExifSub": "写真の個人情報を削除",
     "qrCode": "QRコード生成",
-    "qrCodeSub": "QRコードを無料作成"
+    "qrCodeSub": "QRコードを無料作成",
+    "removeBg": "背景除去",
+    "removeBgSub": "AIで背景を自動除去",
+    "upscale": "AIアップスケール",
+    "upscaleSub": "画質向上"
   },
   "resize": {
-    "title": "画像リサイズ — 写真サイズ変更",
-    "description": "画像を好きな解像度に無料リサイズ。ブラウザで直接、インストール不要。",
+    "title": "画像リサイズ — 3秒で終わる無料サイズ変更 (2026)",
+    "description": "JPG・PNG・WebPをブラウザで直接リサイズ。Instagram・YouTube・ブログ用プリセット付き。登録不要、無制限。",
     "resize": "リサイズ"
   },
   "batch": {
-    "title": "一括画像リサイズ",
-    "description": "複数の画像を一度に同じサイズにリサイズ。無料、インストール不要。",
+    "title": "一括画像処理 — 複数画像を一度にリサイズ（無料）",
+    "description": "ショップやブログの画像一括処理に最適。同じ設定で複数枚を一度に処理。無料。",
     "dropzone": "複数の画像をドラッグまたはクリックしてアップロード",
     "resizeAll": "全てリサイズ",
     "downloadAll": "全てダウンロード",
@@ -97,30 +101,30 @@
     "status": "状態"
   },
   "imgToPdf": {
-    "title": "画像からPDF変換 — JPG to PDF",
-    "description": "複数の画像を一つのPDFに無料変換。ページ順序調整、A4自動配置。",
+    "title": "画像をPDFに変換 — 複数枚を1ファイルに（無料）",
+    "description": "スキャン写真や書類写真を1つのPDFに。ドラッグで順番変更可能。サーバー不要、無料。",
     "dropzone": "画像をドラッグまたはクリックしてアップロード（複数可）",
     "generating": "PDF生成中...",
     "downloadPdf": "PDFダウンロード"
   },
   "pdfToImg": {
-    "title": "PDFから画像変換 — PDF to JPG",
-    "description": "PDFの各ページをJPG/PNG画像に無料変換。ブラウザで直接処理。",
+    "title": "PDFを画像に変換 — ページをJPG・PNGに（無料）",
+    "description": "PDF全体または特定ページのみ高画質で抽出。無料、インストール不要。",
     "dropzone": "PDFファイルをドラッグまたはクリックしてアップロード",
     "analyzing": "PDFを分析中...",
     "downloadAll": "全てダウンロード",
     "page": "ページ"
   },
   "crop": {
-    "title": "画像トリミング — 写真クロップ",
-    "description": "画像から必要な部分だけ無料で切り取り。固定比率・自由クロップ対応。",
+    "title": "画像トリミング — 無料オンラインクロップ（比率固定可能）",
+    "description": "Instagram 1:1、YouTube 16:9などの比率プリセット付き。元の画質そのまま。登録不要、無制限。",
     "free": "自由",
     "dragHint": "ドラッグして範囲を選択してください",
     "apply": "クロップ適用"
   },
   "rotate": {
-    "title": "画像回転 — 写真の反転",
-    "description": "画像を90度・180度回転、左右・上下反転。無料、インストール不要。",
+    "title": "画像回転・反転 — 無料水平/垂直ミラー",
+    "description": "自撮り反転、写真方向修正を一度に。90度回転は画質劣化なし。無料、インストール不要。",
     "left90": "左90°",
     "right90": "右90°",
     "rotate180": "180°",
@@ -129,17 +133,17 @@
     "preview": "プレビュー"
   },
   "convert": {
-    "title": "画像変換 — HEIC JPG PNG WebP",
-    "description": "JPG、PNG、WebP、GIF、BMP、HEIC間の画像形式を無料変換。ブラウザで直接。",
-    "dropzone": "画像をドラッグまたはクリックしてアップロード",
+    "title": "画像形式変換 — HEIC・JPG・PNG・WebP無料 (2026)",
+    "description": "iPhoneのHEICをJPGに3秒で変換。サーバーアップロードなし、端末内で処理。無制限、無料。",
+    "dropzone": "画像をドラッグまたはクリックしてアップロード（複数可）",
     "supportedFormats": "JPG, PNG, WebP, GIF, BMP, HEIC対応",
     "targetFormat": "変換先形式",
     "convert": "変換",
     "converting": "ファイルを処理中..."
   },
   "watermark": {
-    "title": "ウォーターマーク追加",
-    "description": "画像にテキストやロゴのウォーターマークを無料追加。位置・透明度・サイズ調整可。",
+    "title": "透かし追加 — テキスト・ロゴを画像に挿入（無料）",
+    "description": "著作権保護の透かしを3秒で挿入。不透明度・位置・回転を調整可能。無料、無制限。",
     "dropzone": "透かしを入れる画像をアップロード",
     "text": "テキスト",
     "logo": "ロゴ画像",
@@ -164,8 +168,8 @@
     "preview": "プレビュー"
   },
   "removeExif": {
-    "title": "EXIF削除 — 写真位置情報の除去",
-    "description": "写真に隠されたGPS位置情報・撮影日時などのEXIFデータを無料削除。",
+    "title": "EXIF削除 — GPS・個人情報を3秒で削除（無料）",
+    "description": "フリマサイトやSNS投稿前に必須。GPS位置情報と撮影日時を削除。画質はそのまま。",
     "dropzone": "EXIFを削除する画像をアップロード",
     "exifInfo": "EXIF情報",
     "noExif": "EXIFデータがありません",
@@ -175,8 +179,8 @@
     "removedInfo": "{count}件のメタデータを削除しました"
   },
   "qrCode": {
-    "title": "QRコード作成 — 無料QRコード生成",
-    "description": "URL・テキストからQRコードを無料生成。色カスタム、ロゴ挿入対応。",
+    "title": "QRコード生成 — ロゴ挿入対応の無料QR作成",
+    "description": "URLやテキストから3秒でQRコード作成。色カスタマイズ、ロゴ挿入対応。無料、無制限。",
     "inputLabel": "URLまたはテキスト",
     "inputPlaceholder": "https://example.com またはテキストを入力",
     "size": "サイズ",
@@ -190,8 +194,8 @@
     "emptyState": "テキストを入力してください"
   },
   "merge": {
-    "title": "画像結合 — 写真を並べて合成",
-    "description": "複数の画像を横・縦・グリッドで結合。コラージュ作成に最適。無料。",
+    "title": "画像結合 — 横・縦・グリッドの無料コラージュ",
+    "description": "複数の写真を1枚に。ビフォーアフター比較や商品多角度画像に最適。無料、無制限。",
     "dropzone": "結合する画像をドラッグまたはクリックしてアップロード（複数可）",
     "direction": "結合方向",
     "horizontal": "横並び（左→右）",
@@ -203,6 +207,30 @@
     "merge": "結合",
     "moveLeft": "左へ移動",
     "moveRight": "右へ移動"
+  },
+  "removeBg": {
+    "title": "AI背景削除 — 無料切り抜き（remove.bg代替, 2026）",
+    "description": "AIが自動で背景を削除。サーバーに写真が送られないので安心。証明写真・商品写真に最適。",
+    "dropzone": "背景を除去する画像をアップロード",
+    "removeBtn": "背景を除去",
+    "processing": "背景除去中...",
+    "modelLoading": "AIモデルを読み込み中...",
+    "modelHint": "AIモデルを読み込んでいます。約30秒かかります。",
+    "bgLabel": "背景色",
+    "bgTransparent": "透明",
+    "bgWhite": "白",
+    "bgBlack": "黒",
+    "bgCustom": "カスタム",
+    "downloadPng": "PNGダウンロード",
+    "downloadJpg": "JPGダウンロード",
+    "resultPlaceholder": "「背景を除去」ボタンを押してください",
+    "editBtn": "手動編集",
+    "eraser": "消しゴム",
+    "restore": "復元",
+    "brushSize": "ブラシ",
+    "editReset": "リセット",
+    "editDone": "完了",
+    "editHint": "E: 消しゴム | R: 復元 | [ ]: ブラシサイズ | Ctrl+Z: 元に戻す | Ctrl+Y: やり直し | ホイール: ズーム"
   },
   "toolCards": {
     "resize": "リサイズ",
@@ -226,6 +254,20 @@
     "removeExif": "EXIF削除",
     "removeExifDesc": "写真の位置情報・個人情報を削除",
     "qrCode": "QRコード",
-    "qrCodeDesc": "URLやテキストからQRコード生成"
+    "qrCodeDesc": "URLやテキストからQRコード生成",
+    "removeBg": "背景除去",
+    "removeBgDesc": "AIで画像背景を自動除去",
+    "upscale": "AIアップスケール",
+    "upscaleDesc": "低解像度画像をAIで2倍・4倍高画質化"
+  },
+  "upscale": {
+    "title": "AI画像アップスケーリング — 2倍・4倍拡大で高画質化",
+    "description": "AIが欠けているピクセルを予測して補完します。2倍・4倍拡大でも鮮明さを維持。サーバー送信なし。完全無料。",
+    "upscale": "AIアップスケール開始",
+    "scale": "拡大倍率を選択",
+    "modelLoading": "AIモデルを準備中... (初回のみ)",
+    "processing": "AIがピクセルを分析・生成中...",
+    "hint": "初回実行時にAIモデルの読み込みに数秒かかる場合があります。",
+    "sizeWarning": "大きい画像の場合、4倍アップスケールには時間がかかる場合があります。"
   }
 }

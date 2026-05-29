@@ -2,6 +2,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import ToolLayout from '../../../components/ToolLayout';
+import ToolGuide from '../../../components/ToolGuide';
 
 const PDFJS_VERSION = '4.4.168';
 const PDFJS_CDN = `https://cdnjs.cloudflare.com/ajax/libs/pdf.js/${PDFJS_VERSION}`;
@@ -252,6 +253,7 @@ export default function PdfToImgPage() {
           </div>
         </>
       )}
+      <ToolGuide tool="pdf-to-img" />
     </ToolLayout>
   );
 }

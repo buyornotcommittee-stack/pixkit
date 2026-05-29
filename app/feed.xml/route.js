@@ -1,6 +1,6 @@
 import { getPostsByLocale } from '../[locale]/blog/posts';
 
-const locales = ['ko', 'en', 'ja', 'zh', 'fr', 'es'];
+const locales = ['ko', 'en', 'ja', 'zh', 'fr', 'es', 'hi'];
 
 const meta = {
   ko: { title: 'Pixkit 블로그', desc: '이미지 최적화 팁과 무료 도구 가이드' },
@@ -9,6 +9,7 @@ const meta = {
   zh: { title: 'Pixkit 博客', desc: '图片优化技巧和免费工具指南' },
   fr: { title: 'Pixkit Blog', desc: "Conseils d'optimisation d'images et guides d'outils gratuits" },
   es: { title: 'Pixkit Blog', desc: 'Consejos de optimización de imágenes y guías de herramientas gratuitas' },
+  hi: { title: 'Pixkit ब्लॉग', desc: 'इमेज ऑप्टिमाइज़ेशन टिप्स और मुफ्त टूल गाइड' },
 };
 
 function buildFeed(locale) {

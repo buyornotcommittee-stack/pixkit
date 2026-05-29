@@ -2,7 +2,7 @@ import { getTranslations } from 'next-intl/server';
 
 export async function generateMetadata({ params }) {
   const { locale } = await params;
-  const titles = { ko: '이용약관', en: 'Terms of Service', ja: '利用規約', zh: '使用条款', fr: 'Conditions d\'utilisation', es: 'Términos de servicio' };
+  const titles = { ko: '이용약관', en: 'Terms of Service', ja: '利用規約', zh: '使用条款', fr: 'Conditions d\'utilisation', es: 'Términos de servicio', hi: 'सेवा की शर्तें' };
   const descs = {
     ko: 'Pixkit 이용약관 — 서비스 이용 조건 및 면책 사항 안내.',
     en: 'Pixkit Terms of Service — Terms and conditions for using the service.',
@@ -10,8 +10,21 @@ export async function generateMetadata({ params }) {
     zh: 'Pixkit 使用条款 — 服务使用条件及免责声明。',
     fr: 'Conditions d\'utilisation Pixkit — Conditions et mentions légales relatives à l\'utilisation du service.',
     es: 'Términos de servicio de Pixkit — Condiciones y avisos legales relativos al uso del servicio.',
+    hi: 'Pixkit सेवा की शर्तें — सेवा उपयोग की शर्तें और नियम।',
   };
-  return { title: titles[locale] || titles.ko, description: descs[locale] || descs.ko };
+  const baseUrl = 'https://pixkit.app';
+  const prefix = locale === 'ko' ? '' : `/${locale}`;
+  const languages = {};
+  ['ko', 'en', 'ja', 'zh', 'fr', 'es', 'hi'].forEach((l) => {
+    const p = l === 'ko' ? '' : `/${l}`;
+    languages[l] = `${baseUrl}${p}/terms`;
+  });
+  languages['x-default'] = `${baseUrl}/terms`;
+  return {
+    title: titles[locale] || titles.ko,
+    description: descs[locale] || descs.ko,
+    alternates: { canonical: `${baseUrl}${prefix}/terms`, languages },
+  };
 }
 
 const content = {

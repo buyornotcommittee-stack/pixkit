@@ -2,6 +2,8 @@
 import { useState, useRef } from 'react';
 import { useTranslations } from 'next-intl';
 import ToolLayout from '../../../components/ToolLayout';
+import ToolGuide from '../../../components/ToolGuide';
+import HowToUse from '../../../components/HowToUse';
 
 export default function BatchPage() {
   const t = useTranslations();
@@ -168,7 +170,7 @@ export default function BatchPage() {
                   {files.map((f) => (
                     <tr key={f.id} className="border-b border-card-border">
                       <td className="p-3">
-                        <img src={f.thumb} alt="" className="w-10 h-10 object-cover rounded" />
+                        <img src={f.thumb} alt={`${f.name} preview`} className="w-10 h-10 object-cover rounded" />
                       </td>
                       <td className="p-3 text-text-secondary truncate max-w-[150px]">{f.name}</td>
                       <td className="p-3 text-text-muted font-mono text-xs">{f.origW}×{f.origH}</td>
@@ -201,6 +203,8 @@ export default function BatchPage() {
           </div>
         </>
       )}
+      <HowToUse tool="batch" />
+      <ToolGuide tool="batch" />
     </ToolLayout>
   );
 }

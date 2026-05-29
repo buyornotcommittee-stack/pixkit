@@ -17,6 +17,7 @@
     "contents": "内容",
     "privacy": "隐私政策",
     "terms": "使用条款",
+    "contact": "联系我们",
     "about": "关于",
     "blog": "博客",
     "openMenu": "打开菜单",
@@ -39,11 +40,10 @@
     "timeout": "请求超时，请重试。"
   },
   "landing": {
-    "heroTitle": "浏览器中直接使用的",
-    "heroHighlight": "免费图片工具",
-    "heroDesc": "无需安装、无需注册、无需上传服务器。\n所有处理都在您的浏览器中安全进行。",
-    "start": "立即开始",
-    "learnMore": "了解更多",
+    "heroTitle": "快速。免费。安全。\n图片工具。",
+    "heroSub": "文件不会离开您的浏览器。",
+    "toolsTitle": "12款免费图片编辑工具",
+    "heroCta": "免费开始 →",
     "free": "完全免费",
     "freeDesc": "所有功能均可无限制免费使用。",
     "privacyTitle": "隐私保护",
@@ -76,16 +76,20 @@
     "removeExif": "删除EXIF",
     "removeExifSub": "清除照片隐私信息",
     "qrCode": "二维码生成",
-    "qrCodeSub": "免费生成二维码"
+    "qrCodeSub": "免费生成二维码",
+    "removeBg": "去除背景",
+    "removeBgSub": "AI自动去除背景",
+    "upscale": "AI超分辨率",
+    "upscaleSub": "提升图像质量"
   },
   "resize": {
-    "title": "图片调整大小 — 在线缩放图片",
-    "description": "免费调整图片到任意分辨率。浏览器直接处理，无需安装，无需上传。",
+    "title": "图片调整大小 — 3秒免费更改尺寸 (2026)",
+    "description": "在浏览器中调整JPG、PNG、WebP大小。提供Instagram、YouTube、博客预设。无需注册，无限制。",
     "resize": "调整大小"
   },
   "batch": {
-    "title": "批量图片调整大小",
-    "description": "一次性将多张图片调整为相同尺寸。免费，无需安装。",
+    "title": "批量图片处理 — 一次调整多张图片大小（免费）",
+    "description": "非常适合商店和博客的批量处理。对所有图片应用相同设置。免费。",
     "dropzone": "拖拽或点击上传多张图片",
     "resizeAll": "全部调整",
     "downloadAll": "全部下载",
@@ -97,30 +101,30 @@
     "status": "状态"
   },
   "imgToPdf": {
-    "title": "图片转PDF — JPG转PDF",
-    "description": "免费将多张图片合并为一个PDF文件。可调整顺序，A4自动排版。",
+    "title": "图片转PDF — 将多张图片合并为一个文件（免费）",
+    "description": "将扫描照片和文件照片合并为一个PDF。拖拽调整顺序。无需上传服务器，免费。",
     "dropzone": "拖拽或点击上传图片（可多选）",
     "generating": "正在生成PDF...",
     "downloadPdf": "下载PDF"
   },
   "pdfToImg": {
-    "title": "PDF转图片 — PDF转JPG",
-    "description": "免费将PDF每页转换为JPG或PNG图片。浏览器直接处理。",
+    "title": "PDF转图片 — 将页面导出为JPG或PNG（免费）",
+    "description": "提取全部或特定页面为高质量图像。免费，无需安装。",
     "dropzone": "拖拽或点击上传PDF文件",
     "analyzing": "正在分析PDF...",
     "downloadAll": "全部下载",
     "page": "页"
   },
   "crop": {
-    "title": "图片裁剪 — 在线裁切照片",
-    "description": "免费裁剪图片到任意尺寸。支持固定比例和自由裁剪。",
+    "title": "裁剪图片 — 免费在线裁剪（可固定比例）",
+    "description": "提供Instagram 1:1、YouTube 16:9等比例预设。保持原始画质。无需注册，无限制。",
     "free": "自由",
     "dragHint": "拖拽选择裁剪区域",
     "apply": "应用裁剪"
   },
   "rotate": {
-    "title": "图片旋转 — 翻转照片",
-    "description": "90度、180度旋转图片或水平/垂直翻转。免费，无需安装。",
+    "title": "旋转翻转图片 — 免费水平/垂直镜像",
+    "description": "一键修正照片方向和翻转自拍。90度旋转无画质损失。免费，无需安装。",
     "left90": "左转90°",
     "right90": "右转90°",
     "rotate180": "180°",
@@ -129,17 +133,17 @@
     "preview": "预览"
   },
   "convert": {
-    "title": "图片格式转换 — HEIC JPG PNG WebP",
-    "description": "免费转换JPG、PNG、WebP、GIF、BMP、HEIC格式。浏览器直接处理。",
-    "dropzone": "点击或拖拽上传图片",
+    "title": "图片格式转换 — 免费HEIC、JPG、PNG、WebP (2026)",
+    "description": "3秒将iPhone HEIC转换为JPG。仅在您的设备上处理，不上传服务器。无限制，免费。",
+    "dropzone": "点击或拖拽上传图片（支持多张）",
     "supportedFormats": "支持 JPG, PNG, WebP, GIF, BMP, HEIC",
     "targetFormat": "目标格式",
     "convert": "转换",
     "converting": "正在处理文件..."
   },
   "watermark": {
-    "title": "添加水印 — 图片水印",
-    "description": "免费为图片添加文字或Logo水印。自由调整位置、透明度、大小。",
+    "title": "添加水印 — 在图片上插入文字或Logo（免费）",
+    "description": "3秒添加版权水印。调整透明度、位置和旋转。免费，无限制。",
     "dropzone": "上传需要添加水印的图片",
     "text": "文字",
     "logo": "Logo图片",
@@ -164,8 +168,8 @@
     "preview": "预览"
   },
   "removeExif": {
-    "title": "删除EXIF数据 — 清除照片位置信息",
-    "description": "免费删除照片中隐藏的GPS位置、拍摄日期等EXIF元数据。保护隐私。",
+    "title": "删除EXIF — 3秒删除GPS和个人信息（免费）",
+    "description": "二手交易和社交媒体发布前必备。删除GPS位置和拍摄时间。画质不变。",
     "dropzone": "上传要删除EXIF的图片",
     "exifInfo": "EXIF信息",
     "noExif": "未发现EXIF数据",
@@ -175,8 +179,8 @@
     "removedInfo": "已删除{count}条元数据"
   },
   "qrCode": {
-    "title": "二维码生成器 — 免费制作二维码",
-    "description": "免费将网址、文字生成二维码。支持自定义颜色和Logo插入。",
+    "title": "二维码生成器 — 支持Logo的免费QR码生成",
+    "description": "3秒从URL或文字生成二维码。自定义颜色，支持Logo插入。免费，无限制。",
     "inputLabel": "URL或文字",
     "inputPlaceholder": "https://example.com 或输入文字",
     "size": "大小",
@@ -190,8 +194,8 @@
     "emptyState": "请输入文字以生成"
   },
   "merge": {
-    "title": "图片拼接 — 合并多张照片",
-    "description": "将多张图片横向、纵向或网格拼接。免费制作拼贴画。",
+    "title": "合并图片 — 免费横向、纵向和网格拼图",
+    "description": "将多张照片合并为一张。非常适合前后对比和产品多角度图片。免费，无限制。",
     "dropzone": "拖拽或点击上传要拼接的图片（可多选）",
     "direction": "拼接方向",
     "horizontal": "横向（左→右）",
@@ -203,6 +207,30 @@
     "merge": "拼接",
     "moveLeft": "左移",
     "moveRight": "右移"
+  },
+  "removeBg": {
+    "title": "AI抠图 — 免费背景删除（remove.bg替代, 2026）",
+    "description": "AI自动删除背景。照片不上传服务器，安全放心。适合证件照和产品图片。",
+    "dropzone": "上传需要去除背景的图片",
+    "removeBtn": "去除背景",
+    "processing": "正在去除背景...",
+    "modelLoading": "正在加载AI模型...",
+    "modelHint": "正在加载AI模型，大约需要30秒。",
+    "bgLabel": "背景色",
+    "bgTransparent": "透明",
+    "bgWhite": "白色",
+    "bgBlack": "黑色",
+    "bgCustom": "自定义",
+    "downloadPng": "下载PNG",
+    "downloadJpg": "下载JPG",
+    "resultPlaceholder": "请点击「去除背景」按钮",
+    "editBtn": "手动编辑",
+    "eraser": "橡皮擦",
+    "restore": "恢复",
+    "brushSize": "画笔",
+    "editReset": "重置",
+    "editDone": "完成",
+    "editHint": "E: 橡皮擦 | R: 恢复 | [ ]: 画笔大小 | Ctrl+Z: 撤销 | Ctrl+Y: 重做 | 滚轮: 缩放"
   },
   "toolCards": {
     "resize": "调整大小",
@@ -226,6 +254,20 @@
     "removeExif": "删除EXIF",
     "removeExifDesc": "清除照片中隐藏的位置和隐私信息",
     "qrCode": "二维码",
-    "qrCodeDesc": "将URL或文字转换为二维码"
+    "qrCodeDesc": "将URL或文字转换为二维码",
+    "removeBg": "去除背景",
+    "removeBgDesc": "AI智能去除图片背景",
+    "upscale": "AI超分辨率",
+    "upscaleDesc": "用AI将低分辨率图像放大2倍·4倍"
+  },
+  "upscale": {
+    "title": "AI图像超分辨率 — 2倍·4倍放大无损画质",
+    "description": "AI预测并填充缺失像素，高质量放大图像。2倍或4倍放大保持清晰度。无服务器上传。完全免费。",
+    "upscale": "开始AI超分辨率",
+    "scale": "选择放大倍数",
+    "modelLoading": "正在加载AI模型... (仅首次需要)",
+    "processing": "AI正在分析并生成像素...",
+    "hint": "首次运行时AI模型加载可能需要几秒钟。",
+    "sizeWarning": "图像较大时，4倍放大处理时间较长。"
   }
 }

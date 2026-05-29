@@ -1,17 +1,9 @@
 'use client';
 import { useState } from 'react';
 import { useTranslations, useLocale } from 'next-intl';
-import { useRouter, usePathname, Link } from '../i18n/navigation';
+import { usePathname, Link } from '../i18n/navigation';
 import { useTheme } from './ThemeProvider';
-
-const locales = [
-  { code: 'ko', flag: '🇰🇷', name: '한국어' },
-  { code: 'en', flag: '🇺🇸', name: 'English' },
-  { code: 'ja', flag: '🇯🇵', name: '日本語' },
-  { code: 'zh', flag: '🇨🇳', name: '中文' },
-  { code: 'fr', flag: '🇫🇷', name: 'Français' },
-  { code: 'es', flag: '🇪🇸', name: 'Español' },
-];
+import Header from './Header';
 
 function makeIcon(d) {
   return (
@@ -25,12 +17,9 @@ export default function Sidebar() {
   const t = useTranslations();
   const locale = useLocale();
   const pathname = usePathname();
-  const router = useRouter();
   const [open, setOpen] = useState(false);
-  const [langOpen, setLangOpen] = useState(false);
   const { theme, toggle } = useTheme();
 
-  // usePathname from next-intl already returns path without locale prefix
   const rawPath = pathname;
 
   const tools = [
@@ -45,28 +34,14 @@ export default function Sidebar() {
     { href: '/merge', labelKey: 'sidebar.merge', subKey: 'sidebar.mergeSub', icon: 'M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5' },
     { href: '/remove-exif', labelKey: 'sidebar.removeExif', subKey: 'sidebar.removeExifSub', icon: 'M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10zM9 12l2 2 4-4' },
     { href: '/qr-code', labelKey: 'sidebar.qrCode', subKey: 'sidebar.qrCodeSub', icon: 'M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM17 14h4v3h-4zM14 17h3v4h-3zM17 20h4v1h-4z' },
+    { href: '/remove-bg', labelKey: 'sidebar.removeBg', subKey: 'sidebar.removeBgSub', icon: 'M15 4V2m0 2v2m0-2h-4.5M3 10v9a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-9M3 10l2.96-5.17A2 2 0 0 1 7.69 3.5h8.62a2 2 0 0 1 1.73 1.33L21 10M3 10h18M12 16l-3-3h2v-3h2v3h2l-3 3' },
+    { href: '/upscale', labelKey: 'sidebar.upscale', subKey: 'sidebar.upscaleSub', icon: 'M15 3l6 6-6 6M9 21l-6-6 6-6M21 9H3' },
   ];
-
-  const switchLocale = (newLocale) => {
-    localStorage.setItem('pixkit-locale', newLocale);
-    router.replace(rawPath, { locale: newLocale });
-    setLangOpen(false);
-  };
-
-  const currentLocale = locales.find((l) => l.code === locale) || locales[0];
 
   return (
     <>
-      {/* Mobile hamburger */}
-      <button
-        onClick={() => setOpen(true)}
-        className="fixed top-4 left-4 z-50 p-2 rounded-lg bg-bg-sidebar border border-card-border lg:hidden"
-        aria-label={t('common.openMenu')}
-      >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-text-primary">
-          <line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" />
-        </svg>
-      </button>
+      {/* Header bar */}
+      <Header onMenuToggle={() => setOpen(true)} />
 
       {/* Overlay */}
       {open && (
@@ -75,14 +50,14 @@ export default function Sidebar() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-[220px] bg-bg-sidebar z-50 flex flex-col border-r border-card-border transition-transform duration-300 lg:translate-x-0 ${
+        className={`fixed top-12 left-0 h-[calc(100%-48px)] w-[220px] bg-bg-sidebar z-50 flex flex-col border-r border-card-border transition-transform duration-300 lg:translate-x-0 ${
           open ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
         {/* Close button mobile */}
         <button
           onClick={() => setOpen(false)}
-          className="absolute top-4 right-4 p-1 lg:hidden"
+          className="absolute top-3 right-3 p-1 lg:hidden"
           aria-label={t('common.closeMenu')}
         >
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" className="text-text-muted">
@@ -90,18 +65,8 @@ export default function Sidebar() {
           </svg>
         </button>
 
-        {/* Logo */}
-        <Link href="/" className="px-5 py-6 flex items-center gap-2" onClick={() => setOpen(false)} aria-label="Pixkit Home">
-          <svg width="28" height="28" viewBox="0 0 32 32" fill="none" role="img" aria-label="Pixkit 로고">
-            <rect width="32" height="32" rx="6" fill="#f59e0b" />
-            <path d="M8 12l4-4 4 4 4-4 4 4v12H8V12z" fill="#0a0f1e" />
-            <circle cx="12" cy="14" r="2" fill="#0a0f1e" />
-          </svg>
-          <span className="text-lg font-bold font-heading text-text-primary">Pixkit</span>
-        </Link>
-
         {/* Tool menu */}
-        <nav className="flex-1 px-3 overflow-y-auto">
+        <nav className="flex-1 px-3 pt-4 overflow-y-auto">
           <p className="text-[10px] uppercase tracking-widest text-text-muted px-2 mb-2">{t('common.tools')}</p>
           {tools.map((tool, i) => {
             const active = rawPath === tool.href;
@@ -124,32 +89,6 @@ export default function Sidebar() {
                   <span className="text-sm font-medium leading-tight">{t(tool.labelKey)}</span>
                   <span className="text-[10px] text-text-muted leading-tight">{t(tool.subKey)}</span>
                 </span>
-              </Link>
-            );
-          })}
-
-          {/* Divider */}
-          <div className="border-t border-card-border my-4 mx-2" />
-
-          <p className="text-[10px] uppercase tracking-widest text-text-muted px-2 mb-2">{t('common.contents')}</p>
-          {[
-            { href: '/about', label: t('common.about') },
-            { href: '/blog', label: t('common.blog') },
-          ].map((item, i) => {
-            const active = rawPath.startsWith(item.href);
-            return (
-              <Link
-                key={item.href}
-                href={item.href}
-                onClick={() => setOpen(false)}
-                className={`sidebar-item flex items-center px-3 py-2 rounded-md mb-0.5 transition-colors text-sm ${
-                  active
-                    ? 'bg-gold-dim text-gold border-l-2 border-gold'
-                    : 'text-text-secondary hover:text-text-primary hover:bg-white/[0.03]'
-                }`}
-                style={{ animationDelay: `${(tools.length + i) * 50}ms` }}
-              >
-                {item.label}
               </Link>
             );
           })}
@@ -178,39 +117,29 @@ export default function Sidebar() {
             {theme === 'dark' ? t('common.lightMode') : t('common.darkMode')}
           </button>
 
-          {/* Language switcher */}
-          <div className="relative mb-3">
-            <button
-              onClick={() => setLangOpen(!langOpen)}
-              className="flex items-center gap-2 text-xs text-text-muted hover:text-text-secondary transition-colors w-full"
-            >
-              <span>{currentLocale.flag}</span>
-              <span>{currentLocale.name}</span>
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="ml-auto"><polyline points="6 9 12 15 18 9" /></svg>
-            </button>
-            {langOpen && (
-              <div className="absolute bottom-full left-0 mb-1 w-full bg-bg-sidebar border border-card-border rounded-lg shadow-lg overflow-hidden z-50">
-                {locales.map((l) => (
-                  <button
-                    key={l.code}
-                    onClick={() => switchLocale(l.code)}
-                    className={`flex items-center gap-2 w-full px-3 py-2 text-xs transition-colors ${
-                      l.code === locale ? 'text-gold bg-gold-dim' : 'text-text-secondary hover:bg-white/[0.03]'
-                    }`}
-                  >
-                    <span>{l.flag}</span>
-                    <span>{l.name}</span>
-                  </button>
-                ))}
-              </div>
-            )}
-          </div>
-
           <div className="flex gap-3 text-[10px] text-text-muted">
             <Link href="/privacy" className="hover:text-text-secondary" onClick={() => setOpen(false)}>{t('common.privacy')}</Link>
             <Link href="/terms" className="hover:text-text-secondary" onClick={() => setOpen(false)}>{t('common.terms')}</Link>
           </div>
-          <p className="text-[10px] text-text-muted mt-1">&copy; 2026 Pixkit</p>
+
+          {/* SNS links */}
+          <div className="flex items-center gap-2 mt-3">
+            <a
+              href="https://instagram.com/pixkit.app"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-text-muted hover:text-gold transition-colors"
+              aria-label="Pixkit Instagram"
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
+              </svg>
+            </a>
+          </div>
+
+          <p className="text-[10px] text-text-muted mt-3">&copy; 2026 Pixkit</p>
         </div>
       </aside>
     </>
